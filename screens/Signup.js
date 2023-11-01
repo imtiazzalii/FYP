@@ -1,9 +1,16 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, ScrollView, Button } from "react-native";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
 
 const Signup = () => {
+  
+  const {control, handleSubmit, formState: { errors }} = useForm();
+  const onSubmit = (data) => console.log(data, "data");
+  const password = useWatch({ control, name: "password", defaultValue: "" });
+  
   return (
+    <ScrollView>
     <ImageBackground
       source={require('../assets/bng.png')}
       style={styles.imageBackground}
@@ -16,30 +23,175 @@ const Signup = () => {
         <Text style={styles.formTitle}>Enter Your Details</Text>
 
         <Text style={styles.label}>Enter your name</Text>
-        <Field placeholder="Name" keyboardType={"default"} />
+        <Controller
+            control={control}
+            rules={{
+              required: 'Name is required'
+            }}
+            render={({ field: { onChange, value } }) => (
+              <Field
+                placeholder="Name"
+                keyboardType={"default"}
+                onChangeText={onChange}
+                value={value}
+                defaultValue=""
+              />
+            )}
+            name="name"
+          />
+          {errors && errors.name && <Text>{errors.name.message}</Text>}
 
         <Text style={styles.label}>Enter your email</Text>
-        <Field placeholder="abc@gmail.com" keyboardType={"email-address"} />
+        <Controller
+          control={control}
+          rules={{
+            required: 'Email is required',
+            pattern: {
+              value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+              message: 'Invalid email address',
+            }
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Field
+              placeholder="Email"
+              keyboardType={"email-address"}
+              onChangeText={onChange}
+              value={value}
+              defaultValue=""
+            />
+          )}
+          name="email"
+        />
+        {errors && errors.email && <Text>{errors.email.message}</Text>}
 
         <Text style={styles.label}>Create a Username</Text>
-        <Field placeholder="Username" keyboardType={"default"} />
+        <Controller
+            control={control}
+            rules={{
+              required: 'Username is required'
+            }}
+            render={({ field: { onChange, value } }) => (
+              <Field
+                placeholder="Username"
+                keyboardType={"default"}
+                onChangeText={onChange}
+                value={value}
+                defaultValue=""
+              />
+            )}
+            name="username"
+          />
+          {errors && errors.username && <Text>{errors.username.message}</Text>}
 
         <Text style={styles.label}>Create a Password</Text>
-        <Field placeholder="password" secureTextEntry={true} />
+        <Controller
+          control={control}
+          rules={{
+            required: 'Password is required',
+            minLength: { value: 8, message: 'Minimum length is 8 characters' },
+            validate: (value) => value === password || 'Passwords do not match',
+          }}
+          render={({ field: { onChange, value } }) => (
+          <Field
+            placeholder="Password"
+            secureTextEntry={true}
+            onChangeText={onChange}
+            value={value}
+            defaultValue=""
+          />
+          )}
+          name="password"
+        />
+        {errors && errors.password && (<Text>{errors.password.message}</Text>)}
 
-        <Text style={styles.label}>Re-Enter Password</Text>
-        <Field placeholder="password" secureTextEntry={true} />
+        <Text style={styles.label}>Confirm Password</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: 'Password is required',
+            minLength: { value: 8, message: 'Minimum length is 8 characters' },
+            validate: (value) => value === password || 'Passwords do not match',
+          }}
+          render={({ field: { onChange, value } }) => (
+          <Field
+            placeholder="Confirm Password"
+            secureTextEntry={true}
+            onChangeText={onChange}
+            value={value}
+            defaultValue=""
+          />
+          )}
+          name="confirmPassword"
+        />
+        {errors && errors.confirmPassword && (<Text>{errors.confirmPassword.message}</Text>)}
 
         <Text style={styles.label}>Enter your CNIC number</Text>
-        <Field placeholder="XXXXX-XXXXXXX-X" keyboardType={"numeric"} />
+        <Controller
+          control={control}
+          rules={{
+            required: 'CNIC is required',
+            pattern: {
+              value: /^\d{5}-\d{7}-\d{1}$/,
+              message: 'Invalid CNIC format. Use XXXXX-XXXXXXX-X format.',
+            }
+          }}
+          render={({ field: { onChange, value } }) => (
+          <Field
+            placeholder="XXXXX-XXXXXXX-X"
+            keyboardType={"numeric"}
+            onChangeText={onChange}
+            value={value}
+          />
+          )}
+          name="cnic"
+        />
+        {errors.cnic && <Text>{errors.cnic.message}</Text>}
 
         <Text style={styles.label}>Enter your Address</Text>
-        <Field placeholder="Address" keyboardType={"default"} />
+        <Controller
+            control={control}
+            rules={{
+              required: 'Address is required'
+            }}
+            render={({ field: { onChange, value } }) => (
+              <Field
+                placeholder="Address"
+                keyboardType={"default"}
+                onChangeText={onChange}
+                value={value}
+                defaultValue=""
+              />
+            )}
+            name="address"
+          />
+          {errors && errors.address && <Text>{errors.address.message}</Text>}
 
         <Text style={styles.label}>Enter your Phone Number</Text>
-        <Field placeholder="Phone Number" keyboardType={"numeric"} />
+        <Controller
+          control={control}
+          rules={{
+            required: 'Phone number is required',
+            pattern: {
+            value: /^03[0-9]{2}-[0-9]{7}$/,
+            message: 'Invalid phone number format. Use 03XX-XXXXXX format.',
+            }
+          }}
+          render={({ field: { onChange, value } }) => (
+          <Field
+            placeholder="03XX-XXXXXX"
+            keyboardType={"numeric"}
+            onChangeText={onChange}
+            value={value}
+          />
+          )}
+          name="phoneNumber"
+        />
+        {errors && errors.phoneNumber && <Text>{errors.phoneNumber.message}</Text>}
+
+        <Button title="Submit" onPress={handleSubmit(onSubmit)} />
       </View>
     </ImageBackground>
+    </ScrollView>
   );
 }
 

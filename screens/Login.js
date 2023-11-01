@@ -1,10 +1,14 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Alert, Button } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 import Background from "./background";
 import Field from "./Field";
 import Btn from "./btn";
 
 const Login = () => {
+  const {control, handleSubmit, formState: { errors }} = useForm();
+  const onSubmit = (data) => console.log(data, "data");
+  
   return (
     <ImageBackground
       source={require('../assets/bng.png')}
@@ -13,17 +17,57 @@ const Login = () => {
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
         <Text style={styles.welcomeText}>Welcome Back</Text>
-        <Field placeholder="Username" keyboardType={"email-address"} />
-        <Field placeholder="Password" secureTextEntry={true} />
+        <Controller
+          control={control}
+          rules={{
+            required: 'Email is required',
+            pattern: {
+            value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            message: 'Invalid email address',
+            }
+          }}
+          render={({ field: { onChange, value } }) => (
+          <Field
+            placeholder="Email"
+            keyboardType={"email-address"}
+            onChangeText={onChange}
+            value={value}
+            defaultValue=""
+          />
+          )}
+        name="Email"
+        />
+        {errors && errors.Email && (<Text>{errors.Email.message}</Text>)}
+
+        <Controller
+          control={control}
+          rules={{
+            required: 'Password is required',
+            minLength: { value: 8, message: 'Minimum length is 8 characters' }
+          }}
+          render={({ field: { onChange, value } }) => (
+          <Field
+            placeholder="Password"
+            secureTextEntry={true}
+            onChangeText={onChange}
+            value={value}
+            defaultValue=""
+          />
+          )}
+          name="Password"
+        />
+        {errors && errors.Password && (<Text>{errors.Password.message}</Text>)}
+
         <View style={styles.forgotPasswordContainer}>
-          <Text style={styles.forgotPasswordText}>Forgot Password ?</Text>
+          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </View>
-        <Btn
+        {/* <Btn
           bgColor='#47ADB8'
           textColor='black'
           btnLabel="Login"
-          Press={() => alert("Logged In")}
-        />
+          Press={() => handleSubmit(onSubmit)}
+        />  */}
+        <Button title="Submit" onPress={handleSubmit(onSubmit)} />
       </View>
     </ImageBackground>
   );
