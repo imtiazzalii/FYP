@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     },
     footer: {
       flexDirection: "row",
-      justifyContent: "flex-end",
+      justifyContent: "space-evenly",
       alignItems: "center",
     },
   });
