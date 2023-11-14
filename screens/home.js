@@ -22,6 +22,12 @@ const Home = (props) => {
             btnLabel="Login"
             Press={() => props.navigation.navigate("Login")}
           />
+          <Btn
+            bgColor="#47ADB8"
+            textColor="#000101"
+            btnLabel="Dashboard"
+            Press={() => props.navigation.navigate("Dashboard")}
+          />
         </View>
       </View>
     </Background>
