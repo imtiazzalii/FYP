@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ImageBackground, Text } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
 import Background from "./background";
 import Btn from "./btn";
 
@@ -22,12 +22,6 @@ const Home = (props) => {
             btnLabel="Login"
             Press={() => props.navigation.navigate("Login")}
           />
-          <Btn
-            bgColor="#47ADB8"
-            textColor="#000101"
-            btnLabel="Dashboard"
-            Press={() => props.navigation.navigate("Dashboard")}
-          />
         </View>
       </View>
     </Background>
@@ -39,6 +33,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 40,
     marginVertical: 180,
     alignItems: "center",
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   title: {
     color: 'white',
