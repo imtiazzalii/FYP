@@ -53,7 +53,7 @@ const Carousel = () => {
 	const renderItem = ({ item, index }) => {
 		return (
 			<View>
-				<Image source={item.image} style={{ height: 200, width: screenWidth }}/>
+				<Image source={item.image} style={{ height: 300, width: screenWidth }}/>
 			</View>
 		);
 	};

@@ -7,14 +7,14 @@ import Btn from "./btn";
 const Home = (props) => {
   return (
     <Background>
-      <View style={tw.style('mx-10','my-64','items-center')}>
+      <View style={tw.style('mx-10','my-60','items-center')}>
       <Text style={tw.style('text-white', 'text-5xl' , 'font-bold', 'shadow-md', 'mb-2' ,'my-2')}>
           SWYFTBAGS
         </Text>
-        <Text style={tw.style('text-black','text-5xl','font-bold')}>
-          YOUR BAGS ON THE GO !!
+        <Text style={tw.style('text-black','text-center','text-5xl','font-bold')}>
+          YOUR BAGS, ON THE{'\n'} GO!
         </Text>
-        <View style={styles.buttonContainer}>
+        <View style={tw.style('flex-row','justify-center','my-8')}>
           <Btn
             bgColor="#A9C1C4"
             textColor="black"
