@@ -12,7 +12,7 @@ const Home = (props) => {
           SWYFTBAGS
         </Text>
         <Text style={tw.style('text-black','text-center','text-5xl','font-bold')}>
-          YOUR BAGS, ON THE{'\n'} GO !!
+          YOUR BAGS, ON THE{'\n'} GO!
         </Text>
         <View style={tw.style('flex-row','justify-center','my-8')}>
           <Btn

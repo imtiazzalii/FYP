@@ -16,8 +16,8 @@ const Dashboard = () => {
             </View>
             <View style={styles.contentbox1}>
               <View style={styles.wallet}>
-                <Image source={require("../assets/Dashboard/wallet.png")}/>
-                <Text>Wallet</Text>
+                <Image style={styles.walletIcon} source={require("../assets/Dashboard/wallet.png")}/>
+                <Text style={styles.walletText}>Wallet</Text>
                 <Image style={styles.arrow} source={require("../assets/Dashboard/arrow.jpeg")}/>
               </View>
             </View>
@@ -72,10 +72,18 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       borderRadius: 60,
     },
+    walletIcon: {
+      marginTop:5,
+    },
+
+    walletText: {
+      marginTop:5,
+      marginLeft:2, 
+    },
 
     arrow: {
-      marginTop:5,
-      marginLeft:180
+      marginLeft:180,
+      marginTop:10,
     },
     contentbox1: {
       flex: 1,
