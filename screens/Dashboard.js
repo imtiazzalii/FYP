@@ -18,9 +18,10 @@ const Dashboard = () => {
               <View style={styles.wallet}>
                 <Image source={require("../assets/Dashboard/wallet.png")}/>
                 <Text>Wallet</Text>
-                <Image source={require("../assets/Dashboard/arrow.jpeg")}/>
+                <Image style={styles.arrow} source={require("../assets/Dashboard/arrow.jpeg")}/>
               </View>
             </View>
+            
             <View style={styles.contentbox2}>
               <Image source={require("../assets/Dashboard/history.png")}/>
               <Image source={require("../assets/Dashboard/chats.png")}/>
@@ -31,7 +32,7 @@ const Dashboard = () => {
               <Image source={require("../assets/Dashboard/newtrip.png")}/>
             </View>
             <View style={styles.footer}>
-              <Text>swyftbags ltd.</Text>
+              <Text style={styles.footerText}>swyftbags ltd.</Text>
             </View>
         </View>
     );
@@ -40,11 +41,13 @@ const Dashboard = () => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+      marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+      backgroundColor:"#BCE3E7",
     },
     header: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+      backgroundColor:'#1D4246',
       alignItems: 'center',
       paddingHorizontal: 16,
     },
@@ -55,6 +58,9 @@ const styles = StyleSheet.create({
     headerText: {
       fontSize: 20,
       fontWeight: 'bold',
+      color:'#47ADB8',
+      padding:5,
+
     },
 
     wallet: {
@@ -63,8 +69,13 @@ const styles = StyleSheet.create({
       height: 35, 
       //marginLeft: ((1/3)/2)*(Dimensions.get("window").width),
       marginTop: 10,
-      backgroundColor: "grey",
+      backgroundColor: "white",
       borderRadius: 60,
+    },
+
+    arrow: {
+      marginTop:5,
+      marginLeft:180
     },
     contentbox1: {
       flex: 1,
@@ -86,8 +97,16 @@ const styles = StyleSheet.create({
     },
     footer: {
       flexDirection: "row",
+      padding:4,
       justifyContent: "space-evenly",
       alignItems: "center",
+      backgroundColor:'#1D4246',
+    },
+    footerText: {
+      color:'white',
+      fontSize:12,
+      textAlign:'right',
+      paddingLeft:300,
     },
   });
 
