@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground, Alert, Button } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Background from "./background";
 import Field from "./Field";
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     width: 400,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   title: {
     color: "black",

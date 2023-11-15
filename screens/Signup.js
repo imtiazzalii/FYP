@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground, ScrollView, Button } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, ScrollView } from "react-native";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
 
@@ -64,7 +64,7 @@ const Signup = () => {
         />
         {errors && errors.email && <Text>{errors.email.message}</Text>}
 
-        <Text style={styles.label}>Create a Username</Text>
+        {/* <Text style={styles.label}>Create a Username</Text>
         <Controller
             control={control}
             rules={{
@@ -81,7 +81,7 @@ const Signup = () => {
             )}
             name="username"
           />
-          {errors && errors.username && <Text>{errors.username.message}</Text>}
+          {errors && errors.username && <Text>{errors.username.message}</Text>} */}
 
         <Text style={styles.label}>Create a Password</Text>
         <Controller
@@ -131,13 +131,13 @@ const Signup = () => {
           rules={{
             required: 'CNIC is required',
             pattern: {
-              value: /^\d{5}-\d{7}-\d{1}$/,
-              message: 'Invalid CNIC format. Use XXXXX-XXXXXXX-X format.',
+              value: /^\d{5}\d{7}\d{1}$/,
+              message: 'Invalid CNIC format. Use XXXXXXXXXXXXX format.',
             }
           }}
           render={({ field: { onChange, value } }) => (
           <Field
-            placeholder="XXXXX-XXXXXXX-X"
+            placeholder="XXXXXXXXXXXXX"
             keyboardType={"numeric"}
             onChangeText={onChange}
             value={value}
@@ -172,13 +172,13 @@ const Signup = () => {
           rules={{
             required: 'Phone number is required',
             pattern: {
-            value: /^03[0-9]{2}-[0-9]{7}$/,
-            message: 'Invalid phone number format. Use 03XX-XXXXXX format.',
+            value: /^03[0-9]{2}[0-9]{7}$/,
+            message: 'Invalid phone number format. Use 03XXXXXXXX format.',
             }
           }}
           render={({ field: { onChange, value } }) => (
           <Field
-            placeholder="03XX-XXXXXX"
+            placeholder="03XXXXXXXX"
             keyboardType={"numeric"}
             onChangeText={onChange}
             value={value}
@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     width: 400,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   title: {
     color: "black",
