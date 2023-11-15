@@ -1,14 +1,19 @@
 import React from "react";
 import { View, StyleSheet, ImageBackground, Text } from "react-native";
 import Background from "./background";
+import tw from 'twrnc'
 import Btn from "./btn";
 
 const Home = (props) => {
   return (
     <Background>
-      <View style={styles.container}>
-        <Text style={styles.title}>SWYFTBAGS</Text>
-        <Text style={styles.subtitle}>YOUR BAGS ON THE GO !!</Text>
+      <View style={tw.style('mx-10','my-64','items-center')}>
+      <Text style={tw.style('text-white', 'text-5xl' , 'font-bold', 'shadow-md', 'mb-2' ,'my-2')}>
+          SWYFTBAGS
+        </Text>
+        <Text style={tw.style('text-black','text-5xl','font-bold')}>
+          YOUR BAGS ON THE GO !!
+        </Text>
         <View style={styles.buttonContainer}>
           <Btn
             bgColor="#A9C1C4"
