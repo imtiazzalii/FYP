@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
 import Background from "./background";
-import tw from 'twrnc'
+import tw from 'twrnc';
 import Btn from "./btn";
 
 const Home = (props) => {
