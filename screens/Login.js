@@ -4,19 +4,28 @@ import { useForm, Controller } from "react-hook-form";
 import Background from "./background";
 import Field from "./Field";
 import Btn from "./btn";
+import tw from 'twrnc';
+
 
 const Login = () => {
   const {control, handleSubmit, formState: { errors }} = useForm();
   const onSubmit = (data) => console.log(data, "data");
-  
+
   return (
+
     <ImageBackground
-      source={require('../assets/bng.png')}
+      source={require('../assets/loginbg.jpeg')}
       style={styles.imageBackground}
     >
+      
       <View style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-        <Text style={styles.welcomeText}>Welcome Back</Text>
+            <View style={tw.style('flex-row','bg-teal-900','items-center','w-full','absolute')}>
+            <Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/>
+                <Text style={styles.headerText}>Login</Text>
+            </View> 
+
+        
+       <View style={styles.contentContainer}> 
         <Controller
           control={control}
           rules={{
@@ -61,13 +70,16 @@ const Login = () => {
         <View style={styles.forgotPasswordContainer}>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </View>
-        {/* <Btn
+        {/*<Btn 
           bgColor='#47ADB8'
           textColor='black'
           btnLabel="Login"
           Press={() => handleSubmit(onSubmit)}
-        />  */}
-        <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+          />*/  }
+        <Button title="Submit"
+         onPress={handleSubmit(onSubmit)}
+          />
+        </View>
       </View>
     </ImageBackground>
   );
@@ -76,6 +88,8 @@ const Login = () => {
 const styles = StyleSheet.create({
   imageBackground: {
     height: '100%',
+    marginTop:Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    
   },
   container: {
     alignItems: 'center',
@@ -88,12 +102,32 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 20,
   },
+  headerIcons: {
+    width: 20,
+    height: 20,
+    marginLeft:10
+  },
+  headerText: {
+    fontSize: 20,
+    textAlign:'center',
+    fontWeight: 'bold',
+    marginLeft:'35%',
+    color:'#47ADB8',
+    padding:5,
+
+  },
   welcomeText: {
     color: "black",
     fontSize: 30,
     fontWeight: "bold",
     paddingTop: 100,
     marginBottom: 30,
+  },
+  contentContainer: {
+    alignItems: 'center',
+    width: 400, // Adjust the width as needed
+    marginTop:Dimensions.get('window').height /3,
+
   },
   forgotPasswordContainer: {
     alignItems: 'flex-end',
