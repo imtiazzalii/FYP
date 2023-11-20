@@ -39,6 +39,7 @@ const Login = () => {
           <Field
             placeholder="Email"
             keyboardType={"email-address"}
+            marginBottom={0}
             onChangeText={onChange}
             value={value}
             defaultValue=""
@@ -58,6 +59,7 @@ const Login = () => {
           <Field
             placeholder="Password"
             secureTextEntry={true}
+            marginBottom={0}
             onChangeText={onChange}
             value={value}
             defaultValue=""

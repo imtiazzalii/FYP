@@ -32,7 +32,7 @@ const NewTrip = () => {
         <Text style={styles.formHeading}>Enter Details</Text>
       </View>
 
-        <Text style={styles.label}>Where are u travelling from?</Text>
+        <Text style={styles.label}>Where are you travelling from?</Text>
         <Controller
             control={control}
             rules={{
@@ -52,7 +52,7 @@ const NewTrip = () => {
           {errors && errors.start && <Text>{errors.start.message}</Text>}
 
 
-          <Text style={styles.label}>Where are u travelling to?</Text>
+          <Text style={styles.label}>Where are you travelling to?</Text>
         <Controller
             control={control}
             rules={{
@@ -214,7 +214,7 @@ const NewTrip = () => {
         />
         {errors && errors.buyout && <Text>{errors.buyout.message}</Text>}
 
-        <Text style={styles.label}>Do u want to add any other description?</Text>
+        <Text style={styles.label}>Do you want to add any other description?</Text>
         <Controller
             control={control}
             rules={{
@@ -290,11 +290,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 5,
   },
-  formHeading: {   color: "black",
+  formHeading: {  
+  color: "black",
   fontSize: 20,
   fontWeight: "bold",
-  marginVertical: 20,
-  marginLeft:10,
+  marginVertical: '5%',
+  marginLeft:Dimensions.get('screen').width /12,
   },
 });
 
