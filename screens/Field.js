@@ -1,7 +1,13 @@
 import React from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet,TextInput, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
 
+const screenWidth = Dimensions.get('window').width;
 const Field = (props) => {
+
+  const inputsize = screenWidth > 360 ? '20%' : '80%';
+
+
+
   return (
     <TextInput
       {...props}
@@ -15,7 +21,7 @@ const styles = StyleSheet.create({
   input: {
     borderRadius: 100,
     color: "#47ADB8",
-    width: "60%",
+    width: '60%',
     paddingVertical: 5,
     fontWeight: "bold",
     paddingHorizontal: 5,

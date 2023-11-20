@@ -15,7 +15,7 @@ const Login = () => {
 
     <ImageBackground
       source={require('../assets/loginbg.jpeg')}
-      style={styles.imageBackground}
+      style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
     >
       
       <View style={styles.container}>
@@ -25,7 +25,7 @@ const Login = () => {
             </View> 
 
         
-       <View style={styles.contentContainer}> 
+       <View style={tw.style('items-center w-100',{marginTop:Dimensions.get('window').height /3,marginEnd:'10%',})}> 
         <Controller
           control={control}
           rules={{
@@ -67,8 +67,8 @@ const Login = () => {
         />
         {errors && errors.Password && (<Text>{errors.Password.message}</Text>)}
 
-        <View style={styles.forgotPasswordContainer}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        <View style={tw.style('items-end w-70 pr-4')}>
+          <Text style={tw.style('text-black font-bold text-xs')}>Forgot Password?</Text>
         </View>
         {/*<Btn 
           bgColor='#47ADB8'
@@ -78,6 +78,7 @@ const Login = () => {
           />*/  }
         <Button title="Submit"
          onPress={handleSubmit(onSubmit)}
+
           />
         </View>
       </View>
@@ -111,18 +112,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign:'center',
     fontWeight: 'bold',
-    marginLeft:'35%',
+    marginLeft:Dimensions.get('window').width /3,
     color:'#47ADB8',
     padding:5,
 
   },
-  welcomeText: {
-    color: "black",
-    fontSize: 30,
-    fontWeight: "bold",
-    paddingTop: 100,
-    marginBottom: 30,
-  },
+ 
   contentContainer: {
     alignItems: 'center',
     width: 400, // Adjust the width as needed
