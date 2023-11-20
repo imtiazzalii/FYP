@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 //import DatePicker from "react-date-picker";
-import { View, StyleSheet, Text, ImageBackground, ScrollView, Button } from "react-native";
+import { View, StyleSheet, Text, ImageBackground,ScrollView, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
+import tw from 'twrnc';
 
 const NewTrip = () => {
   
@@ -19,11 +20,17 @@ const NewTrip = () => {
       style={styles.imageBackground}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>New Trip</Text>
-      </View>
-
+         <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-4')}>
+                <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
+                <Text style={styles.headerText}>New Trip</Text>
+                <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
+            </View>
+        </View>
+        
+    <View style={tw.style('items-center mt-5')}>
       <View style={styles.formContainer}>
-        <Text style={styles.formHeading}>Enter Details</Text></View>
+        <Text style={styles.formHeading}>Enter Details</Text>
+      </View>
 
         <Text style={styles.label}>Where are u travelling from?</Text>
         <Controller
@@ -65,6 +72,8 @@ const NewTrip = () => {
           {errors && errors.destination && <Text>{errors.destination.message}</Text>}
 
 
+        
+
           <Text style={styles.label}>When do you leave?</Text>
         <Controller
           control={control}
@@ -100,6 +109,7 @@ const NewTrip = () => {
           render={({ field: { onChange, value } }) => (
           <Field
             placeholder="0300"
+            width="30%"
             keyboardType={"numeric"}
             onChangeText={onChange}
             value={value}
@@ -145,6 +155,7 @@ const NewTrip = () => {
           render={({ field: { onChange, value } }) => (
           <Field
             placeholder="0300"
+            width="30%"
             keyboardType={"numeric"}
             onChangeText={onChange}
             value={value}
@@ -211,6 +222,8 @@ const NewTrip = () => {
             render={({ field: { onChange, value } }) => (
               <Field
                 placeholder="Write Description here.."
+                height={120}
+                borderRadius={30}
                 keyboardType={"default"}
                 onChangeText={onChange}
                 value={value}
@@ -222,7 +235,7 @@ const NewTrip = () => {
           {errors && errors.description && <Text>{errors.description.message}</Text>}
 
           <Button title="Submit" onPress={handleSubmit(onSubmit)} />
-
+        </View>
     </ImageBackground>
     </ScrollView>
   );
@@ -231,10 +244,29 @@ const NewTrip = () => {
 const styles = StyleSheet.create({
   imageBackground: {
     height: '100%',
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
-    alignItems: "center",
-    width: 400,
+  
+    
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor:'#1D4246',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
+  headerIcons: {
+    width: 20,
+    height: 20,
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color:'#47ADB8',
+    padding:5,
+
   },
   title: {
     color: "black",
@@ -254,14 +286,15 @@ const styles = StyleSheet.create({
   },
   label: {
     color: "white",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     marginVertical: 5,
   },
   formHeading: {   color: "black",
-  fontSize: 24,
+  fontSize: 20,
   fontWeight: "bold",
-  marginVertical: 20
+  marginVertical: 20,
+  marginLeft:10,
   },
 });
 
