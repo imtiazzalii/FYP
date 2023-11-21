@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 //import DatePicker from "react-date-picker";
-import { View, StyleSheet, Text, ImageBackground,ScrollView, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
-import { useForm, Controller, useWatch } from "react-hook-form";
+import { View, StyleSheet, Text, ImageBackground,ScrollView, Button, Image, Platform, StatusBar, Animated,TouchableOpacity, FlatList, Dimensions } from "react-native";
+import { useForm, Controller, useWatch,handleSubmit } from "react-hook-form";
 import Field from "./Field";
 import tw from 'twrnc';
 
@@ -234,7 +234,14 @@ const NewTrip = () => {
           />
           {errors && errors.description && <Text>{errors.description.message}</Text>}
 
-          <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+          <View style={tw.style('mt-6', 'items-center', 'justify-center')}>
+        <TouchableOpacity
+          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,{backgroundColor:'#47ADB8'})}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text style={tw.style('text-black', 'text-lg','font-bold',{fontSize:22})}>Submit</Text>
+        </TouchableOpacity>
+      </View>
         </View>
     </ImageBackground>
     </ScrollView>

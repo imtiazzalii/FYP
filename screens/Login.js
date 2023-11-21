@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
-import { useForm, Controller } from "react-hook-form";
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions,TouchableOpacity } from "react-native";
+import { useForm, Controller, handleSubmit } from "react-hook-form";
 import Background from "./background";
 import Field from "./Field";
 import Btn from "./btn";
@@ -72,16 +72,14 @@ const Login = () => {
         <View style={tw.style('items-end w-70 pr-4')}>
           <Text style={tw.style('text-black font-bold text-xs')}>Forgot Password?</Text>
         </View>
-        {/*<Btn 
-          bgColor='#47ADB8'
-          textColor='black'
-          btnLabel="Login"
-          Press={() => handleSubmit(onSubmit)}
-          />*/  }
-        <Button title="Submit"
-         onPress={handleSubmit(onSubmit)}
-
-          />
+        <View style={tw.style('mt-6', 'items-center', 'justify-center')}>
+        <TouchableOpacity
+          style={tw.style(`rounded-full items-center w-32 py-4 px-5 my-5 mx-5`,{backgroundColor:'#47ADB8'})}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text style={tw.style('text-black', 'text-lg','font-bold',{fontSize:22})}>Login</Text>
+        </TouchableOpacity>
+      </View>
         </View>
       </View>
     </ImageBackground>
