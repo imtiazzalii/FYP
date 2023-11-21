@@ -90,7 +90,7 @@ const NewTrip = () => {
 
         <Text style={styles.label}>Time?</Text>
         <Controller
-          control={control}SSS
+          control={control}
           rules={{
             pattern: {
               value: /^[0-9]{3,4}$/,
