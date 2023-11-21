@@ -1,13 +1,16 @@
 import React, {useRef, useState} from "react";
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, TouchableOpacity } from "react-native";
+import {useNavigation} from '@react-navigation/native';
 import Carousel from "./Carousel.js";
 
-const Dashboard = () => {
-
+const Dashboard = (props) => {
+    const navigation = useNavigation()
     return(
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image source={require("../assets/Dashboard/sidebar.png")} style={styles.headerIcons}/>
+                <TouchableOpacity onPress={() => {
+                  navigation.openDrawer();
+                }}><Image source={require("../assets/Dashboard/sidebar.png")} style={styles.headerIcons}/></TouchableOpacity>
                 <Text style={styles.headerText}>SWYFTBAGS</Text>
                 <Image source={require("../assets/Dashboard/notif.png")} style={styles.headerIcons}/>
             </View>    
