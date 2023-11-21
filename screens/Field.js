@@ -1,29 +1,29 @@
 import React from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { TextInput } from "react-native";
 
-const Field = (props) => {
-  return (
-    <TextInput
-      {...props}
-      style={styles.input}
-      placeholderTextColor={"#47ADB8"}
-    />
-  );
-}
-
-const styles = StyleSheet.create({
-  input: {
-    borderRadius: 100,
+const Field = ({ width = '60%', height = 40, borderRadius = 100, marginBottom = 25, ...props }) => {
+  const inputStyle = {
+    borderRadius,
     color: "#47ADB8",
-    width: "60%",
     paddingVertical: 5,
     fontWeight: "bold",
     paddingHorizontal: 5,
     borderWidth: 2,
     marginVertical: 5,
+    marginBottom: marginBottom,  // Apply marginBottom here
     borderColor: "black",
     backgroundColor: "#1D4246",
-  },
-});
+    width,
+    height,
+  };
+
+  return (
+    <TextInput
+      {...props}
+      style={inputStyle}
+      placeholderTextColor="#47ADB8"
+    />
+  );
+}
 
 export default Field;

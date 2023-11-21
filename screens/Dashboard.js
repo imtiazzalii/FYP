@@ -1,38 +1,40 @@
 import React, {useRef, useState} from "react";
 import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
 import Carousel from "./Carousel.js";
+import tw from 'twrnc';
+
 
 const Dashboard = () => {
 
     return(
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Image source={require("../assets/Dashboard/sidebar.png")} style={styles.headerIcons}/>
+            <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-4')}>
+                <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
                 <Text style={styles.headerText}>SWYFTBAGS</Text>
-                <Image source={require("../assets/Dashboard/notif.png")} style={styles.headerIcons}/>
+                <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
             </View>    
             <View style={styles.slider}>
               <Carousel />
             </View>
-            <View style={styles.contentbox1}>
-              <View style={styles.wallet}>
-                <Image style={styles.walletIcon} source={require("../assets/Dashboard/wallet.png")}/>
-                <Text style={styles.walletText}>Wallet</Text>
-                <Image style={styles.arrow} source={require("../assets/Dashboard/arrow.jpeg")}/>
+            <View style={tw.style("flex-1 flex-row justify-center items-center")}>
+               <View style={tw.style("flex-row w-2/3 h-8 mt-5 bg-white rounded-full")}>
+               <Image style={tw.style("mt-1 ml-1")} source={require("../assets/Dashboard/wallet.png")} />
+               <Text style={tw.style("mt-1 ml-1")}>Wallet</Text>
+                <Image style={tw.style("ml-auto mt-2")} source={require("../assets/Dashboard/arrow.jpeg")} />
               </View>
             </View>
             
-            <View style={styles.contentbox2}>
+            <View style={tw.style("flex-1 flex-row justify-evenly items-center")}>
               <Image source={require("../assets/Dashboard/history.png")}/>
               <Image source={require("../assets/Dashboard/chats.png")}/>
               
             </View>
-            <View style={styles.contentbox3}>
+            <View style={tw.style("flex-1 flex-row justify-evenly items-center")}>
               <Image source={require("../assets/Dashboard/currenttrips.png")}/>
               <Image source={require("../assets/Dashboard/newtrip.png")}/>
             </View>
-            <View style={styles.footer}>
-              <Text style={styles.footerText}>swyftbags ltd.</Text>
+            <View style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900")}>
+            <Text style={tw`text-white text-sm pr-4`}>swyftbags ltd.</Text>
             </View>
         </View>
     );
