@@ -1,15 +1,18 @@
 import React, {useRef, useState} from "react";
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, TouchableOpacity } from "react-native";
+import {useNavigation} from '@react-navigation/native';
 import Carousel from "./Carousel.js";
 import tw from 'twrnc';
 
 
-const Dashboard = () => {
-
+const Dashboard = (props) => {
+    const navigation = useNavigation()
     return(
         <View style={styles.container}>
             <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-4')}>
-                <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
+            <TouchableOpacity onPress={() => {
+                  navigation.openDrawer();
+                }}><Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/></TouchableOpacity>
                 <Text style={styles.headerText}>SWYFTBAGS</Text>
                 <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
             </View>    
