@@ -8,6 +8,11 @@ import tw from 'twrnc';
 const Dashboard = (props) => {
     const navigation = useNavigation()
     return(
+
+      <ImageBackground
+      source={require('../assets/Dashboard/dashbg.jpeg')}
+      style={ tw.style('h-full')}
+    >
         <View style={styles.container}>
             <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-4')}>
             <TouchableOpacity onPress={() => {
@@ -19,11 +24,13 @@ const Dashboard = (props) => {
             <View style={styles.slider}>
               <Carousel />
             </View>
+
+          
             <View style={tw.style("flex-1 flex-row justify-center items-center")}>
                <View style={tw.style("flex-row w-2/3 h-8 mt-5 bg-white rounded-full")}>
                <Image style={tw.style("mt-1 ml-1")} source={require("../assets/Dashboard/wallet.png")} />
                <Text style={tw.style("mt-1 ml-1")}>Wallet</Text>
-                <Image style={tw.style("ml-auto mt-2")} source={require("../assets/Dashboard/arrow.jpeg")} />
+                <Image style={tw.style("ml-38 mt-2")} source={require("../assets/Dashboard/arrow.png")} />
               </View>
             </View>
             
@@ -42,6 +49,7 @@ const Dashboard = (props) => {
             <Text style={tw`text-white text-sm pr-4`}>swyftbags ltd.</Text>
             </View>
         </View>
+        </ImageBackground>
     );
 }
 
@@ -49,7 +57,10 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-      backgroundColor:"#BCE3E7",
+    },
+    imageBackground: {
+      height: '100%',
+      marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     header: {
       flexDirection: 'row',

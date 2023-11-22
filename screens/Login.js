@@ -14,7 +14,7 @@ const Login = () => {
   return (
 
     <ImageBackground
-      source={require('../assets/loginbg.jpeg')}
+      source={require('../assets/loginbg.png')}
       style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
     >
       
@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
     marginLeft:10
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 22
+    ,
     textAlign:'center',
     fontWeight: 'bold',
     marginLeft:Dimensions.get('window').width /3,
