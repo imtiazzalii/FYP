@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView, FlatList, StyleSheet, StatusBar, Platform, Image} from 'react-native';
+import {View, Text, SafeAreaView, FlatList, StyleSheet, StatusBar, Platform, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 
 const CustomDrawer = ({navigation}) => {
@@ -17,8 +17,10 @@ const CustomDrawer = ({navigation}) => {
                     <Text style={styles.text}>Home</Text>
                 </View>
                 <View>
-                    <Image source={require("../assets/Sidebar/mytrips.png")} style={styles.icons}/>
-                    <Text style={styles.text}>My trips</Text>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate("OrderHistory")
+                    }}><Image source={require("../assets/Sidebar/mytrips.png")} style={styles.icons}/>
+                    <Text style={styles.text}>My trips</Text></TouchableOpacity>
                 </View>
             </View>
             <View>

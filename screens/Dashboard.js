@@ -34,7 +34,9 @@ const Dashboard = (props) => {
             </View>
             <View style={tw.style("flex-1 flex-row justify-evenly items-center")}>
               <Image source={require("../assets/Dashboard/currenttrips.png")}/>
-              <Image source={require("../assets/Dashboard/newtrip.png")}/>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate("NewTrip")
+              }} ><Image source={require("../assets/Dashboard/newtrip.png")}/></TouchableOpacity>
             </View>
             <View style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900")}>
             <Text style={tw`text-white text-sm pr-4`}>swyftbags ltd.</Text>

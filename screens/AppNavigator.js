@@ -10,6 +10,7 @@ import Dashboard from './Dashboard';
 import Routing from './Routing';
 import NewTrip from './NewTrip';
 import CustomDrawer from './CustomDrawer';
+import OrderHistory from './OrderHistory';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -38,6 +39,7 @@ const AppNavigator = () => {
                 
                 <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false}}/>
                 <Stack.Screen name="NewTrip" component={NewTrip} options={{headerShown: false}}/>
+                <Stack.Screen name="OrderHistory" component={OrderHistory} options={{headerShown: false}}/>
             </Stack.Navigator>
             
         </NavigationContainer>

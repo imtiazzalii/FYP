@@ -34,8 +34,14 @@ const Routing = (props) => {
             <Btn
                 bgColor="#47ADB8"
                 textColor="black"
-                btnLabel="NewTrip"
+                btnLabel="New Trip"
                 Press={() => props.navigation.navigate("NewTrip")}
+            />
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="Order History"
+                Press={() => props.navigation.navigate("OrderHistory")}
             />
         </View>
     );
