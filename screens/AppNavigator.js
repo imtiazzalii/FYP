@@ -38,7 +38,6 @@ const AppNavigator = () => {
                 
                 <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false}}/>
                 <Stack.Screen name="NewTrip" component={NewTrip} options={{headerShown: false}}/>
-                
             </Stack.Navigator>
             
         </NavigationContainer>
