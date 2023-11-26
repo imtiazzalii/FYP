@@ -260,7 +260,7 @@ const CurrentTrips = () => {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Image source={require("../assets/CurrentTrips/backarrow.png")}  style={styles.headerIcons}/>
-                    <Text>History</Text>
+                    <Text>Current Trips</Text>
                     <Image source={require("../assets/CurrentTrips/bell2.png")}  style={styles.headerIcons}/>
                 </View>
                 <View>
