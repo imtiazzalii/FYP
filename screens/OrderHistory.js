@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import tw from 'twrnc';
+
 
 const Content1 = () => {
     return(
@@ -128,16 +130,33 @@ const OrderHistory = () => {
     };
 
     return(
+        <ImageBackground
+      source={require('../assets/Dashboard/dashbg.jpeg')}
+      style={ tw.style('h-full')}
+    >
         <ScrollView>
             <View style={styles.container}>
-                <View style={styles.header}>
-                    <Image source={require("../assets/OrderHistory/backarrow.png")}  style={styles.headerIcons}/>
-                    <Text>History</Text>
-                    <Image source={require("../assets/Dashboard/bell2.png")}  style={styles.headerIcons}/>
+                <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-2')}>
+                    <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
+                    <Text style={styles.headerText}>History</Text>
+                    <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
                 </View>
-                <View>
-                    <Button title="My Orders" onPress={() => handleButtonPress('button1')} color={selectedButton === 'button1' ? '#007BFF' : '#CCCCCC'}/>
-                    <Button title="My Trips" onPress={() => handleButtonPress('button2')} color={selectedButton === 'button2' ? '#007BFF' : '#CCCCCC'}/>
+                <View style={styles.buttonContainer}>
+                    {/* My Orders TouchableOpacity */}
+                    <TouchableOpacity
+                        onPress={() => handleButtonPress('button1')}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>My Orders</Text>
+                    </TouchableOpacity>
+
+                    {/* My Trips TouchableOpacity */}
+                    <TouchableOpacity
+                        onPress={() => handleButtonPress('button2')}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>My Trips</Text>
+                    </TouchableOpacity>
                 </View>
                 <View>
                     {selectedButton === 'button1' ? <Content1 /> : null}
@@ -145,13 +164,56 @@ const OrderHistory = () => {
                 </View>
             </View>
         </ScrollView>
+        </ImageBackground>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    }
+
+    },
+    box: {
+        width:'70%', // Set the width to half of the screen width
+        backgroundColor: '#fff', // Set the background color
+        padding: 20, // Add padding for content inside the box
+        justifyContent: 'center', // Center content vertically
+        alignSelf: 'center', // Center the box horizontally
+        marginTop: 20, // Add top margin for spacing
+        borderRadius: 10, // Add border radius for rounded corners
+        borderWidth: 1, // Add border width for a border
+        borderColor: '#004d40', // Set border color
+      },
+
+    headerIcons: {
+        width: 20,
+        height: 20,
+      },
+      headerText: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color:'#47ADB8',
+        padding:5,
+    
+      },
+      buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+      },
+      button: {
+        padding: 10,
+        marginTop:5,
+        borderRadius: 0,
+        borderWidth:1,
+        borderColor:'white',
+        paddingright:6,
+        backgroundColor: '#004d40',
+      },
+      buttonText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight:'bold',
+      },
 });
 
 export default OrderHistory;
