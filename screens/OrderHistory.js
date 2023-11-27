@@ -4,123 +4,129 @@ import tw from 'twrnc';
 
 
 const Content1 = () => {
-    return(
-        <View style={styles.box}>
-            <View>
-                <Text>Departure</Text>
-                <Text>Arrival</Text>
+    return (
+        <View style={styles.card}>
+            {/* Departure and Arrival Section */}
+            <View style={styles.section}>
+                <Text style={styles.label}>Departure</Text>
+                <Text style={styles.label}>Arrival</Text>
             </View>
-            <View>
-                <View>
-                    <Text>Karachi, Pakistan</Text>
-                    <Text>25-Oct-2024</Text>
+            <View style={styles.section}>
+            <View style={styles.infoContainer1}>
+                <Text style={styles.infoText}>Karachi, Pakistan</Text>
+                <Text style={styles.dateText}>25-Oct-2024</Text>
+            </View>
+            
+            <View style={styles.arrowContainer}>
+                    {/* Adjust the arrow icon styles */}
+                    <Image source={require("../assets/OrderHistory/arrow.png")} style={styles.arrowIcon} />
                 </View>
-                <View>
-                    <Image source={require("../assets/OrderHistory/arrow.png")} />
+            <View style={styles.infoContainer1}>
+                <Text style={styles.infoText}>Lahore, Pakistan</Text>
+                <Text style={styles.dateText}>25-Oct-2024</Text>
+            </View>
+            </View>
+            
+            <View style={styles.divider} />
+
+            {/* Item Weight and Status Section */}
+            <View style={styles.section}>
+                <Text style={styles.label}>Item Weight</Text>
+                <Text style={styles.label}>Status</Text>
+            </View>
+            <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                    <Image source={require("../assets/OrderHistory/suitcase.png")} style={styles.iconW} />
+                    <Text style={styles.infoText}>20 KG</Text>
                 </View>
-                <View>
-                    <Text>Lahore, Pakistan</Text>
-                    <Text>25-Oct-2024</Text>
-                </View>
+                <Text style={styles.statusText}>In Progress</Text>
             </View>
-            <View>
-                <Image source={require("../assets/OrderHistory/line.png")} />
+
+            <View style={styles.divider} />
+
+            {/* Sender Section */}
+            <View style={styles.section}>
+                <Text style={styles.label}>Sender</Text>
             </View>
-            <View>
-                <Text>Item Weight</Text>
-                <Text>Status</Text>
-            </View>
-            <View>
-                <View>
-                    <Image source={require("../assets/OrderHistory/suitcase.png")} />
-                    <Text>20 KG</Text>
-                </View>
-                <View>
-                    <Text>In Progress</Text>
-                </View>
-            </View>
-            <View>
-                <Image source={require("../assets/OrderHistory/line.png")} />
-            </View>
-            <View>
-                <Text>Sender</Text>
-            </View>
-            <View>
-                <View>
-                    <Image source={require("../assets/OrderHistory/user.png")} />
+            <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                    <Image source={require("../assets/OrderHistory/user.png")} style={styles.icon} />
                     <View>
-                        <Text>Ahad Ghouri</Text>
-                        <View>
-                            <Text>5</Text>
-                            <Image source={require("../assets/OrderHistory/star.png")} />
+                        <Text style={styles.infoText}>Ahad Ghouri</Text>
+                        <View style={styles.ratingContainer}>
+                            <Text style={styles.infoText}>5</Text>
+                            <Image source={require("../assets/OrderHistory/star.png")} style={styles.iconW} />
                         </View>
                     </View>
                 </View>
-                <View>
-                    <Image source={require("../assets/OrderHistory/chat.png")} />
-                    <Text>Open Chat</Text>
-                </View>
+                <TouchableOpacity onPress={() => console.log('Open chat')}>
+                    <Image source={require("../assets/OrderHistory/chat.png")} style={styles.icon} />
+                    <Text style={styles.chatText}>Open Chat</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
-}
+};
 const Content2 = () => {
-    return(
-        <View style={styles.box}>
-            <View>
-                <Text>Departure</Text>
-                <Text>Arrival</Text>
+    return (
+        <View style={styles.card}>
+            {/* Departure and Arrival Section */}
+            <View style={styles.section}>
+                <Text style={styles.label}>Departure</Text>
+                <Text style={styles.label}>Arrival</Text>
             </View>
-            <View>
-                <View>
-                    <Text>Karachi, Pakistan</Text>
-                    <Text>25-Oct-2024</Text>
+            <View style={styles.section}>
+                <View style={styles.infoContainer1}>
+                    <Text style={styles.infoText}>Karachi, Pakistan</Text>
+                    <Text style={styles.dateText}>25-Oct-2024</Text>
                 </View>
-                <View>
-                    <Image source={require("../assets/OrderHistory/arrow.png")} />
+
+                <View style={styles.arrowContainer}>
+                    <Image source={require("../assets/OrderHistory/arrow.png")} style={styles.arrowIcon} />
                 </View>
-                <View>
-                    <Text>Lahore, Pakistan</Text>
-                    <Text>25-Oct-2024</Text>
-                </View>
-            </View>
-            <View>
-                <Image source={require("../assets/OrderHistory/line.png")} />
-            </View>
-            <View>
-                <Text>Capacity</Text>
-                <Text>Cost</Text>
-            </View>
-            <View>
-                <View>
-                    <Image source={require("../assets/OrderHistory/suitcase.png")} />
-                    <Text>20 KG</Text>
-                </View>
-                <View>
-                    <Text>Rs. 500</Text>
+
+                <View style={styles.infoContainer1}>
+                    <Text style={styles.infoText}>Lahore, Pakistan</Text>
+                    <Text style={styles.dateText}>25-Oct-2024</Text>
                 </View>
             </View>
-            <View>
-                <Image source={require("../assets/OrderHistory/line.png")} />
+
+            <View style={styles.divider} />
+
+            {/* Capacity and Cost Section */}
+            <View style={styles.section}>
+                <Text style={styles.label}>Capacity</Text>
+                <Text style={styles.label}>Cost</Text>
             </View>
-            <View>
-                <Text>Traveller</Text>
+            <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                    <Image source={require("../assets/OrderHistory/suitcase.png")} style={styles.iconW} />
+                    <Text style={styles.infoText}>20 KG</Text>
+                </View>
+                <Text style={styles.infoText}>Rs. 500</Text>
             </View>
-            <View>
-                <View>
-                    <Image source={require("../assets/OrderHistory/user.png")} />
+
+            <View style={styles.divider} />
+
+            {/* Traveller Section */}
+            <View style={styles.section}>
+                <Text style={styles.label}>Traveller</Text>
+            </View>
+            <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                    <Image source={require("../assets/OrderHistory/user.png")} style={styles.icon} />
                     <View>
-                        <Text>Ahad Ghouri</Text>
-                        <View>
-                            <Text>5</Text>
-                            <Image source={require("../assets/OrderHistory/star.png")} />
+                        <Text style={styles.infoText}>Ahad Ghouri</Text>
+                        <View style={styles.ratingContainer}>
+                            <Text style={styles.infoText}>5</Text>
+                            <Image source={require("../assets/OrderHistory/star.png")} style={styles.iconW} />
                         </View>
                     </View>
                 </View>
             </View>
         </View>
     );
-}
+};
 
 const OrderHistory = () => {
     
@@ -214,6 +220,76 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight:'bold',
       },
+      card: {
+        backgroundColor: '#1D4246',
+        borderRadius: 20,
+        padding: 16,
+        marginVertical: 8,
+        margin:'5%',
+    },
+    section: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    label: {
+        fontWeight: 'bold',
+        color: 'white',
+    },
+    infoContainer: {
+        flexDirection: 'row', // Stack date below the text
+        alignItems: 'flex-start',
+    },
+    infoContainer1: {
+        flexDirection: 'column', // Stack date below the text
+        alignItems: 'flex-start',
+    },
+    
+    infoText: {
+        color: 'white',
+        marginTop: 2, // Add some space between text and date
+        marginLeft:2,
+        fontSize:14,
+    },
+    dateText: {
+        color: '#47ADB8',
+    },
+    arrowContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 6, // Adjust the marginTop to ensure visibility
+    },
+    arrowIcon: {
+        width: 110, // Adjust the width of the arrow icon
+        height: 50, // Adjust the height of the arrow icon
+        resizeMode: 'contain', // Make sure the arrow icon fits into the container
+    },
+    iconW: {
+        width: 20,
+        height: 20,
+    },
+
+    icon: {
+        width: 35,
+        height: 35,
+    },
+    statusText: {
+        color: '#2D9CDB', // Change as needed to match status color
+    },
+    chatText: {
+        color: '#2D9CDB',
+        textAlign: 'center',
+    },
+    divider: {
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        marginBottom: 10,
+    },
+    ratingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
 });
 
 export default OrderHistory;
