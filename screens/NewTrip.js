@@ -20,14 +20,14 @@ const NewTrip = () => {
       style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
     >
       <View style={styles.container}>
-         <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-4')}>
+         <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-2')}>
                 <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
                 <Text style={styles.headerText}>New Trip</Text>
                 <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
             </View>
         </View>
         
-    <View style={tw.style('items-center mt-5')}>
+    <View style={tw.style('ml-4 mt-5')}>
       <View style={styles.formContainer}>
         <Text style={styles.formHeading}>Enter Details</Text>
       </View>
@@ -43,6 +43,7 @@ const NewTrip = () => {
                 placeholder="City, Country"
                 keyboardType={"default"}
                 onChangeText={onChange}
+                width="90%"
                 value={value}
                 defaultValue=""
               />
@@ -62,6 +63,7 @@ const NewTrip = () => {
               <Field
                 placeholder="City, Country"
                 keyboardType={"default"}
+                width="90%"
                 onChangeText={onChange}
                 value={value}
                 defaultValue=""
@@ -269,7 +271,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     color:'#47ADB8',
     padding:5,
@@ -283,7 +285,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: 400,
-    marginStart: 20,
+    marginStart: 5,
   },
   formTitle: {
     color: "white",
@@ -293,16 +295,16 @@ const styles = StyleSheet.create({
   },
   label: {
     color: "white",
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "bold",
-    marginVertical: 5,
+    marginVertical: 0,
   },
   formHeading: {  
   color: "black",
-  fontSize: 20,
+  fontSize: 18,
   fontWeight: "bold",
-  marginVertical: '5%',
-  marginLeft:Dimensions.get('screen').width /12,
+  marginBottom:5,
+  marginRight:Dimensions.get('screen').width/ 2,
   },
 });
 
