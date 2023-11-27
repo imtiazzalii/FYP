@@ -15,9 +15,9 @@ const NewTrip = () => {
   
   return (
     <ScrollView>
-    <ImageBackground
-      source={require('../assets/bng.png')}
-      style={styles.imageBackground}
+     <ImageBackground
+      source={require('../assets/Chat/Logobg.png')}
+      style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
     >
       <View style={styles.container}>
          <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-4')}>

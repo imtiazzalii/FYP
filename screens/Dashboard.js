@@ -23,7 +23,7 @@ const Dashboard = (props) => {
                <View style={tw.style("flex-row w-2/3 h-8 mt-5 bg-white rounded-full")}>
                <Image style={tw.style("mt-1 ml-1")} source={require("../assets/Dashboard/wallet.png")} />
                <Text style={tw.style("mt-1 ml-1")}>Wallet</Text>
-                <Image style={tw.style("ml-auto mt-2")} source={require("../assets/Dashboard/arrow.jpeg")} />
+                <Image style={tw.style("ml-auto mt-2")} source={require("../assets/Dashboard/arrow.png")} />
               </View>
             </View>
             

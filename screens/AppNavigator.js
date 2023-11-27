@@ -12,6 +12,9 @@ import NewTrip from './NewTrip';
 import CustomDrawer from './CustomDrawer';
 import OrderHistory from './OrderHistory';
 import CurrentTrips from './CurrentTrips';
+import Chat from './Chat';
+import AllChats from './AllChats';
+import Notifications from './Notifications';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,6 +40,9 @@ const AppNavigator = () => {
                 <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
                 <Stack.Screen name="Signup" component={Signup} options={{headerShown: false}}/>
                 <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+                <Stack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
+                <Stack.Screen name="AllChats" component={AllChats} options={{headerShown: false}}/>
+                <Stack.Screen name="Notifications" component={Notifications} options={{headerShown: false}}/>
                 
                 <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false}}/>
                 <Stack.Screen name="NewTrip" component={NewTrip} options={{headerShown: false}}/>
