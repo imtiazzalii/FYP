@@ -55,7 +55,7 @@ const Content1 = () => {
                         <Text style={styles.infoText}>Ahad Ghouri</Text>
                         <View style={styles.ratingContainer}>
                             <Text style={styles.infoText}>5</Text>
-                            <Image source={require("../assets/OrderHistory/star.png")} style={styles.iconW} />
+                            <Image source={require("../assets/OrderHistory/star.png")} style={styles.iconstar} />
                         </View>
                     </View>
                 </View>
@@ -119,7 +119,7 @@ const Content2 = () => {
                         <Text style={styles.infoText}>Ahad Ghouri</Text>
                         <View style={styles.ratingContainer}>
                             <Text style={styles.infoText}>5</Text>
-                            <Image source={require("../assets/OrderHistory/star.png")} style={styles.iconW} />
+                            <Image source={require("../assets/OrderHistory/star.png")} style={styles.iconstar} />
                         </View>
                     </View>
                 </View>
@@ -129,50 +129,79 @@ const Content2 = () => {
 };
 
 const OrderHistory = () => {
-    
-    const [selectedButton, setSelectedButton] = useState('button1');
+    const [selectedButton, setSelectedButton] = useState('myOrders');
+  
     const handleButtonPress = (button) => {
-        setSelectedButton(button);
+      setSelectedButton(button);
     };
-
-    return(
-        <ImageBackground
-      source={require('../assets/Dashboard/dashbg.jpeg')}
-      style={ tw.style('h-full')}
-    >
+  
+    return (
+      <ImageBackground
+        source={require('../assets/Dashboard/dashbg.jpeg')}
+        style={tw.style('h-full')}
+      >
         <ScrollView>
-            <View style={styles.container}>
-                <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-2')}>
-                    <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
-                    <Text style={styles.headerText}>History</Text>
-                    <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
-                </View>
-                <View style={styles.buttonContainer}>
-                    {/* My Orders TouchableOpacity */}
-                    <TouchableOpacity
-                        onPress={() => handleButtonPress('button1')}
-                        style={styles.button}
-                    >
-                        <Text style={styles.buttonText}>My Orders</Text>
-                    </TouchableOpacity>
-
-                    {/* My Trips TouchableOpacity */}
-                    <TouchableOpacity
-                        onPress={() => handleButtonPress('button2')}
-                        style={styles.button}
-                    >
-                        <Text style={styles.buttonText}>My Trips</Text>
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    {selectedButton === 'button1' ? <Content1 /> : null}
-                    {selectedButton === 'button2' ? <Content2 /> : null}
-                </View>
+          <View style={styles.container}>
+            <View
+              style={tw.style(
+                'flex-row',
+                'justify-between',
+                'bg-teal-900',
+                'items-center',
+                'px-2'
+              )}
+            >
+              <Image
+                source={require('../assets/Dashboard/menu2.png')}
+                style={styles.headerIcons}
+              />
+              <Text style={styles.headerText}>History</Text>
+              <Image
+                source={require('../assets/Dashboard/bell2.png')}
+                style={styles.headerIcons}
+              />
             </View>
+            <View style={styles.toggleButtonsContainer}>
+              <TouchableOpacity
+                onPress={() => handleButtonPress('myOrders')}
+                style={[
+                  styles.toggleButton,
+                  selectedButton === 'myOrders' && styles.toggleButtonSelected,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.toggleButtonText,
+                    selectedButton === 'myOrders' && styles.toggleButtonTextSelected,
+                  ]}
+                >
+                  My Orders
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleButtonPress('trips')}
+                style={[
+                  styles.toggleButton,
+                  selectedButton === 'trips' && styles.toggleButtonSelected,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.toggleButtonText,
+                    selectedButton === 'trips' && styles.toggleButtonTextSelected,
+                  ]}
+                >
+                  Trips
+                </Text>
+              </TouchableOpacity>
+            </View>
+  
+            {selectedButton === 'myOrders' ? <Content1 /> : <Content2 />}
+          </View>
         </ScrollView>
-        </ImageBackground>
+      </ImageBackground>
     );
-}
+  };
 
 const styles = StyleSheet.create({
     container: {
@@ -202,23 +231,35 @@ const styles = StyleSheet.create({
         padding:5,
     
       },
-      buttonContainer: {
+      
+      toggleButtonsContainer: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        alignSelf: 'center',
+        width:'60%',
+        height:'10%',
+        marginVertical: 20,
+        backgroundColor: '#E8F9FD',
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: '#B0E0E6',
       },
-      button: {
-        padding: 10,
-        marginTop:5,
-        borderRadius: 0,
-        borderWidth:1,
-        borderColor:'white',
-        paddingright:6,
-        backgroundColor: '#004d40',
+      toggleButton: {
+        flex: 1,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        borderWidth: 0,
       },
-      buttonText: {
-        color: '#fff',
-        fontSize: 14,
-        fontWeight:'bold',
+      toggleButtonSelected: {
+        backgroundColor: '#1D4246',
+      },
+      toggleButtonText: {
+        color: '#47ADB8',
+        fontWeight: 'bold',
+        textAlign:'center',
+      },
+      toggleButtonTextSelected: {
+        color: '#FFFFFF',
       },
       card: {
         backgroundColor: '#1D4246',
@@ -261,13 +302,19 @@ const styles = StyleSheet.create({
         marginRight: 6, // Adjust the marginTop to ensure visibility
     },
     arrowIcon: {
-        width: 110, // Adjust the width of the arrow icon
+        width: 80, // Adjust the width of the arrow icon
         height: 50, // Adjust the height of the arrow icon
         resizeMode: 'contain', // Make sure the arrow icon fits into the container
     },
     iconW: {
         width: 20,
         height: 20,
+    },
+    iconstar: {
+        width: 12,
+        height: 15,
+        marginTop:3,
+        marginLeft:3,
     },
 
     icon: {
