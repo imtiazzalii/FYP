@@ -17,7 +17,7 @@ const Chat = () =>{
     <ImageBackground source={require('../assets/Chat/Logobg.png')}
     style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}>
     
-    <ScrollView>
+ 
     <View style={styles.container}>
         <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-4')}>
         <TouchableOpacity onPress={() => {
@@ -27,16 +27,14 @@ const Chat = () =>{
             <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
             </View>   
             
-            <View>
-              <Image source={require("../assets/Chat/Message1.png")}/>
-              {/* align message 2 to the right */}
-              <Image source={require("../assets/Chat/Message2.png")}/>
+            <View style={styles.chatContainer}>
+                <Image source={require("../assets/Chat/Message1.png")} style={styles.leftMessage} />
+                <Image source={require("../assets/Chat/Message2.png")} style={styles.rightMessage} />
             </View>
-
         
             <View >
-               <View style={tw.style("flex-row bg-white rounded-full")}>
-               <Image style={tw.style("mt-1 ml-1")} source={require("../assets/Chat/Attach.png")} />
+               <View style={tw.style("flex-row bg-white rounded-full ")}>
+               <Image style={tw.style("mt-1 ml-1 mr-1")} source={require("../assets/Chat/Attach.png")} />
                <Controller
                 control={control}
                 rules={{
@@ -53,7 +51,7 @@ const Chat = () =>{
                 name="Message"
                 />
                 <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-                <Image style={tw.style("ml-auto mt-2")} source={require("../assets/Chat/Send.png")} /></TouchableOpacity>
+                <Image style={tw.style("mt-1",{marginLeft:'65%'},)} source={require("../assets/Chat/Send.png")} /></TouchableOpacity>
               </View>
             </View>
         
@@ -61,12 +59,9 @@ const Chat = () =>{
         <Text style={tw`text-white text-sm pr-4`}>swyftbags ltd.</Text>
         </View>
     </View>
-    </ScrollView>
-    </ImageBackground>
-        );
-   
-
-        
+    
+    </ImageBackground>  
+);        
 };
 
 
@@ -76,7 +71,6 @@ const styles =StyleSheet.create({
 
     container: {    
     flex: 1,
-    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     //backgroundColor:"",
   },
 
@@ -97,6 +91,22 @@ const styles =StyleSheet.create({
     color:'#47ADB8',
     padding:5,
     },
+    chatContainer: {
+      flexDirection: 'col',
+      justifyContent: 'flex-start', // Start from the left
+      alignItems: 'center',
+      marginTop: '10%', // Adjust as needed
+    },
+    
+    leftMessage: {
+      marginRight: 'auto', // Add margin to separate the two messages
+      // Add any other styling properties for Message1
+    },
+    
+    rightMessage: {
+      marginLeft: 'auto', // Push Message2 to the right
+      // Add any other styling properties for Message2
+    },
 
   footer: {
     flexDirection: "row",
@@ -105,7 +115,7 @@ const styles =StyleSheet.create({
     alignItems: "center",
     backgroundColor:'#1D4246',
   },
-
+  
   footerText: {
     color:'white',
     fontSize:12,
