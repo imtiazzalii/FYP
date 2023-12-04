@@ -205,21 +205,9 @@ const OrderHistory = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
 
     },
-    box: {
-        width:'70%', // Set the width to half of the screen width
-        backgroundColor: '#fff', // Set the background color
-        padding: 20, // Add padding for content inside the box
-        justifyContent: 'center', // Center content vertically
-        alignSelf: 'center', // Center the box horizontally
-        marginTop: 20, // Add top margin for spacing
-        borderRadius: 10, // Add border radius for rounded corners
-        borderWidth: 1, // Add border width for a border
-        borderColor: '#004d40', // Set border color
-      },
-
     headerIcons: {
         width: 20,
         height: 20,
