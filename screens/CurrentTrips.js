@@ -321,8 +321,12 @@ const CurrentTrips = () => {
             </View>
   
             {selectedButton === 'Details' ? <Content1 /> : <Content2 />}
+            
           </View>
         </ScrollView>
+        <View style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900")}>
+            <Text style={tw`text-white text-sm pr-4`}>swyftbags ltd.</Text>
+       </View>
       </ImageBackground>
     );
   };

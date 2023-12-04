@@ -199,6 +199,9 @@ const OrderHistory = () => {
             {selectedButton === 'myOrders' ? <Content1 /> : <Content2 />}
           </View>
         </ScrollView>
+        <View style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900")}>
+            <Text style={tw`text-white text-sm pr-4`}>swyftbags ltd.</Text>
+        </View>
       </ImageBackground>
     );
   };
@@ -206,6 +209,7 @@ const OrderHistory = () => {
 const styles = StyleSheet.create({
     container: {
         marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        flex:1,
 
     },
     headerIcons: {
