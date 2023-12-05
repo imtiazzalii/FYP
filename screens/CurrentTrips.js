@@ -79,13 +79,12 @@ const Filters = () => {
     const [transportMode, setTransportMode] = useState('By Road');
   
     return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>Filters</Text>
-        <Image source={require("../assets/CurrentTrips/broadline.png")} style={styles.line} />
+      <View style={styles.filcontainer}>
+        <Text style={styles.filheading}>Filters</Text>
+        <Image source={require("../assets/CurrentTrips/broadline.png")} style={styles.filterline} />
   
         {/* Departure City Dropdown */}
-        <View style={styles.filterContainer}>
-          <Text style={styles.filterLabel}>Departure City:</Text>
+        <View style={styles.filterContainer1}>
           <Picker
             selectedValue={departureCity}
             onValueChange={(itemValue) => setDepartureCity(itemValue)}
@@ -98,14 +97,13 @@ const Filters = () => {
             <Picker.Item label="Multan" value="" />
             <Picker.Item label="Quetta" value="" />
             <Picker.Item label="Faisalabad" value="" />
-            <Picker.Item label="Select City" value="" />
+            <Picker.Item label="Departure City" value="" />
             {/* Add your city options here */}
           </Picker>
         </View>
   
         {/* Arrival City Dropdown */}
-        <View style={styles.filterContainer}>
-          <Text style={styles.filterLabel}>Arrival City:</Text>
+        <View style={styles.filterContainer1}>
           <Picker
             selectedValue={arrivalCity}
             onValueChange={(itemValue) => setArrivalCity(itemValue)}
@@ -118,17 +116,17 @@ const Filters = () => {
             <Picker.Item label="Multan" value="" />
             <Picker.Item label="Quetta" value="" />
             <Picker.Item label="Faisalabad" value="" />
-            <Picker.Item label="Select City" value="" />
+            <Picker.Item label="Arrival City" value="" />
             {/* Add your city options here */}
           </Picker>
         </View>
   
         {/* Weight Input Field */}
-        <View style={styles.filterContainer}>
+        <View style={styles.filter1Container}>
           <Text style={styles.filterLabel}>Weight:</Text>
           <TextInput
             style={styles.inputField}
-            placeholder="Enter weight in KG"
+            placeholder="Enter weight (KG)"
             keyboardType="numeric"
             value={weight}
             onChangeText={(text) => setWeight(text)}
@@ -136,7 +134,7 @@ const Filters = () => {
         </View>
   
         {/* Cost Slider */}
-        <View style={styles.filterContainer}>
+        <View style={styles.filter1Container}>
           <Text style={styles.filterLabel}>Cost:</Text>
           <Slider
             style={styles.slider}
@@ -145,12 +143,13 @@ const Filters = () => {
             step={1}
             value={cost}
             onValueChange={(value) => setCost(value)}
+            
           />
-          <Text>{cost}</Text>
+          <Text style={tw.style('text-white text-sm font-bold')}>{cost}</Text>
         </View>
   
         {/* Transport Mode Dropdown */}
-        <View style={styles.filterContainer}>
+        <View style={styles.filter1Container}>
           <Text style={styles.filterLabel}>Transport Mode:</Text>
           <Picker
             selectedValue={transportMode}
@@ -237,11 +236,12 @@ const Content2 = () => {
     
     return(
         <View style={styles.box}>
-            <View>
+            <View style={tw.style('items-end',)}>
                 <TouchableOpacity onPress={toggleFilters}>
                     <Image source={require("../assets/CurrentTrips/filters.png")} style={[styles.filters, showFilters && { tintColor: '#007BFF' }]} />
                 </TouchableOpacity>
             </View>
+            
             <View>
                 {showFilters === true ? <Filters /> : null}
                 {showFilters === false ? <Content22 /> : null}
@@ -482,24 +482,7 @@ const styles = StyleSheet.create({
       filterContainer: {
         marginBottom: 20,
       },
-      filterLabel: {
-        fontSize: 16,
-        marginBottom: 8,
-      },
-      picker: {
-        height: 40,
-        borderColor: '#CCCCCC',
-        borderWidth: 1,
-      },
-      inputField: {
-        height: 40,
-        borderColor: '#CCCCCC',
-        borderWidth: 1,
-        paddingHorizontal: 10,
-      },
-      slider: {
-        width: '100%',
-      },
+      
       userInfoContainer: {
         flexDirection:'row',
 
@@ -517,6 +500,72 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginBottom:5, // Add margin to lower the text
       },
+      filcontainer: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: '#102426',
+        width:'60%',
+      },
+      filheading: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: 'white',
+      },
+      filterline: {
+        height: 2,
+        backgroundColor: '#e0e0e0',
+        marginBottom: 20,
+      },
+      filterContainer1: {
+        marginBottom:'10%',
+        padding:0,
+        borderRadius: 30,
+        alignItems:'center',
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
+      filterLabel: {
+        fontSize: 18,
+        color: 'white',
+        marginTop: 10,
+        fontWeight:'bold'
+      },
+      picker: {
+        height: 50,
+        width: '100%',
+        color: 'black',
+        backgroundColor:'white'
+
+      },
+      inputField: {
+        height: 50,
+        width:'50%',
+        color:'black',
+        borderColor: 'gray',
+        backgroundColor:'white',
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 12,
+        fontSize: 9,
+        fontWeight:'bold',
+        color: '#333',
+      },
+      slider: {
+        width: '100%',
+        height: 10,
+        borderRadius: 5,
+        backgroundColor: 'white', // You can adjust the color accordingly
+        
+      },
+     
 });
 
 export default CurrentTrips;
