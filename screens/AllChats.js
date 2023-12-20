@@ -1,114 +1,142 @@
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, TouchableOpacity, ScrollView, TextInput }  from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import {useNavigation} from '@react-navigation/native';
-import { useForm, Controller, handleSubmit } from "react-hook-form";
-import Field from "./Field";
+import { View, StyleSheet, Text, ImageBackground, Image, Platform, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
-import { RollInRight } from "react-native-reanimated";
-//import { TextInput } from "react-native-gesture-handler";
 
-
-const AllChats = () =>{
-    const flatlistRef = useRef();
+const AllChats = () => {
     const navigation = useNavigation();
-    const {control, handleSubmit, formState: { errors }} = useForm();
-    const onSubmit = (data) => console.log(data, "data");
-    return(
-    <ImageBackground source={require('../assets/AllChats/Background.png')}
-    style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}>
-    <ScrollView>
-    <View style={styles.container}>
-        
-        {/* nav bar */}
-        <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-4')}>
-        <TouchableOpacity onPress={() => {
-            navigation.openDrawer();
-            }}><Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/></TouchableOpacity>
-            <Text style={styles.headerText}>Chats</Text>
-            <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
-            </View>   
-        
-            {/* Rounded box showing chat teal bg*/}
-            <TouchableOpacity onPress={() => navigation.navigate("Chat")}><View>
-                <Image source={require("../assets/AllChats/User.png")} />
-                <Text>Imtiaz Mushfiq</Text>
-                <Text>Hello imtiaz how much space do u have?</Text>
-                <Text>8:00pm</Text>
-                <Image source={require("../assets/AllChats/Tick.png")} />
-                
-            </View></TouchableOpacity>
 
-            {/* Rounded box showing chat teal bg */}
-            <TouchableOpacity onPress={() => navigation.navigate("Chat")}><View>
-                <Image source={require("../assets/AllChats/User.png")} />
-                <Text>Ahad Ghouri</Text>
-                <Text>Hello Ahad how much space do u have?</Text>
-                <Text>8:00pm</Text>
-            </View></TouchableOpacity>
+    return (
+        <ImageBackground source={require('../assets/AllChats/Background.png')}
+            style={tw.style('h-full', { marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 })}>
+            <ScrollView>
+                <View style={styles.container}>
+                    {/* NavBar */}
+                    <View style={styles.navBar}>
+                        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                            <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons} />
+                        </TouchableOpacity>
+                        <Text style={styles.headerText}>Chats</Text>
+                        <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons} />
+                    </View>
 
-            
-            {/* footer */}
-            <View style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900")}>
-            <Text style={tw`text-white text-sm pr-4`}>swyftbags ltd.</Text>
-            </View>
+                    {/* Chat Items */}
+                    <View style={styles.chatItemsContainer}>
+                        {/* First Chat Item */}
+                        <TouchableOpacity style={styles.chatItem} onPress={() => navigation.navigate("Chat")}>
+                            <Image source={require("../assets/AllChats/User.png")} style={styles.userIcon} />
+                            <View style={styles.chatTextContainer}>
+                                <Text style={styles.userName}>Zaki Imran</Text>
+                                <Text style={styles.messageText}>Hello Ahad how much space do u have?</Text>
+                                <View style={styles.timeAndStatusContainer}>
+                                    <Text style={styles.messageTime}>8:00pm</Text>
+                                    {/* Include Tick Icon only if message is sent */}
+                                    <Image source={require("../assets/AllChats/Tick.png")} style={styles.statusIcon} />
+                                </View>
+                            </View>
+                        </TouchableOpacity>
 
-        </View>
-    </ScrollView>
-    </ImageBackground>
-    
+                        {/* Second Chat Item */}
+                        <TouchableOpacity style={styles.chatItem} onPress={() => navigation.navigate("Chat")}>
+                            <Image source={require("../assets/AllChats/User.png")} style={styles.userIcon} />
+                            <View style={styles.chatTextContainer}>
+                                <Text style={styles.userName}>Imtiaz Mushfiq</Text>
+                                <Text style={styles.messageText}>Hello Imtiaz how much space do u have?</Text>
+                                <Text style={styles.messageTime}>4:00pm</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
 
-        );
-   
-
-        
+                    {/* Footer */}
+                    <View style={styles.footer}>
+                        <Text style={styles.footerText}>swyftbags ltd.</Text>
+                    </View>
+                </View>
+            </ScrollView>
+        </ImageBackground>
+    );
 };
 
-
-
-
-const styles =StyleSheet.create({
-
-    container: {    
-    flex: 1,
-    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    //backgroundColor:"",
-  },
-
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor:'#1D4246',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-  },
-  headerIcons: {
-    width: 20,
-    height: 20,
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color:'#47ADB8',
-    padding:5,
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'transparent', // Assuming the ImageBackground covers the entire container
     },
-
-  footer: {
-    flexDirection: "row",
-    padding:4,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    backgroundColor:'#1D4246',
-  },
-
-  footerText: {
-    color:'white',
-    fontSize:12,
-    textAlign:'right',
-    paddingLeft:300,
-  },
-
-
-
+    navBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#1D4246', // Adjust the color to match your design
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+    },
+    headerIcons: {
+        width: 24,
+        height: 24,
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#47ADB8', // Adjust the color to match your design
+    },
+    chatItemsContainer: {
+        paddingVertical: 10,
+    },
+    chatItem: {
+        flexDirection: 'row',
+        backgroundColor: '#E8F0F2', // Use the background color of your chat item
+        borderRadius: 20,
+        padding: 15,
+        marginBottom: 10,
+        marginHorizontal: 10,
+        alignItems: 'center',
+    },
+    userIcon: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        marginRight: 10,
+    },
+    chatTextContainer: {
+        flex: 1,
+    },
+    userName: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#00334E', // Use your username color here
+        marginBottom: 5,
+    },
+    messageText: {
+        fontSize: 14,
+        color: '#00334E', // Use your message text color here
+    },
+    timeAndStatusContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: 5,
+    },
+    messageTime: {
+        fontSize: 12,
+        color: '#00334E', // Use your message time color here
+    },
+    statusIcon: {
+        width: 16,
+        height: 16,
+        marginLeft: 5,
+    },
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#1D4246', // Adjust the color to match your design
+        padding: 10,
+    },
+    footerText: {
+        fontSize: 14,
+        color: 'white',
+        textAlign: 'center',
+    },
 });
 
 export default AllChats;
