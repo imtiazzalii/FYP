@@ -27,32 +27,37 @@ const AllChats = () => {
                             <Image source={require("../assets/AllChats/User.png")} style={styles.userIcon} />
                             <View style={styles.chatTextContainer}>
                                 <Text style={styles.userName}>Zaki Imran</Text>
-                                <Text style={styles.messageText}>Hello Ahad how much space do u have?</Text>
                                 <View style={styles.timeAndStatusContainer}>
-                                    <Text style={styles.messageTime}>8:00pm</Text>
-                                    {/* Include Tick Icon only if message is sent */}
-                                    <Image source={require("../assets/AllChats/Tick.png")} style={styles.statusIcon} />
+                                <Text style={styles.messageText}>Hello Ahad how much space do you have?</Text>
+                                <Image source={require("../assets/AllChats/Tick.png")} style={styles.statusIcon} />
                                 </View>
+                                <Text style={styles.messageTime}>8:00pm</Text>
                             </View>
                         </TouchableOpacity>
+
 
                         {/* Second Chat Item */}
                         <TouchableOpacity style={styles.chatItem} onPress={() => navigation.navigate("Chat")}>
                             <Image source={require("../assets/AllChats/User.png")} style={styles.userIcon} />
                             <View style={styles.chatTextContainer}>
                                 <Text style={styles.userName}>Imtiaz Mushfiq</Text>
-                                <Text style={styles.messageText}>Hello Imtiaz how much space do u have?</Text>
+                                <View style={styles.timeAndStatusContainer}>
+                                <Text style={styles.messageText}>Hello Imtiaz how much space do you have?</Text>
+                                <Image source={require("../assets/AllChats/Tick.png")} style={styles.statusIcon} />
+                                </View>
                                 <Text style={styles.messageTime}>4:00pm</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
 
                     {/* Footer */}
-                    <View style={styles.footer}>
-                        <Text style={styles.footerText}>swyftbags ltd.</Text>
-                    </View>
+                    
                 </View>
             </ScrollView>
+            {/* Footer */}
+            <View style={styles.footer}>
+                <Text style={styles.footerText}>swyftbags ltd.</Text>
+            </View>
         </ImageBackground>
     );
 };
@@ -80,11 +85,11 @@ const styles = StyleSheet.create({
         color: '#47ADB8', // Adjust the color to match your design
     },
     chatItemsContainer: {
-        paddingVertical: 10,
+        paddingVertical: '10%',
     },
     chatItem: {
         flexDirection: 'row',
-        backgroundColor: '#E8F0F2', // Use the background color of your chat item
+        backgroundColor: '#1D4246', // Use the background color of your chat item
         borderRadius: 20,
         padding: 15,
         marginBottom: 10,
@@ -103,34 +108,40 @@ const styles = StyleSheet.create({
     userName: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#00334E', // Use your username color here
+        color: 'white', // Use your username color here
         marginBottom: 5,
+        marginTop:5,
     },
     messageText: {
         fontSize: 14,
-        color: '#00334E', // Use your message text color here
+        color: 'white', // Use your message text color here
+    // If you want to truncate the text when it is too long, you can add the following lines:
+    // overflow: 'hidden',
+    // textOverflow: 'ellipsis',
+    // whiteSpace: 'nowrap',
+    marginRight: 4, // Add space for the tick icon
     },
     timeAndStatusContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        marginTop: 5,
+        
     },
     messageTime: {
         fontSize: 12,
-        color: '#00334E', // Use your message time color here
+        color: 'white', // Use your message time color here
+        marginRight: 4, // Add space between time and tick icon
     },
     statusIcon: {
         width: 16,
         height: 16,
-        marginLeft: 5,
     },
     footer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#1D4246', // Adjust the color to match your design
-        padding: 10,
+        padding: 8,
+        marginBottom:'9%'
     },
     footerText: {
         fontSize: 14,
