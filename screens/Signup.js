@@ -1,7 +1,8 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, ScrollView } from "react-native";
+import { View, StyleSheet, Text, ImageBackground,TouchableOpacity, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, ScrollView } from "react-native";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
+import tw from 'twrnc';
 
 const Signup = () => {
   
@@ -12,17 +13,31 @@ const Signup = () => {
   return (
     <ScrollView>
     <ImageBackground
-      source={require('../assets/bng.png')}
-      style={styles.imageBackground}
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>Sign up</Text>
+     source={require('../assets/loginbg.png')}
+     style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
+   >
+     <View style={styles.container}>
+        <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-2')}>
+               <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
+               <Text style={styles.headerText}>SignUp</Text>
+               <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
+           </View>
+       </View>
+       <View style={styles.profileImageContainer}>
+            <Image
+              source={require("../assets/SignUp/User.png")} // Replace with your user icon image
+              style={styles.profileImage}
+            />
       </View>
-
+       
+   <View style={tw.style('ml-4 mt-5')}>
       <View style={styles.formContainer}>
+      
+        
         <Text style={styles.formTitle}>Enter Your Details</Text>
 
         <Text style={styles.label}>Enter your name</Text>
+        
         <Controller
             control={control}
             rules={{
@@ -187,8 +202,34 @@ const Signup = () => {
           name="phoneNumber"
         />
         {errors && errors.phoneNumber && <Text>{errors.phoneNumber.message}</Text>}
+        
+        <Text style={styles.uploadCnicText}>Upload CNIC pictures</Text>
+          <View style={styles.cnicImagesContainer}>
+            <TouchableOpacity style={styles.cnicImageWrapper}>
+              <Image
+                source={require("../assets/SignUp/Upload.png")} // Replace with your CNIC front icon image
+                style={styles.cnicImage}
+              />
+              <Text style={styles.cnicImageText}>Front</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cnicImageWrapper}>
+              <Image
+                source={require("../assets/SignUp/Upload.png")} // Replace with your CNIC back icon image
+                style={styles.cnicImage}
+              />
+              <Text style={styles.cnicImageText}>Back</Text>
+            </TouchableOpacity>
+          </View>
 
-        <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+        <View style={tw.style('mt-6', 'items-center', 'justify-center')}>
+        <TouchableOpacity
+          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,{backgroundColor:'#1D4246'})}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text style={tw.style('text-white', 'text-lg','font-bold',{fontSize:22})}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+      </View>
       </View>
     </ImageBackground>
     </ScrollView>
@@ -198,11 +239,59 @@ const Signup = () => {
 const styles = StyleSheet.create({
   imageBackground: {
     height: '100%',
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
-    alignItems: "center",
-    width: 400,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  
+    
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor:'#1D4246',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
+  headerIcons: {
+    width: 20,
+    height: 20,
+  },
+  headerText: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color:'#47ADB8',
+    padding:5,
+
+  },
+  profileImageContainer: {
+    alignItems: 'center',
+    marginVertical: 0,
+  },
+  profileImage: {
+    width: 60,
+    height: 60,
+  },
+  uploadCnicText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 20,
+  },
+  cnicImagesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginBottom: 20,
+    marginRight:'50%'
+  },
+  cnicImageWrapper: {
+    alignItems: 'center',
+  },
+  cnicImage: {
+    width: 50,
+    height: 50,
+  },
+  cnicImageText: {
+    color: 'white',
   },
   title: {
     color: "black",
@@ -212,7 +301,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: 400,
-    marginStart: 20,
+    marginStart: 5,
   },
   formTitle: {
     color: "white",
@@ -222,10 +311,16 @@ const styles = StyleSheet.create({
   },
   label: {
     color: "white",
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: "bold",
-    marginVertical: 5,
+    marginVertical: 0,
+  },
+  formHeading: {  
+  color: "black",
+  fontSize: 18,
+  fontWeight: "bold",
+  marginBottom:5,
+  marginRight:Dimensions.get('screen').width/ 2,
   },
 });
-
 export default Signup;

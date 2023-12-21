@@ -244,7 +244,7 @@ const NewTrip = () => {
           <Text style={tw.style('text-black', 'text-lg','font-bold',{fontSize:22})}>Submit</Text>
         </TouchableOpacity>
       </View>
-        </View>
+      </View>
     </ImageBackground>
     </ScrollView>
   );
