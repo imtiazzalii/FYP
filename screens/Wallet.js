@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, StatusBar } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Image, StatusBar } from "react-native";
 import {useNavigation} from '@react-navigation/native';
 
 
@@ -18,6 +18,11 @@ const Wallet = () => {
 
   return (
     <View style={styles.container}>
+       <ImageBackground
+        source={require('../assets/wallet/Headerbg.png')} // Replace with the path to your background image
+        resizeMode="cover" // or "contain", "stretch", "repeat", "center" based on your need
+        style={styles.walletHeaderBackground}
+      >
       
         <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -26,16 +31,18 @@ const Wallet = () => {
             <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
         </View>
             
+       
         <View style={styles.walletHeader}>
-            <View>
-                <Text style={styles.walletTitle}>Your Wallet</Text>
-                <Text style={styles.walletBalance}>Rs. 100.0</Text>
-                <TouchableOpacity style={styles.topUpButton}>
-                    <Text style={styles.topUpButtonText}>Top up</Text>
-                </TouchableOpacity>
-            </View>
-            <Image source={require('../assets/SignUp/User.png')} style={styles.userIcon}/>
-      </View>
+          <View>
+            <Text style={styles.walletTitle}>Your Wallet</Text>
+            <Text style={styles.walletBalance}>Rs. 100.0</Text>
+            <TouchableOpacity style={styles.topUpButton}>
+              <Text style={styles.topUpButtonText}>Top up</Text>
+            </TouchableOpacity>
+          </View>
+          <Image source={require('../assets/SignUp/User.png')} style={styles.userIcon}/>
+        </View>
+      </ImageBackground>
 
       <View style={styles.paymentMethodsContainer}>
         <View style={styles.paymentHeaderContainer}>
@@ -72,17 +79,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#E5E5E5",
     marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
+  walletHeaderBackground: {
+    // Add this new style for ImageBackground
+    paddingBottom: '8%', // Same as your walletHeader paddingVertical for consistent style
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    overflow: 'hidden', // This is crucial to allow the border radius to be visible
+  },
+  
   walletHeader: {
-    backgroundColor: "#009688",
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: '5%',
     paddingVertical: '8%',
-    borderBottomLeftRadius: 25, // Adjust this value as needed to get the desired curvature
-    borderBottomRightRadius: 25, // Adjust this value as needed to get the desired curvature
-   
   },
   headerIcons: {
     width: 20,
@@ -98,7 +109,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: "#009688",
+    //backgroundColor: "#009688",
     alignItems: 'center',
     paddingHorizontal: '3%',
     paddingTop: '2%',
