@@ -6,6 +6,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
+import Wallet from './Wallet';
 import Dashboard from './Dashboard';
 import Routing from './Routing';
 import NewTrip from './NewTrip';
@@ -29,6 +30,7 @@ function Sidebar(){
             <Drawer.Screen name="Chat" component={Chat} options={{ headerShown: false }}/>
             <Drawer.Screen name="AllChats" component={AllChats} options={{ headerShown: false }}/>
             <Drawer.Screen name="Notifications" component={Notifications} options={{ headerShown: false }}/>
+            <Drawer.Screen name="Wallet" component={Wallet} options={{ headerShown: false }}/>
         </Drawer.Navigator>
     );
 
@@ -51,6 +53,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="NewTrip" component={NewTrip} options={{headerShown: false}}/>
                 <Stack.Screen name="OrderHistory" component={OrderHistory} options={{headerShown: false}}/>
                 <Stack.Screen name="CurrentTrips" component={CurrentTrips} options={{headerShown: false}}/>
+                <Stack.Screen name="Wallet" component={Wallet} options={{headerShown: false}}/>
             </Stack.Navigator>
             
         </NavigationContainer>

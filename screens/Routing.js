@@ -63,6 +63,12 @@ const Routing = (props) => {
                 btnLabel="AllChats"
                 Press={() => props.navigation.navigate("AllChats")}
             />
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="Wallet"
+                Press={() => props.navigation.navigate("Wallet")}
+            />
 
             <Btn
                 bgColor="#47ADB8"
