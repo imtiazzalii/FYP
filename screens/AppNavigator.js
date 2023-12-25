@@ -16,6 +16,9 @@ import CurrentTrips from './CurrentTrips';
 import Chat from './Chat';
 import AllChats from './AllChats';
 import Notifications from './Notifications';
+import EditProfile from './EditProfile';
+import ChangePassword from './ChangePassword';
+import TripStatus from './TripStatus';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -54,6 +57,9 @@ const AppNavigator = () => {
                 <Stack.Screen name="OrderHistory" component={OrderHistory} options={{headerShown: false}}/>
                 <Stack.Screen name="CurrentTrips" component={CurrentTrips} options={{headerShown: false}}/>
                 <Stack.Screen name="Wallet" component={Wallet} options={{headerShown: false}}/>
+                <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
+                <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false}}/>
+                <Stack.Screen name="TripStatus" component={TripStatus} options={{headerShown: false}}/>
             </Stack.Navigator>
             
         </NavigationContainer>

@@ -76,6 +76,28 @@ const Routing = (props) => {
                 btnLabel="Notifications"
                 Press={() => props.navigation.navigate("Notifications")}
             />
+
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="EditProfile"
+                Press={() => props.navigation.navigate("EditProfile")}
+            />
+
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="ChangePassword"
+                Press={() => props.navigation.navigate("ChangePassword")}
+            />
+            
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="TripStatus"
+                Press={() => props.navigation.navigate("TripStatus")}
+            />
+
         </View>
     );
 }
