@@ -108,17 +108,19 @@ const Profile = () => {
     return (
       <ImageBackground
         source={require('../assets/bng.png')}
-        style={tw.style('h-full')}
+        style={tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
       >
+
         <ScrollView>
-          <View style={styles.container}>
-            <View
+        <View
               style={tw.style(
                 'flex-row',
                 'justify-between',
                 'bg-teal-900',
                 'items-center',
-                'px-2'
+                'px-2',
+                'pt-1',
+                'pb-1'
               )}
             >
               <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -129,7 +131,7 @@ const Profile = () => {
               <Image source={require('../assets/Dashboard/bell2.png')} style={styles.headerIcons}/>
               </TouchableOpacity>
             </View>
-
+            
             <View> 
             {/* For display and name */}
               <Content1 /> 
@@ -159,7 +161,6 @@ const Profile = () => {
               {/* For Change Password section */}
               <Content3 />
             </View>
-          </View>
         </ScrollView>
 
         {/* Rate our app button */}
@@ -168,10 +169,15 @@ const Profile = () => {
           <Text style={styles.infoText}>Rate Our App</Text>
           </TouchableOpacity>
         </View>
-
-        <View style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900")}>
+        
+        <View style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900 absolute bottom-8 w-full")}>
+                    <Text style={tw`text-white text-sm`}>swyftbags ltd.</Text>
+                </View>
+        
+        {/* <View style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900")}>
             <Text style={tw`text-white text-sm pr-4`}>swyftbags ltd.</Text>
-        </View>
+        </View> */}
+        
       </ImageBackground>
     );
   };
@@ -226,7 +232,7 @@ const styles = StyleSheet.create({
       // alignItems: 'center',
       marginBottom: 0,
       position: 'absolute',
-      bottom: 30,
+      bottom: 60,
       right: 5,
   },
     label: {
