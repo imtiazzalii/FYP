@@ -76,6 +76,13 @@ const Routing = (props) => {
                 btnLabel="Notifications"
                 Press={() => props.navigation.navigate("Notifications")}
             />
+
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="Status"
+                Press={() => props.navigation.navigate("Status")}
+            />
         </View>
     );
 }
