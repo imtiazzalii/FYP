@@ -28,7 +28,7 @@ const Wallet = () => {
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
                 <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
             </TouchableOpacity>
-            <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
+            <TouchableOpacity onPress={() => navigation.navigate("Notifications")}><Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/></TouchableOpacity>
         </View>
             
        
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     paddingTop: '2%',
     paddingBottom: '2%',
     width: '100%',
+    marginTop: 5,
 },
 paymentHeaderContainer:{
     display:'flex',

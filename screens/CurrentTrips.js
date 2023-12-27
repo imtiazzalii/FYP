@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Button, Image, Platform, StatusBar,ImageBackgro
 import Slider from '@react-native-community/slider';
 import { Picker } from '@react-native-picker/picker';
 import tw from 'twrnc';
+import {useNavigation} from '@react-navigation/native';
 
 const Content1 = () => {
     return(
@@ -98,7 +99,6 @@ const Filters = () => {
             <Picker.Item label="Quetta" value="" />
             <Picker.Item label="Faisalabad" value="" />
             <Picker.Item label="Departure City" value="" />
-            {/* Add your city options here */}
           </Picker>
         </View>
   
@@ -149,8 +149,9 @@ const Filters = () => {
         </View>
   
         {/* Transport Mode Dropdown */}
+        <Text style={styles.filterLabel}>Transport Mode:</Text>
         <View style={styles.filterContainer1}>
-          <Text style={styles.filterLabel}>Transport Mode:</Text>
+          
           <Picker
             selectedValue={transportMode}
             onValueChange={(itemValue) => setTransportMode(itemValue)}
@@ -241,9 +242,9 @@ const Content2 = () => {
     
     return(
         <View style={styles.box}>
-            <View style={tw.style('ml-3','mb-2')}>
+            <View style={[tw.style('ml-3','mb-2')]}>
                 <TouchableOpacity onPress={toggleFilters}>
-                    <Image source={require("../assets/CurrentTrips/filters.png")} style={[styles.filters, showFilters && { tintColor: '#007BFF' }]} />
+                    <Image source={require("../assets/CurrentTrips/filters.png")} style={[styles.filters, showFilters && { tintColor: '#47ADB8' }]} />
                 </TouchableOpacity>
             </View>
             
@@ -263,6 +264,8 @@ const CurrentTrips = () => {
     const handleButtonPress = (button) => {
       setSelectedButton(button);
     };
+
+    const navigation = useNavigation()
   
     return (
       <ImageBackground
@@ -282,15 +285,17 @@ const CurrentTrips = () => {
                 'pb-1',
               )}
             >
-              <Image
+              <TouchableOpacity onPress={() => {
+                  navigation.openDrawer();
+                }}><Image
                 source={require('../assets/Dashboard/menu2.png')}
                 style={styles.headerIcons}
-              />
+              /></TouchableOpacity>
               <Text style={styles.headerText}>Current Trips</Text>
-              <Image
+              <TouchableOpacity onPress={() => navigation.navigate("Notifications")}><Image
                 source={require('../assets/Dashboard/bell2.png')}
                 style={styles.headerIcons}
-              />
+              /></TouchableOpacity>
             </View>
             <View style={styles.toggleButtonsContainer}>
               <TouchableOpacity
@@ -512,9 +517,10 @@ const styles = StyleSheet.create({
         padding: 20,
         height:'100%',
         backgroundColor: '#47ADB8',
-        width:'60%',
+        width:'70%',
         borderRadius:25,
         overflow: 'hidden',
+        marginHorizontal: "15%",
       },
       filheading: {
         fontSize: 24,
@@ -528,7 +534,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
       },
       filterContainer1: {
-        marginBottom:'10%',
+        marginBottom: 10,
         padding:0,
         borderRadius:25,
         overflow: 'hidden',
@@ -564,7 +570,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'white',
         marginTop: 10,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        marginBottom: 10,
       },
       picker: {
         height: 50,
@@ -576,7 +583,7 @@ const styles = StyleSheet.create({
       },
       inputField: {
         height: 50,
-        width:'50%',
+        width:'100%',
         color:'black',
         borderColor: 'gray',
         backgroundColor:'white',
@@ -589,7 +596,7 @@ const styles = StyleSheet.create({
       },
       slider: {
         width: '100%',
-        height: 10,
+        height: 15,
         borderRadius: 5,
         backgroundColor: 'white', // You can adjust the color accordingly
         
@@ -598,7 +605,7 @@ const styles = StyleSheet.create({
       buttonView:{
         alignItems: 'flex-end', // Center the text horizontally
         justifyContent: 'center',
-        marginTop:'10%'
+        marginTop: 0,
 
       },
       setButton: {
@@ -607,7 +614,7 @@ const styles = StyleSheet.create({
         width:"50%",
         alignItems: 'center', // Center the text horizontally
         justifyContent: 'center', // Center the text vertically
-        marginTop: 15, // Add space above the button
+        marginTop: 0, // Add space above the button
         borderRadius:30,
       },
       setText: {

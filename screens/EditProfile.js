@@ -3,12 +3,14 @@ import { View, StyleSheet, Text, ImageBackground,TouchableOpacity, Button, Image
 import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
 import tw from 'twrnc';
+import {useNavigation} from '@react-navigation/native';
 
 const EditProfile = () => {
   
   const {control, handleSubmit, formState: { errors }} = useForm();
   const onSubmit = (data) => console.log(data, "data");
   const password = useWatch({ control, name: "password", defaultValue: "" });
+  const navigation = useNavigation()
   
   return (
     <ImageBackground
@@ -16,7 +18,9 @@ const EditProfile = () => {
      style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
    >
             <View style= {tw.style('flex-row', 'items-center','bg-teal-900','px-1','pb-1','pt-1')}>
-               <Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/>
+            <TouchableOpacity onPress={() => {
+                navigation.navigate("Routing")
+              }} ><Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/></TouchableOpacity>
                <View style={tw.style('justify-center','items-center', 'pl-30')}>
                <Text style={styles.headerText}>Edit Profile</Text>  
            </View>

@@ -37,6 +37,8 @@ function Sidebar(){
             <Drawer.Screen name="Wallet" component={Wallet} options={{ headerShown: false }}/>
             <Drawer.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
             <Drawer.Screen name="Status" component={Status} options={{ headerShown: false }}/>
+            <Drawer.Screen name="OrderHistory" component={OrderHistory} options={{ headerShown: false }}/>
+            <Drawer.Screen name="CurrentTrips" component={CurrentTrips} options={{ headerShown: false }}/>
         </Drawer.Navigator>
     );
 

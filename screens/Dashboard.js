@@ -19,7 +19,7 @@ const Dashboard = (props) => {
                   navigation.openDrawer();
                 }}><Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/></TouchableOpacity>
                 <Text style={styles.headerText}>SWYFTBAGS</Text>
-                <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
+                <TouchableOpacity onPress={() => navigation.navigate("Notifications")}><Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/></TouchableOpacity>
             </View>    
             <View style={styles.slider}>
               <Carousel />
@@ -30,13 +30,13 @@ const Dashboard = (props) => {
                <View style={tw.style("flex-row w-2/3 h-8 mt-5 bg-white rounded-full")}>
                <Image style={tw.style("mt-1 ml-1")} source={require("../assets/Dashboard/wallet.png")} />
                <Text style={tw.style("mt-1 ml-1")}>Wallet</Text>
-                <Image style={tw.style("ml-38 mt-2")} source={require("../assets/Dashboard/arrow.jpeg")} />
+                <TouchableOpacity onPress={() => navigation.navigate("Wallet")}><Image style={tw.style("ml-38 mt-2")} source={require("../assets/Dashboard/arrow.jpeg")} /></TouchableOpacity>
               </View>
             </View>
             
             <View style={tw.style("flex-1 flex-row justify-evenly items-center")}>
-              <Image source={require("../assets/Dashboard/history.png")}/>
-              <Image source={require("../assets/Dashboard/chats.png")}/>
+              <TouchableOpacity onPress={() => navigation.navigate("OrderHistory")}><Image source={require("../assets/Dashboard/history.png")}/></TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("AllChats")}><Image source={require("../assets/Dashboard/chats.png")}/></TouchableOpacity>
               
             </View>
             <View style={tw.style("flex-1 flex-row justify-evenly items-center")}>

@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import tw from 'twrnc';
+import {useNavigation} from '@react-navigation/native';
 
 
 const Content1 = () => {
+    const navigation = useNavigation()
     return (
         <View style={styles.card}>
             {/* Departure and Arrival Section */}
@@ -59,7 +61,7 @@ const Content1 = () => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity onPress={() => console.log('Open chat')}>
+                <TouchableOpacity onPress={() => navigation.navigate("Chat")}>
                     <Image source={require("../assets/OrderHistory/chat.png")} style={styles.icon} />
                     <Text style={styles.chatText}>Open Chat</Text>
                 </TouchableOpacity>
@@ -68,7 +70,8 @@ const Content1 = () => {
     );
 };
 const Content2 = () => {
-    return (
+  const navigation = useNavigation()  
+  return (
         <View style={styles.card}>
             {/* Departure and Arrival Section */}
             <View style={styles.section}>
@@ -134,6 +137,8 @@ const OrderHistory = () => {
     const handleButtonPress = (button) => {
       setSelectedButton(button);
     };
+
+    const navigation = useNavigation()
   
     return (
       <ImageBackground
@@ -154,15 +159,15 @@ const OrderHistory = () => {
 
               )}
             >
-              <Image
+              <TouchableOpacity onPress={() => navigation.openDrawer()}><Image
                 source={require('../assets/Dashboard/menu2.png')}
                 style={styles.headerIcons}
-              />
+              /></TouchableOpacity>
               <Text style={styles.headerText}>History</Text>
-              <Image
+              <TouchableOpacity onPress={() => navigation.navigate("Notifications")}><Image
                 source={require('../assets/Dashboard/bell2.png')}
                 style={styles.headerIcons}
-              />
+              /></TouchableOpacity>
             </View>
             <View style={styles.toggleButtonsContainer}>
               <TouchableOpacity

@@ -29,10 +29,10 @@ const Chat = () => {
             <View style={styles.container}>
                 <View style={tw.style('flex-row', 'justify-between', 'bg-teal-900', 'items-center', 'px-2','pt-1','pb-1')}>
                     <TouchableOpacity onPress={() => {
-                        navigation.openDrawer();
-                    }}><Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons} /></TouchableOpacity>
+                        navigation.navigate("Notifications");
+                    }}><Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons} /></TouchableOpacity>
                     <Text style={styles.headerText}>Ahad Ghouri</Text>
-                    <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons} />
+                    <View style={styles.headerIcons}></View>
                 </View>
 
                 <View style={styles.chatContainer}>

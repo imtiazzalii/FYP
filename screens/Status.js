@@ -81,10 +81,12 @@ const Status = () => {
             />
           </TouchableOpacity>
           <Text style={styles.headerText}>Trip Status</Text>
-          <Image
+          <TouchableOpacity onPress={() => {
+                  navigation.navigate("Notifications");
+                }}><Image
             source={require("../assets/Dashboard/bell2.png")}
             style={styles.headerIcons}
-          />
+          /></TouchableOpacity>
         </View>
         <View style={styles.contentbox}>
           <View style={styles.contentboxleft}>
