@@ -98,6 +98,13 @@ const Routing = (props) => {
                 Press={() => props.navigation.navigate("TripStatus")}
             />
 
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="Profile"
+                Press={() => props.navigation.navigate("Profile")}
+            />
+
         </View>
     );
 }

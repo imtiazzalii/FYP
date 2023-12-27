@@ -19,6 +19,7 @@ import Notifications from './Notifications';
 import EditProfile from './EditProfile';
 import ChangePassword from './ChangePassword';
 import TripStatus from './TripStatus';
+import Profile from './Profile';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -34,6 +35,7 @@ function Sidebar(){
             <Drawer.Screen name="AllChats" component={AllChats} options={{ headerShown: false }}/>
             <Drawer.Screen name="Notifications" component={Notifications} options={{ headerShown: false }}/>
             <Drawer.Screen name="Wallet" component={Wallet} options={{ headerShown: false }}/>
+            <Drawer.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
         </Drawer.Navigator>
     );
 
@@ -60,6 +62,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
                 <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false}}/>
                 <Stack.Screen name="TripStatus" component={TripStatus} options={{headerShown: false}}/>
+                <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
             </Stack.Navigator>
             
         </NavigationContainer>
