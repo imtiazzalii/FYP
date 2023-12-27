@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions,TouchableOpacity } from "react-native";
 import { useForm, Controller, handleSubmit } from "react-hook-form";
 import Background from "./background";
+import {useNavigation} from '@react-navigation/native';
 import Field from "./Field";
 import Btn from "./btn";
 import tw from 'twrnc';
@@ -19,7 +20,7 @@ const Login = () => {
     >
       
       <View style={styles.container}>
-            <View style={tw.style('flex-row','bg-teal-900','items-center','w-full','absolute')}>
+            <View style={tw.style('flex-row','bg-teal-900','items-center','w-full','absolute','px-1','pt-1','pb-1')}>
             <Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/>
                 <Text style={styles.headerText}>Login</Text>
             </View> 
@@ -103,6 +104,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 20,
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#1D4246',
+    alignItems: 'center',
+    paddingHorizontal: '3%',
+    paddingTop: '2%',
+    paddingBottom: '2%',
+},
   headerIcons: {
     width: 20,
     height: 20,

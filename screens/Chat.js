@@ -27,7 +27,7 @@ const Chat = () => {
             style={tw.style('h-full', { marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0, })}>
 
             <View style={styles.container}>
-                <View style={tw.style('flex-row', 'justify-between', 'bg-teal-900', 'items-center', 'px-4')}>
+                <View style={tw.style('flex-row', 'justify-between', 'bg-teal-900', 'items-center', 'px-2','pt-1','pb-1')}>
                     <TouchableOpacity onPress={() => {
                         navigation.openDrawer();
                     }}><Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons} /></TouchableOpacity>
