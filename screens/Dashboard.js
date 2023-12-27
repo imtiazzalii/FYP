@@ -14,7 +14,7 @@ const Dashboard = (props) => {
       style={ tw.style('h-full')}
     >
         <View style={styles.container}>
-            <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-4')}>
+            <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-1','pt-1','pb-1')}>
             <TouchableOpacity onPress={() => {
                   navigation.openDrawer();
                 }}><Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/></TouchableOpacity>

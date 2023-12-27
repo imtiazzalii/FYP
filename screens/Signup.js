@@ -11,18 +11,20 @@ const Signup = () => {
   const password = useWatch({ control, name: "password", defaultValue: "" });
   
   return (
-    <ScrollView>
+   
     <ImageBackground
      source={require('../assets/loginbg.png')}
      style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
    >
      <View style={styles.container}>
         <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-2')}>
-               <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
-               <Text style={styles.headerText}>SignUp</Text>
+        <Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/>
+              <Text style={styles.headerText}>SignUp</Text>
                <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
+  
            </View>
        </View>
+    <ScrollView>
        
        
    <View style={tw.style('ml-4 mt-5')}>
@@ -224,8 +226,9 @@ const Signup = () => {
       </View>
       </View>
       </View>
+      </ScrollView>
     </ImageBackground>
-    </ScrollView>
+    
   );
 }
 

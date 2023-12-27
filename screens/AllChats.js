@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#1D4246', // Adjust the color to match your design
         padding: 8,
-        marginBottom:'9%'
+        marginBottom:'9%',
     },
     footerText: {
         fontSize: 14,

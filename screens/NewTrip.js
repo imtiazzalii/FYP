@@ -14,22 +14,22 @@ const NewTrip = () => {
   
   
   return (
-    <ScrollView>
      <ImageBackground
       source={require('../assets/Chat/Logobg.png')}
       style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
     >
       <View style={styles.container}>
-         <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-2')}>
+         <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-2','pt-1','pb-1')}>
                 <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
                 <Text style={styles.headerText}>New Trip</Text>
                 <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
             </View>
         </View>
+
+    <ScrollView>
         
     <View style={tw.style('ml-4 mt-5')}>
       <View style={styles.formContainer}>
-        <Text style={styles.formHeading}>Enter Details</Text>
       </View>
 
         <Text style={styles.label}>Where are you travelling from?</Text>
@@ -245,8 +245,9 @@ const NewTrip = () => {
         </TouchableOpacity>
       </View>
       </View>
+      </ScrollView>
     </ImageBackground>
-    </ScrollView>
+    
   );
 }
 
