@@ -149,7 +149,7 @@ const Filters = () => {
         </View>
   
         {/* Transport Mode Dropdown */}
-        <View style={styles.filter1Container}>
+        <View style={styles.filterContainer1}>
           <Text style={styles.filterLabel}>Transport Mode:</Text>
           <Picker
             selectedValue={transportMode}
@@ -161,6 +161,11 @@ const Filters = () => {
             <Picker.Item label="By Aeroplane" value="By Aeroplane" />
           </Picker>
         </View>
+        <View style={styles.buttonView}>
+        <TouchableOpacity style={styles.setButton}>
+        <Text style={styles.setText}>Set</Text>
+      </TouchableOpacity>
+      </View>
       </View>
     );
 };
@@ -236,7 +241,7 @@ const Content2 = () => {
     
     return(
         <View style={styles.box}>
-            <View style={tw.style('items-end',)}>
+            <View style={tw.style('ml-3','mb-2')}>
                 <TouchableOpacity onPress={toggleFilters}>
                     <Image source={require("../assets/CurrentTrips/filters.png")} style={[styles.filters, showFilters && { tintColor: '#007BFF' }]} />
                 </TouchableOpacity>
@@ -505,8 +510,11 @@ const styles = StyleSheet.create({
       filcontainer: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#102426',
+        height:'100%',
+        backgroundColor: '#47ADB8',
         width:'60%',
+        borderRadius:25,
+        overflow: 'hidden',
       },
       filheading: {
         fontSize: 24,
@@ -522,7 +530,25 @@ const styles = StyleSheet.create({
       filterContainer1: {
         marginBottom:'10%',
         padding:0,
-        borderRadius: 30,
+        borderRadius:25,
+        overflow: 'hidden',
+        alignItems:'center',
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
+
+      filterContainer: {
+        marginBottom:'10%',
+        padding:0,
+        borderRadius:25,
+        overflow: 'hidden',
         alignItems:'center',
         backgroundColor: '#fff',
         shadowColor: '#000',
@@ -544,7 +570,8 @@ const styles = StyleSheet.create({
         height: 50,
         width: '100%',
         color: 'black',
-        backgroundColor:'white'
+        backgroundColor:'white',
+        borderRadius:20,
 
       },
       inputField: {
@@ -566,8 +593,28 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: 'white', // You can adjust the color accordingly
         
+        
       },
-     
+      buttonView:{
+        alignItems: 'flex-end', // Center the text horizontally
+        justifyContent: 'center',
+        marginTop:'10%'
+
+      },
+      setButton: {
+        backgroundColor: '#1D4246', // Set button color
+        padding: 5, // Set padding for the button
+        width:"50%",
+        alignItems: 'center', // Center the text horizontally
+        justifyContent: 'center', // Center the text vertically
+        marginTop: 15, // Add space above the button
+        borderRadius:30,
+      },
+      setText: {
+        color: 'white', // Set text color to white
+        fontWeight: 'bold', // Make the text bold
+        fontSize: 18, // Increase font size
+      },
 });
 
 export default CurrentTrips;

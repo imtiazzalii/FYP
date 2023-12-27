@@ -15,7 +15,7 @@ const NewTrip = () => {
   
   return (
      <ImageBackground
-      source={require('../assets/Chat/Logobg.png')}
+      source={require('../assets/loginbg.png')}
       style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
     >
       <View style={styles.container}>
@@ -28,7 +28,7 @@ const NewTrip = () => {
 
     <ScrollView>
         
-    <View style={tw.style('ml-4 mt-5')}>
+    <View style={tw.style('ml-4 mt-8')}>
       <View style={styles.formContainer}>
       </View>
 
@@ -169,8 +169,7 @@ const NewTrip = () => {
 
 
 
-        <View style={styles.formContainer}>
-        <Text style={styles.formHeading}>Pricing</Text></View>
+        
 
         <Text style={styles.label}>What is your starting bid?</Text>
         <Controller
@@ -238,7 +237,7 @@ const NewTrip = () => {
 
           <View style={tw.style('mt-6', 'items-center', 'justify-center')}>
         <TouchableOpacity
-          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,{backgroundColor:'#47ADB8'})}
+          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,{backgroundColor:'#47ADB8', marginBottom:'10%',marginLeft:'60%'})}
           onPress={handleSubmit(onSubmit)}
         >
           <Text style={tw.style('text-black', 'text-lg','font-bold',{fontSize:22})}>Submit</Text>

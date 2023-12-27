@@ -15,18 +15,16 @@ const EditProfile = () => {
      source={require('../assets/bng.png')}
      style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
    >
-            <View style= {tw.style('flex-row', 'items-center','bg-teal-900')}>
+            <View style= {tw.style('flex-row', 'items-center','bg-teal-900','px-1','pb-1','pt-1')}>
                <Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/>
                <View style={tw.style('justify-center','items-center', 'pl-30')}>
                <Text style={styles.headerText}>Edit Profile</Text>  
            </View>
            </View>
-       
-   <View style={tw.style('ml-4 mt-5')}>
-      <View style={styles.formContainer}>
       
-        
-        <Text style={styles.formTitle}>Enter the field you want to change leave any field you want unchanged</Text>
+
+        <View style={styles.layoutContainer}>
+        <Text style={styles.formTitle}>Only enter the field you want to change</Text>
 
         <Text style={styles.label}>Enter new email</Text>
         <Controller
@@ -92,13 +90,12 @@ const EditProfile = () => {
 
         <View style={tw.style('mt-6', 'items-center', 'justify-center')}>
         <TouchableOpacity
-          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,{backgroundColor:'#1D4246'})}
+          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,{backgroundColor:'#47ADB8'})}
           onPress={handleSubmit(onSubmit)}
         >
           <Text style={tw.style('text-white', 'text-lg','font-bold',{fontSize:22})}>Confirm</Text>
         </TouchableOpacity>
-      </View>
-      </View>
+        </View>
       </View>
     </ImageBackground>
   );
@@ -109,8 +106,10 @@ const styles = StyleSheet.create({
     height: '100%',
     marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-  container: {
-
+  layoutContainer: { // Takes up all available space
+    justifyContent: 'center', // Centers children vertically in the container
+    alignItems: 'center', // Centers children horizontally in the container
+    paddingHorizontal: 20, // Add some horizontal padding
   },
   header: {
     flexDirection: 'row',
@@ -142,9 +141,11 @@ const styles = StyleSheet.create({
   },
   formTitle: {
     color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-    marginVertical: 20,
+    fontSize: 20,
+    fontWeight:'bold',
+    marginVertical: 25,
+    marginTop:'10%',
+    marginBottom:'20%'
   },
   label: {
     color: "white",

@@ -65,7 +65,9 @@ const Status = () => {
             "justify-between",
             "bg-teal-900",
             "items-center",
-            "px-4"
+            "px-2",
+            "pt-1",
+            "pb-1"
           )}
         >
           <TouchableOpacity
