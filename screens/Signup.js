@@ -17,6 +17,7 @@ import {
 import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
 import tw from "twrnc";
+import {useNavigation} from '@react-navigation/native';
 
 const Signup = () => {
   const {
@@ -26,6 +27,7 @@ const Signup = () => {
   } = useForm();
   const onSubmit = (data) => console.log(data, "data");
   const password = useWatch({ control, name: "password", defaultValue: "" });
+  const navigation = useNavigation()
 
   return (
     <ImageBackground
@@ -44,10 +46,12 @@ const Signup = () => {
             "px-2"
           )}
         >
-          <Image
+          <TouchableOpacity onPress={() => {
+                navigation.navigate("Routing")
+              }} ><Image
             source={require("../assets/login/arrow-left.png")}
             style={styles.headerIcons}
-          />
+          /></TouchableOpacity>
           <Text style={styles.headerText}>SignUp</Text>
           <View style={styles.headerIcons}></View>
         </View>
@@ -55,7 +59,8 @@ const Signup = () => {
       <ScrollView>
         <View style={tw.style("ml-4 mt-5")}>
           <View style={styles.formContainer}>
-            <Text style={styles.label}>Enter your name</Text>
+            <TouchableOpacity><Image source={require('../assets/SignUp/User.png')} style={{marginLeft: 130, marginBottom: 20, marginTop: 10,}}/></TouchableOpacity>
+            <Text style={[styles.label, {width: "28%"}]}>Enter your name</Text>
 
             <Controller
               control={control}
@@ -75,7 +80,7 @@ const Signup = () => {
             />
             {errors && errors.name && <Text>{errors.name.message}</Text>}
 
-            <Text style={styles.label}>Enter your email</Text>
+            <Text style={[styles.label, {width: "28%"}]}>Enter your email</Text>
             <Controller
               control={control}
               rules={{
@@ -117,7 +122,7 @@ const Signup = () => {
           />
           {errors && errors.username && <Text>{errors.username.message}</Text>} */}
 
-            <Text style={styles.label}>Create a Password</Text>
+            <Text style={[styles.label, {width: "31%"}]}>Create a Password</Text>
             <Controller
               control={control}
               rules={{
@@ -144,7 +149,7 @@ const Signup = () => {
               <Text>{errors.password.message}</Text>
             )}
 
-            <Text style={styles.label}>Confirm Password</Text>
+            <Text style={[styles.label, {width: "31%"}]}>Confirm Password</Text>
             <Controller
               control={control}
               rules={{
@@ -171,7 +176,7 @@ const Signup = () => {
               <Text>{errors.confirmPassword.message}</Text>
             )}
 
-            <Text style={styles.label}>Enter your CNIC number</Text>
+            <Text style={[styles.label, {width: "40%"}]}>Enter your CNIC number</Text>
             <Controller
               control={control}
               rules={{
@@ -193,7 +198,7 @@ const Signup = () => {
             />
             {errors.cnic && <Text>{errors.cnic.message}</Text>}
 
-            <Text style={styles.label}>Enter your Address</Text>
+            <Text style={[styles.label, {width: "32%"}]}>Enter your Address</Text>
             <Controller
               control={control}
               rules={{
@@ -212,7 +217,7 @@ const Signup = () => {
             />
             {errors && errors.address && <Text>{errors.address.message}</Text>}
 
-            <Text style={styles.label}>Enter your Phone Number</Text>
+            <Text style={[styles.label, {width: "42%"}]}>Enter your Phone Number</Text>
             <Controller
               control={control}
               rules={{
@@ -255,16 +260,29 @@ const Signup = () => {
               </TouchableOpacity>
             </View>
 
-        <View style={tw.style('mt-6', 'items-center', 'justify-center')}>
-        <TouchableOpacity
-          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,{backgroundColor:'#47ADB8', marginBottom:'10%',marginLeft:'60%'})}
-          onPress={handleSubmit(onSubmit)}
-        >
-          <Text style={tw.style('text-black', 'text-lg','font-bold',{fontSize:22})}>Submit</Text>
-        </TouchableOpacity>
-      </View>
-      </View>
-      </View>
+            <View style={tw.style("mt-6", "items-center", "justify-center")}>
+              <TouchableOpacity
+                style={tw.style(
+                  `rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,
+                  {
+                    backgroundColor: "#1D4246",
+                    marginBottom: "10%",
+                    marginLeft: "60%",
+                  }
+                )}
+                onPress={handleSubmit(onSubmit)}
+              >
+                <Text
+                  style={tw.style("text-white", "text-lg", "font-bold", {
+                    fontSize: 22,
+                  })}
+                >
+                  Sign Up
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
       </ScrollView>
     </ImageBackground>
   );
@@ -306,6 +324,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 20,
+    backgroundColor: "#1D4246",
+    padding: 6,
+    borderRadius: 10,
+    width: "50%",
   },
   cnicImagesContainer: {
     flexDirection: "row",
@@ -322,6 +344,11 @@ const styles = StyleSheet.create({
   },
   cnicImageText: {
     color: "white",
+    backgroundColor: "#1D4246",
+    padding: 6,
+    fontWeight: "bold",
+    borderRadius: 10,
+    marginTop: 5,
   },
   title: {
     color: "black",
@@ -344,6 +371,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     marginVertical: 0,
+    backgroundColor: "#1D4246",
+    padding: 6,
+    borderRadius: 10,
   },
   formHeading: {
     color: "black",
