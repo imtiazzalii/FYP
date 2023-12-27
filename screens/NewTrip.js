@@ -169,8 +169,7 @@ const NewTrip = () => {
 
 
 
-        <View style={styles.formContainer}>
-        <Text style={styles.formHeading}>Pricing</Text></View>
+        
 
         <Text style={styles.label}>What is your starting bid?</Text>
         <Controller
