@@ -9,12 +9,25 @@ const Chat = () => {
     const { control, handleSubmit } = useForm();
     const onSubmit = data => console.log(data, "data");
 
+    const MessageBubble = ({ isLeft, children }) => (
+        <View style={[
+            tw.style('px-4 py-2 rounded-lg my-1', {
+                alignSelf: isLeft ? 'flex-start' : 'flex-end',
+                backgroundColor: isLeft ? '#e6e6e6' : '#47ADB8',
+                borderRadius:30 // Adjust colors accordingly
+            }),
+            isLeft ? styles.leftMessage : styles.rightMessage,
+        ]}>
+            <Text style={tw.style('text-black font-bold')}>{children}</Text>
+        </View>
+    );
+
     return (
         <ImageBackground source={require('../assets/Chat/Logobg.png')}
             style={tw.style('h-full', { marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0, })}>
 
             <View style={styles.container}>
-                <View style={tw.style('flex-row', 'justify-between', 'bg-teal-900', 'items-center', 'px-4')}>
+                <View style={tw.style('flex-row', 'justify-between', 'bg-teal-900', 'items-center', 'px-2','pt-1','pb-1')}>
                     <TouchableOpacity onPress={() => {
                         navigation.openDrawer();
                     }}><Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons} /></TouchableOpacity>
@@ -23,9 +36,9 @@ const Chat = () => {
                 </View>
 
                 <View style={styles.chatContainer}>
-                    <Image source={require("../assets/Chat/Message1.png")} style={styles.leftMessage} />
-                    <Image source={require("../assets/Chat/Message2.png")} style={styles.rightMessage} />
-                </View>
+                <MessageBubble isLeft={true}>Hello</MessageBubble>
+                <MessageBubble isLeft={false}>Hello Ahad how much space do you have</MessageBubble>
+              </View>
 
                 <View style={tw.style('absolute bottom-16 w-full px-2', { paddingHorizontal:10})}>
                     <View style={tw.style("flex-row bg-white rounded-full items-center")}>

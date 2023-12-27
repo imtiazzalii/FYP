@@ -11,30 +11,25 @@ const Signup = () => {
   const password = useWatch({ control, name: "password", defaultValue: "" });
   
   return (
-    <ScrollView>
+   
     <ImageBackground
      source={require('../assets/loginbg.png')}
      style={ tw.style('h-full', {marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,})}
    >
      <View style={styles.container}>
         <View style={tw.style('flex-row','justify-between', 'bg-teal-900','items-center', 'px-2')}>
-               <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
-               <Text style={styles.headerText}>SignUp</Text>
+        <Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/>
+              <Text style={styles.headerText}>SignUp</Text>
                <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
+  
            </View>
        </View>
-       <View style={styles.profileImageContainer}>
-            <Image
-              source={require("../assets/SignUp/User.png")} // Replace with your user icon image
-              style={styles.profileImage}
-            />
-      </View>
+    <ScrollView>
+       
        
    <View style={tw.style('ml-4 mt-5')}>
       <View style={styles.formContainer}>
       
-        
-        <Text style={styles.formTitle}>Enter Your Details</Text>
 
         <Text style={styles.label}>Enter your name</Text>
         
@@ -223,7 +218,7 @@ const Signup = () => {
 
         <View style={tw.style('mt-6', 'items-center', 'justify-center')}>
         <TouchableOpacity
-          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,{backgroundColor:'#1D4246'})}
+          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 ml-35`,{backgroundColor:'#1D4246'})}
           onPress={handleSubmit(onSubmit)}
         >
           <Text style={tw.style('text-white', 'text-lg','font-bold',{fontSize:22})}>Submit</Text>
@@ -231,8 +226,9 @@ const Signup = () => {
       </View>
       </View>
       </View>
+      </ScrollView>
     </ImageBackground>
-    </ScrollView>
+    
   );
 }
 

@@ -148,7 +148,10 @@ const OrderHistory = () => {
                 'justify-between',
                 'bg-teal-900',
                 'items-center',
-                'px-2'
+                'px-2',
+                'pt-1',
+                'pb-1',
+
               )}
             >
               <Image

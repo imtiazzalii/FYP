@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, ScrollView } from "react-native";
 import Btn from "./btn";
 
 const Routing = (props) => {
     return(
+        <ScrollView>
         <View style={styles.buttons}>
             
             <Btn
@@ -76,8 +77,7 @@ const Routing = (props) => {
                 btnLabel="Notifications"
                 Press={() => props.navigation.navigate("Notifications")}
             />
-
-            <Btn
+             <Btn
                 bgColor="#47ADB8"
                 textColor="black"
                 btnLabel="EditProfile"
@@ -90,14 +90,13 @@ const Routing = (props) => {
                 btnLabel="ChangePassword"
                 Press={() => props.navigation.navigate("ChangePassword")}
             />
-            
-            <Btn
+
+        <Btn
                 bgColor="#47ADB8"
                 textColor="black"
-                btnLabel="TripStatus"
-                Press={() => props.navigation.navigate("TripStatus")}
+                btnLabel="Status"
+                Press={() => props.navigation.navigate("Status")}
             />
-
             <Btn
                 bgColor="#47ADB8"
                 textColor="black"
@@ -106,6 +105,7 @@ const Routing = (props) => {
             />
 
         </View>
+        </ScrollView>
     );
 }
 

@@ -120,6 +120,7 @@ header: {
       alignItems: "center",
       backgroundColor: '#1D4246',
       padding: 10,
+      marginTop:'97%',
   },
   footerText: {
       color: 'white',
