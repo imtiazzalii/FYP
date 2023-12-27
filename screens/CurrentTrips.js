@@ -241,7 +241,7 @@ const Content2 = () => {
     
     return(
         <View style={styles.box}>
-            <View style={tw.style('items-end',)}>
+            <View style={tw.style('ml-3','mb-2')}>
                 <TouchableOpacity onPress={toggleFilters}>
                     <Image source={require("../assets/CurrentTrips/filters.png")} style={[styles.filters, showFilters && { tintColor: '#007BFF' }]} />
                 </TouchableOpacity>
@@ -607,8 +607,8 @@ const styles = StyleSheet.create({
         width:"50%",
         alignItems: 'center', // Center the text horizontally
         justifyContent: 'center', // Center the text vertically
-        marginTop: 20, // Add space above the button
-        borderRadius:20,
+        marginTop: 15, // Add space above the button
+        borderRadius:30,
       },
       setText: {
         color: 'white', // Set text color to white
