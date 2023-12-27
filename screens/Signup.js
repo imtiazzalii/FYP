@@ -218,10 +218,10 @@ const Signup = () => {
 
         <View style={tw.style('mt-6', 'items-center', 'justify-center')}>
         <TouchableOpacity
-          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 ml-35`,{backgroundColor:'#1D4246'})}
+          style={tw.style(`rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,{backgroundColor:'#47ADB8', marginBottom:'10%',marginLeft:'60%'})}
           onPress={handleSubmit(onSubmit)}
         >
-          <Text style={tw.style('text-white', 'text-lg','font-bold',{fontSize:22})}>Submit</Text>
+          <Text style={tw.style('text-black', 'text-lg','font-bold',{fontSize:22})}>Submit</Text>
         </TouchableOpacity>
       </View>
       </View>
