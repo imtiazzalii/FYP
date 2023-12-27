@@ -97,6 +97,13 @@ const Routing = (props) => {
                 btnLabel="Status"
                 Press={() => props.navigation.navigate("Status")}
             />
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="Profile"
+                Press={() => props.navigation.navigate("Profile")}
+            />
+
         </View>
         </ScrollView>
     );
