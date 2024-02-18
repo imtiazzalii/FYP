@@ -18,6 +18,7 @@ import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
 import tw from "twrnc";
 import {useNavigation} from '@react-navigation/native';
+import axios from "axios";
 
 const Signup = () => {
   const {
@@ -25,7 +26,10 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data, "data");
+  const onSubmit = (data) => axios.post('http://192.168.18.100:5001/Signup',data)
+  .then(res=>console.log(res.data))
+  .catch(e=>console.log(e));
+  
   const password = useWatch({ control, name: "password", defaultValue: "" });
   const navigation = useNavigation()
 
@@ -242,7 +246,7 @@ const Signup = () => {
               <Text>{errors.phoneNumber.message}</Text>
             )}
 
-            <Text style={styles.uploadCnicText}>Upload CNIC pictures</Text>
+            {/* <Text style={styles.uploadCnicText}>Upload CNIC pictures</Text>
             <View style={styles.cnicImagesContainer}>
               <TouchableOpacity style={styles.cnicImageWrapper}>
                 <Image
@@ -258,7 +262,8 @@ const Signup = () => {
                 />
                 <Text style={styles.cnicImageText}>Back</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
+            
 
             <View style={tw.style("mt-6", "items-center", "justify-center")}>
               <TouchableOpacity

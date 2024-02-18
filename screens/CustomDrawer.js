@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import tw from 'twrnc';
+import {useNavigation} from '@react-navigation/native';
 
 const CustomDrawer = ({ navigation }) => {
+    const navigation1 = useNavigation()
     return (
         <View style={styles.container}>
             {/* Profile Section */}
@@ -16,7 +18,7 @@ const CustomDrawer = ({ navigation }) => {
 
             {/* Menu Section */}
             <View style={styles.menuSection}>
-                <TouchableOpacity style={styles.menuItem}>
+                <TouchableOpacity onPress={() => navigation1.navigate("Dashboard")} style={styles.menuItem}>
                     <Image source={require("../assets/Sidebar/home.png")} style={styles.icons} />
                     <Text style={styles.text}>Home</Text>
                 </TouchableOpacity>

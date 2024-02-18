@@ -13,6 +13,7 @@ const Login = () => {
   const onSubmit = (data) => console.log(data, "data");
 
   return (
+    
 
     <ImageBackground
       source={require('../assets/loginbg.png')}

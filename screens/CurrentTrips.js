@@ -139,7 +139,7 @@ const Filters = () => {
           <Slider
             style={styles.slider}
             minimumValue={100}
-            maximumValue={100000}
+            maximumValue={10000}
             step={1}
             value={cost}
             onValueChange={(value) => setCost(value)}
