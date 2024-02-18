@@ -11,6 +11,7 @@ import tw from 'twrnc';
 const Login = () => {
   const {control, handleSubmit, formState: { errors }} = useForm();
   const onSubmit = (data) => console.log(data, "data");
+  const navigation = useNavigation()
 
   return (
 
@@ -21,7 +22,9 @@ const Login = () => {
       
       <View style={styles.container}>
             <View style={tw.style('flex-row','bg-teal-900','items-center','w-full','absolute','px-1','pt-1','pb-1')}>
-            <Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/>
+            <TouchableOpacity onPress={() => {
+                navigation.navigate("Routing")
+              }} ><Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/></TouchableOpacity>
                 <Text style={styles.headerText}>Login</Text>
             </View> 
 
