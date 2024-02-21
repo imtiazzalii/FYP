@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -18,6 +18,7 @@ import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
 import tw from "twrnc";
 import {useNavigation} from '@react-navigation/native';
+import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 
 const Signup = () => {
@@ -26,12 +27,103 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => axios.post('http://192.168.18.100:5001/Signup',data)
+  const onSubmit = (data) => 
+  { 
+    if (image !== null && image1 !== null && image2 !== null) {
+      data.profilePic = image;
+      data.frontCNIC = image1;
+      data.backCNIC = image2;
+    } else {
+      alert("Make sure you have uploaded all pictures.");
+      return;
+    }
+    
+  
+  axios.post('http://192.168.18.100:5001/Signup',data)
   .then(res=>console.log(res.data))
-  .catch(e=>console.log(e));
+  .catch(e=>console.log(e))
+};
   
   const password = useWatch({ control, name: "password", defaultValue: "" });
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+
+  const [image, setImage] = useState(null);
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
+
+  const deleteImage = async () => {
+    try {
+      setImage(null);
+    } catch (error) {}
+  };
+  const deleteImage1 = async () => {
+    try {
+      setImage1(null);
+    } catch (error) {}
+  };
+  const deleteImage2 = async () => {
+    try {
+      setImage2(null);
+    } catch (error) {}
+  };
+
+  const uploadImage = async () => {
+    try {
+      let result = {};
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+        base64: true,
+      });
+
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
+    } catch (error) {
+      // alert("Error uploading image: " + error.message);
+    }
+  };
+  const uploadImage1 = async () => {
+    try {
+      let result = {};
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        base64: true,
+      });
+
+      if (!result.canceled) {
+        setImage1(result.assets[0].uri);
+      }
+    } catch (error) {
+      // alert("Error uploading image: " + error.message);
+    }
+  };
+  const uploadImage2 = async () => {
+    try {
+      let result = {};
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        base64: true,
+      });
+
+      if (!result.canceled) {
+        setImage2(result.assets[0].uri);
+      }
+    } catch (error) {
+      // alert("Error uploading image: " + error.message);
+    }
+  };
 
   return (
     <ImageBackground
@@ -50,12 +142,16 @@ const Signup = () => {
             "px-2"
           )}
         >
-          <TouchableOpacity onPress={() => {
-                navigation.navigate("Routing")
-              }} ><Image
-            source={require("../assets/login/arrow-left.png")}
-            style={styles.headerIcons}
-          /></TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Routing");
+            }}
+          >
+            <Image
+              source={require("../assets/login/arrow-left.png")}
+              style={styles.headerIcons}
+            />
+          </TouchableOpacity>
           <Text style={styles.headerText}>SignUp</Text>
           <View style={styles.headerIcons}></View>
         </View>
@@ -63,8 +159,24 @@ const Signup = () => {
       <ScrollView>
         <View style={tw.style("ml-4 mt-5")}>
           <View style={styles.formContainer}>
-            <TouchableOpacity><Image source={require('../assets/SignUp/User.png')} style={{marginLeft: 130, marginBottom: 20, marginTop: 10,}}/></TouchableOpacity>
-            <Text style={[styles.label, {width: "28%"}]}>Enter your name</Text>
+            <TouchableOpacity onPress={uploadImage} onLongPress={deleteImage}>
+              <Image
+                source={
+                  image ? { uri: image } : require("../assets/SignUp/User.png")
+                }
+                style={{
+                  marginLeft: 130,
+                  marginBottom: 20,
+                  marginTop: 10,
+                  width: 60,
+                  height: 60,
+                  borderRadius: 20,
+                }}
+              />
+            </TouchableOpacity>
+            <Text style={[styles.label, { width: "28%" }]}>
+              Enter your name
+            </Text>
 
             <Controller
               control={control}
@@ -84,7 +196,9 @@ const Signup = () => {
             />
             {errors && errors.name && <Text>{errors.name.message}</Text>}
 
-            <Text style={[styles.label, {width: "28%"}]}>Enter your email</Text>
+            <Text style={[styles.label, { width: "28%" }]}>
+              Enter your email
+            </Text>
             <Controller
               control={control}
               rules={{
@@ -126,7 +240,9 @@ const Signup = () => {
           />
           {errors && errors.username && <Text>{errors.username.message}</Text>} */}
 
-            <Text style={[styles.label, {width: "31%"}]}>Create a Password</Text>
+            <Text style={[styles.label, { width: "31%" }]}>
+              Create a Password
+            </Text>
             <Controller
               control={control}
               rules={{
@@ -153,7 +269,9 @@ const Signup = () => {
               <Text>{errors.password.message}</Text>
             )}
 
-            <Text style={[styles.label, {width: "31%"}]}>Confirm Password</Text>
+            <Text style={[styles.label, { width: "31%" }]}>
+              Confirm Password
+            </Text>
             <Controller
               control={control}
               rules={{
@@ -180,7 +298,9 @@ const Signup = () => {
               <Text>{errors.confirmPassword.message}</Text>
             )}
 
-            <Text style={[styles.label, {width: "40%"}]}>Enter your CNIC number</Text>
+            <Text style={[styles.label, { width: "40%" }]}>
+              Enter your CNIC number
+            </Text>
             <Controller
               control={control}
               rules={{
@@ -202,7 +322,9 @@ const Signup = () => {
             />
             {errors.cnic && <Text>{errors.cnic.message}</Text>}
 
-            <Text style={[styles.label, {width: "32%"}]}>Enter your Address</Text>
+            <Text style={[styles.label, { width: "32%" }]}>
+              Enter your Address
+            </Text>
             <Controller
               control={control}
               rules={{
@@ -221,7 +343,9 @@ const Signup = () => {
             />
             {errors && errors.address && <Text>{errors.address.message}</Text>}
 
-            <Text style={[styles.label, {width: "42%"}]}>Enter your Phone Number</Text>
+            <Text style={[styles.label, { width: "42%" }]}>
+              Enter your Phone Number
+            </Text>
             <Controller
               control={control}
               rules={{
@@ -246,23 +370,39 @@ const Signup = () => {
               <Text>{errors.phoneNumber.message}</Text>
             )}
 
-            {/* <Text style={styles.uploadCnicText}>Upload CNIC pictures</Text>
+            <Text style={styles.uploadCnicText}>Upload CNIC pictures</Text>
             <View style={styles.cnicImagesContainer}>
-              <TouchableOpacity style={styles.cnicImageWrapper}>
+              <TouchableOpacity
+                style={styles.cnicImageWrapper}
+                onPress={uploadImage1}
+                onLongPress={deleteImage1}
+              >
                 <Image
-                  source={require("../assets/SignUp/Upload.png")} // Replace with your CNIC front icon image
+                  source={
+                    image1
+                      ? { uri: image1 }
+                      : require("../assets/SignUp/Upload.png")
+                  } // Replace with your CNIC front icon image
                   style={styles.cnicImage}
                 />
                 <Text style={styles.cnicImageText}>Front</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cnicImageWrapper}>
+              <TouchableOpacity
+                style={styles.cnicImageWrapper}
+                onPress={uploadImage2}
+                onLongPress={deleteImage2}
+              >
                 <Image
-                  source={require("../assets/SignUp/Upload.png")} // Replace with your CNIC back icon image
+                  source={
+                    image2
+                      ? { uri: image2 }
+                      : require("../assets/SignUp/Upload.png")
+                  } // Replace with your CNIC back icon image
                   style={styles.cnicImage}
                 />
                 <Text style={styles.cnicImageText}>Back</Text>
               </TouchableOpacity>
-            </View> */}
+            </View> 
             
 
             <View style={tw.style("mt-6", "items-center", "justify-center")}>

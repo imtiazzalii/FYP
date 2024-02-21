@@ -1,17 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import tw from 'twrnc';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Content1 = () => {
+const Content1 = ({ userData }) => {
 // Main card
     return (
         <View style={styles.maincard}>
             <View style={styles.section}>
                 <View style={styles.infoContainer}>
                     <View>
-                        <Text style={styles.mainText}>Zaki Imran</Text>
+                        <Text style={styles.mainText}>{userData.name}</Text>
                         <View style={styles.ratingContainer}>
                             <Text style={styles.cardText}>Rating</Text>
                             <Text style={styles.cardText}>5</Text>
@@ -26,7 +28,7 @@ const Content1 = () => {
 };
 
 
-const Content2 = () => {
+const Content2 = ({ userData }) => {
 // Details Section
   return (
       <View style={styles.card}>
@@ -35,7 +37,7 @@ const Content2 = () => {
               <Text style={styles.infoText}>Username:</Text>
           </View>
           <View style={styles.infoContainer1}>
-              <Text style={styles.infoText}>zakiimran</Text>
+              <Text style={styles.infoText}>{userData.name}</Text>
           </View>
           </View>
           <View style={styles.divider} />
@@ -45,7 +47,7 @@ const Content2 = () => {
               <Text style={styles.infoText}>Email:</Text>
           </View>
           <View style={styles.infoContainer1}>
-              <Text style={styles.infoText}>zaki.imran3@gmail.com</Text>
+              <Text style={styles.infoText}>{userData.email}</Text>
           </View>
           </View>
           <View style={styles.divider} />
@@ -56,7 +58,7 @@ const Content2 = () => {
               <Text style={styles.infoText}>Phone Number:</Text>
           </View>
           <View style={styles.infoContainer1}>
-              <Text style={styles.infoText}>04002285057</Text>
+              <Text style={styles.infoText}>{userData.phoneNumber}</Text>
           </View>
           </View>
           <View style={styles.divider} />
@@ -67,7 +69,7 @@ const Content2 = () => {
               <Text style={styles.infoText}>CNIC:</Text>
           </View>
           <View style={styles.infoContainer1}>
-              <Text style={styles.infoText}>42202-9459224-5</Text>
+              <Text style={styles.infoText}>{userData.cnic}</Text>
           </View>
           </View>
       </View>
@@ -98,12 +100,30 @@ const Content3 = () => {
 };
 
 const Profile = () => {
-    const [selectedButton, setSelectedButton] = useState('myOrders');
-    const navigation = useNavigation();
-  
+  const [selectedButton, setSelectedButton] = useState('myOrders');
+  const navigation = useNavigation();
+  const [userData, setUserData] = useState('');
     const handleButtonPress = (button) => {
       setSelectedButton(button);
     };
+
+    const getData = async () => {
+      try {
+          const token = await AsyncStorage.getItem('token');
+          console.log(token);
+          const response = await axios.post('http://192.168.18.100:5001/userData', { token: token });
+          console.log(response.data);
+          setUserData(response.data.data);
+      } catch (error) {
+          console.error(error);
+      }
+  };
+
+  useEffect(() => {
+      getData();
+  }, []);
+
+    
   
     return (
       <ImageBackground
@@ -134,7 +154,7 @@ const Profile = () => {
             
             <View> 
             {/* For display and name */}
-              <Content1 /> 
+            <Content1 userData={userData} />
             </View>
 
             <View>
@@ -154,7 +174,7 @@ const Profile = () => {
                   </View>
 
               {/* For details section */}
-              <Content2 />
+              <Content2 userData={userData} />
             </View>
 
             <View>

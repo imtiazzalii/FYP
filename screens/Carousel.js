@@ -82,7 +82,7 @@ const Carousel = () => {
 				return (
 					<View
 						style={{
-							backgroundColor: "red",
+							backgroundColor: "#1D4246",
 							height: 7,
 							width: 7,
 							borderRadius: 5,

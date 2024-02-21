@@ -1,16 +1,38 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions,TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions,TouchableOpacity, Alert } from "react-native";
 import { useForm, Controller, handleSubmit } from "react-hook-form";
 import Background from "./background";
 import {useNavigation} from '@react-navigation/native';
 import Field from "./Field";
 import Btn from "./btn";
 import tw from 'twrnc';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 const Login = () => {
+  const navigation = useNavigation()
   const {control, handleSubmit, formState: { errors }} = useForm();
-  const onSubmit = (data) => console.log(data, "data");
+  const onSubmit = (data) =>
+  { 
+    console.log(data)
+    axios.post('http://192.168.18.100:5001/Login',data)
+    .then(res=>
+      {
+      console.log(res.data);
+      if(res.data.status=="ok")
+      {
+        Alert.alert('Login Successfull!!');
+        AsyncStorage.setItem('token',res.data.data);
+        navigation.navigate('Profile')
+      }
+      
+  })
+    .catch(e=>console.log(e))
+  };
+  
+
 
   return (
     
@@ -22,7 +44,9 @@ const Login = () => {
       
       <View style={styles.container}>
             <View style={tw.style('flex-row','bg-teal-900','items-center','w-full','absolute','px-1','pt-1','pb-1')}>
-            <Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/>
+            <TouchableOpacity onPress={() => {
+                navigation.navigate("Routing")
+              }} ><Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons}/></TouchableOpacity>
                 <Text style={styles.headerText}>Login</Text>
             </View> 
 
