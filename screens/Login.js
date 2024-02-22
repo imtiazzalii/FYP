@@ -8,6 +8,7 @@ import Btn from "./btn";
 import tw from 'twrnc';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from 'expo-constants';
 
 
 
@@ -17,7 +18,7 @@ const Login = () => {
   const onSubmit = (data) =>
   { 
     console.log(data)
-    axios.post('http://192.168.18.100:5001/Login',data)
+    axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/Login',data)
     .then(res=>
       {
       console.log(res.data);
@@ -25,7 +26,7 @@ const Login = () => {
       {
         Alert.alert('Login Successfull!!');
         AsyncStorage.setItem('token',res.data.data);
-        navigation.navigate('Profile')
+        navigation.navigate('Profile');
       }
       
   })

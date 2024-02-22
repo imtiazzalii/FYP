@@ -20,6 +20,7 @@ import tw from "twrnc";
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
+import Constants from 'expo-constants';
 
 const Signup = () => {
   const {
@@ -39,7 +40,7 @@ const Signup = () => {
     }
     
   
-  axios.post('http://192.168.18.100:5001/Signup',data)
+  axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/Signup',data)
   .then(res=>console.log(res.data))
   .catch(e=>console.log(e))
 };
@@ -80,7 +81,7 @@ const Signup = () => {
       });
 
       if (!result.canceled) {
-        setImage(result.assets[0].uri);
+        setImage("data:image/jpeg;base64," + result.assets[0].base64);
       }
     } catch (error) {
       // alert("Error uploading image: " + error.message);
@@ -99,7 +100,7 @@ const Signup = () => {
       });
 
       if (!result.canceled) {
-        setImage1(result.assets[0].uri);
+        setImage1("data:image/jpeg;base64," + result.assets[0].base64);
       }
     } catch (error) {
       // alert("Error uploading image: " + error.message);
@@ -118,7 +119,7 @@ const Signup = () => {
       });
 
       if (!result.canceled) {
-        setImage2(result.assets[0].uri);
+        setImage2("data:image/jpeg;base64," + result.assets[0].base64);
       }
     } catch (error) {
       // alert("Error uploading image: " + error.message);
