@@ -13,6 +13,7 @@ import {
   FlatList,
   Dimensions,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
@@ -20,8 +21,10 @@ import tw from "twrnc";
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
+import Constants from 'expo-constants';
 
 const Signup = () => {
+  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
@@ -39,13 +42,23 @@ const Signup = () => {
     }
     
   
-  axios.post('http://192.168.18.100:5001/Signup',data)
-  .then(res=>console.log(res.data))
+  axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/Signup',data)
+  .then(res=>
+    {
+    console.log(res.data);
+    if(res.data.status=="ok")
+    {
+      Alert.alert("Your registration will be confirmed in a day")
+      navigation.navigate('Login');
+    }
+    
+})
   .catch(e=>console.log(e))
+  
 };
   
   const password = useWatch({ control, name: "password", defaultValue: "" });
-  const navigation = useNavigation();
+  
 
   const [image, setImage] = useState(null);
   const [image1, setImage1] = useState(null);
@@ -80,7 +93,7 @@ const Signup = () => {
       });
 
       if (!result.canceled) {
-        setImage(result.assets[0].uri);
+        setImage("data:image/jpeg;base64," + result.assets[0].base64);
       }
     } catch (error) {
       // alert("Error uploading image: " + error.message);
@@ -99,7 +112,7 @@ const Signup = () => {
       });
 
       if (!result.canceled) {
-        setImage1(result.assets[0].uri);
+        setImage1("data:image/jpeg;base64," + result.assets[0].base64);
       }
     } catch (error) {
       // alert("Error uploading image: " + error.message);
@@ -118,7 +131,7 @@ const Signup = () => {
       });
 
       if (!result.canceled) {
-        setImage2(result.assets[0].uri);
+        setImage2("data:image/jpeg;base64," + result.assets[0].base64);
       }
     } catch (error) {
       // alert("Error uploading image: " + error.message);

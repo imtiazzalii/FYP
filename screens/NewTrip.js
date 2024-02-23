@@ -1,14 +1,32 @@
 import React, { useState } from "react";
 //import DatePicker from "react-date-picker";
-import { View, StyleSheet, Text, ImageBackground,ScrollView, Button, Image, Platform, StatusBar, Animated,TouchableOpacity, FlatList, Dimensions } from "react-native";
+import { View, StyleSheet, Text, ImageBackground,ScrollView, Button, Image, Platform, StatusBar, Animated,TouchableOpacity, FlatList, Dimensions, Alert } from "react-native";
 import { useForm, Controller, useWatch,handleSubmit } from "react-hook-form";
 import Field from "./Field";
 import tw from 'twrnc';
+import axios from "axios";
+import Constants from 'expo-constants';
+
 
 const NewTrip = () => {
   
   const {control, handleSubmit, register,  formState: { errors }} = useForm();
-  const onSubmit = (data) => console.log(data, "data");
+  const onSubmit = (data) => 
+  { 
+   
+  axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/NewTrip',data)
+  .then(res=>
+    {
+    console.log(res.data);
+    if(res.data.status=="ok")
+    {
+      Alert.alert("Trip Posted!")
+    }
+    
+})
+  .catch(e=>console.log(e))
+  
+};
   const password = useWatch({ control, name: "password", defaultValue: "" });
   
   

@@ -4,6 +4,8 @@ import tw from 'twrnc';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Constants from 'expo-constants';
+
 
 
 const Content1 = ({ userData }) => {
@@ -21,7 +23,7 @@ const Content1 = ({ userData }) => {
                         </View>
                     </View>
                 </View>
-                    <Image source={require("../assets/Profile/Icon.png")} style={styles.icon} />
+                    <Image source={{uri: userData.profilePic}} style={styles.icon} />
             </View>
         </View>
     );
@@ -111,8 +113,7 @@ const Profile = () => {
       try {
           const token = await AsyncStorage.getItem('token');
           console.log(token);
-          const response = await axios.post('http://192.168.18.100:5001/userData', { token: token });
-          console.log(response.data);
+          const response = await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/userData', { token: token });
           setUserData(response.data.data);
       } catch (error) {
           console.error(error);
@@ -143,7 +144,9 @@ const Profile = () => {
                 'pb-1'
               )}
             >
-              <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <TouchableOpacity onPress={() => {
+                  navigation.openDrawer();
+                }}>
               <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
               </TouchableOpacity>
               <Text style={styles.headerText}>Profile</Text>
