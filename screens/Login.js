@@ -25,7 +25,7 @@ const Login = () => {
       {
         Alert.alert('Login Successfull!!');
         AsyncStorage.setItem('token',res.data.data);
-        navigation.navigate('Profile')
+        navigation.navigate('Dashboard')
       }
       
   })

@@ -1,10 +1,32 @@
+import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
 import tw from 'twrnc';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CustomDrawer = ({ navigation }) => {
     const navigation1 = useNavigation()
+    const [userData, setUserData] = useState('');
+
+    const getData = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            console.log(token);
+            const response = await axios.post('http://192.168.18.100:5001/userData', { token: token });
+            console.log(response.data);
+            setUserData(response.data.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+  
+    useEffect(() => {
+        getData();
+    }, []);
+
+
+
     return (
         <View style={styles.container}>
             {/* Profile Section */}
