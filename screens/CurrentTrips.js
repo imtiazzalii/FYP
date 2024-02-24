@@ -74,6 +74,14 @@ const Content1 = ({ userData, tripData }) => {
         </View>
       </View>
       <View>
+        <Text style={tw.style("font-bold text-white mb-1")}>Transport Mode</Text>
+        <View style={tw.style("mb-2", { flexDirection: "row" })}>
+          <Text style={tw.style("font-bold text-white text-xs ml-1 mt-1")}>
+          {tripData.tmode}
+          </Text>
+        </View>
+      </View>
+      <View>
         <Image source={require("../assets/CurrentTrips/line.png")} />
       </View>
 
@@ -123,14 +131,14 @@ const Filters = () => {
           onValueChange={(itemValue) => setDepartureCity(itemValue)}
           style={styles.picker}
         >
-          <Picker.Item label="Karachi" value="" />
-          <Picker.Item label="Lahore" value="" />
-          <Picker.Item label="Islamabad" value="" />
-          <Picker.Item label="Peshawar" value="" />
-          <Picker.Item label="Multan" value="" />
-          <Picker.Item label="Quetta" value="" />
-          <Picker.Item label="Faisalabad" value="" />
-          <Picker.Item label="Departure City" value="" />
+          <Picker.Item label="Karachi" value="Karachi" />
+          <Picker.Item label="Lahore" value="Lahore" />
+          <Picker.Item label="Islamabad" value="Islamabad" />
+          <Picker.Item label="Peshawar" value="Peshawar" />
+          <Picker.Item label="Multan" value="Multan" />
+          <Picker.Item label="Quetta" value="Quetta" />
+          <Picker.Item label="Faisalabad" value="Faisalabad" />
+          <Picker.Item label="Departure City" value="Departure City" />
         </Picker>
       </View>
 
@@ -141,14 +149,14 @@ const Filters = () => {
           onValueChange={(itemValue) => setArrivalCity(itemValue)}
           style={styles.picker}
         >
-          <Picker.Item label="Karachi" value="" />
-          <Picker.Item label="Lahore" value="" />
-          <Picker.Item label="Islamabad" value="" />
-          <Picker.Item label="Peshawar" value="" />
-          <Picker.Item label="Multan" value="" />
-          <Picker.Item label="Quetta" value="" />
-          <Picker.Item label="Faisalabad" value="" />
-          <Picker.Item label="Arrival City" value="" />
+          <Picker.Item label="Karachi" value="Karachi" />
+          <Picker.Item label="Lahore" value="Lahore" />
+          <Picker.Item label="Islamabad" value="Islamabad" />
+          <Picker.Item label="Peshawar" value="Peshawar" />
+          <Picker.Item label="Multan" value="Multan" />
+          <Picker.Item label="Quetta" value="Quetta" />
+          <Picker.Item label="Faisalabad" value="Faisalabad" />
+          <Picker.Item label="Arrival City" value="Arrival City" />
           {/* Add your city options here */}
         </Picker>
       </View>
@@ -201,7 +209,7 @@ const Filters = () => {
   );
 };
 
-const Content22 = () => {
+const Content22 = ({userData, tripData}) => {
   return (
     <View style={styles.card}>
       {/* Departure and Arrival Section */}
@@ -211,8 +219,8 @@ const Content22 = () => {
       </View>
       <View style={styles.section}>
         <View style={styles.infoContainer1}>
-          <Text style={styles.infoText}>Karachi, Pakistan</Text>
-          <Text style={styles.dateText}>25-Oct-2024</Text>
+          <Text style={styles.infoText}>{tripData.start}</Text>
+          <Text style={styles.dateText}>{tripData.startdate}</Text>
         </View>
 
         <View style={styles.arrowContainer}>
@@ -223,8 +231,8 @@ const Content22 = () => {
         </View>
 
         <View style={styles.infoContainer1}>
-          <Text style={styles.infoText}>Lahore, Pakistan</Text>
-          <Text style={styles.dateText}>25-Oct-2024</Text>
+          <Text style={styles.infoText}>{tripData.destination}</Text>
+          <Text style={styles.dateText}>{tripData.enddate}</Text>
         </View>
       </View>
 
@@ -233,7 +241,7 @@ const Content22 = () => {
       {/* Capacity and Cost Section */}
       <View style={styles.section}>
         <Text style={styles.label}>Capacity</Text>
-        <Text style={styles.label}>Time Remaining</Text>
+        <Text style={styles.label}>Transport Mode</Text>
       </View>
       <View style={styles.section}>
         <View style={styles.infoContainer}>
@@ -241,9 +249,9 @@ const Content22 = () => {
             source={require("../assets/OrderHistory/suitcase.png")}
             style={styles.iconW}
           />
-          <Text style={styles.infoText}>20 KG</Text>
+          <Text style={styles.infoText}> {tripData.capacity} KG</Text>
         </View>
-        <Text style={styles.infoText}>12:00:00</Text>
+        <Text style={styles.infoText}>{tripData.tmode}</Text>
       </View>
 
       <View style={styles.divider} />
@@ -255,11 +263,11 @@ const Content22 = () => {
       <View style={styles.section}>
         <View style={styles.infoContainer}>
           <Image
-            source={require("../assets/OrderHistory/user.png")}
+            source={{ uri: userData.profilePic }}
             style={styles.icon}
           />
           <View>
-            <Text style={styles.infoText}>Ahad Ghouri</Text>
+            <Text style={styles.infoText}>{userData.name}</Text>
             <View style={styles.ratingContainer}>
               <Text style={styles.infoText}>5</Text>
               <Image
@@ -274,7 +282,7 @@ const Content22 = () => {
   );
 };
 
-const Content2 = () => {
+const Content2 = ({ userData, tripData }) => {
   const [showFilters, setShowFilters] = useState(false);
 
   const toggleFilters = () => {
@@ -294,7 +302,7 @@ const Content2 = () => {
 
       <View>
         {showFilters === true ? <Filters /> : null}
-        {showFilters === false ? <Content22 /> : null}
+        {showFilters === false ? <Content22 userData={userData} tripData={tripData}/> : null}
       </View>
     </View>
   );

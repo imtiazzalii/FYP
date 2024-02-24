@@ -15,6 +15,7 @@ import {
   FlatList,
   Dimensions,
   Alert,
+  Modal,
 } from "react-native";
 import { useForm, Controller, useWatch, handleSubmit } from "react-hook-form";
 import Field from "./Field";
@@ -22,6 +23,8 @@ import tw from "twrnc";
 import axios from "axios";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Picker } from "@react-native-picker/picker";
+import DatePicker from 'react-native-modern-datepicker';
 
 const NewTrip = () => {
   const {
@@ -31,6 +34,26 @@ const NewTrip = () => {
     formState: { errors },
   } = useForm();
   const [userData, setUserData] = useState("");
+  const [departureCity, setDepartureCity] = useState("");
+  const [arrivalCity, setArrivalCity] = useState("");
+  const [transportMode, setTransportMode] = useState("");
+  // const [visible, setVisible] = useState(false);
+  // const [selectedDate, setSelectedDate] = useState('');
+
+  // const show = () => setVisible(true);
+  // const hide = () => setVisible(false);
+
+  // const formatDate = () => {
+  //   // Get the year, month, and day from the date object
+  //   date = new Date();
+  //   const year = date.getFullYear();
+  //   // Month is zero-based, so add 1 to get the correct month
+  //   const month = String(date.getMonth() + 1).padStart(2, '0'); 
+  //   const day = String(date.getDate()).padStart(2, '0');
+    
+  //   // Return the formatted date as a string in "YYYY-MM-DD" format
+  //   return `${year}-${month}-${day}`;
+  // };
 
   const getData = async () => {
     try {
@@ -48,9 +71,23 @@ const NewTrip = () => {
 
   useEffect(() => {
     getData();
+    // console.log(selectedDate);
   }, []);
+
   const onSubmit = (data) => {
+    if (
+      departureCity == "Departure City" &&
+      arrivalCity == "Arrival City" &&
+      transportMode == "Set Transport"
+    ) {
+      alert("Complete all fields.");
+      return;
+    }
+
     data.email = userData.email;
+    data.start = departureCity;
+    data.destination = arrivalCity;
+    data.tmode = transportMode;
     axios
       .post(Constants.expoConfig.extra.IP_ADDRESS + "/NewTrip", data)
       .then((res) => {
@@ -62,6 +99,7 @@ const NewTrip = () => {
       .catch((e) => console.log(e));
   };
   const password = useWatch({ control, name: "password", defaultValue: "" });
+
 
   return (
     <ImageBackground
@@ -99,47 +137,87 @@ const NewTrip = () => {
           <View style={styles.formContainer}></View>
 
           <Text style={styles.label}>Where are you travelling from?</Text>
-          <Controller
+          {/* <Controller
             control={control}
             rules={{
               required: "Start point  is required",
             }}
-            render={({ field: { onChange, value } }) => (
-              <Field
-                placeholder="City, Country"
-                keyboardType={"default"}
-                onChangeText={onChange}
-                width="90%"
-                value={value}
-                defaultValue=""
-              />
-            )}
+            render={({ field: { onChange, value } }) => ( */}
+          {/* // <Field
+              //   placeholder="City, Country"
+              //   keyboardType={"default"}
+              //   onChangeText={onChange}
+              //   width="90%"
+              //   value={value}
+              //   defaultValue=""
+              // /> */}
+          <Picker
+            selectedValue={departureCity}
+            onValueChange={(itemValue) => setDepartureCity(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Departure City" value="Departure City" />
+            <Picker.Item label="Karachi" value="Karachi" />
+            <Picker.Item label="Lahore" value="Lahore" />
+            <Picker.Item label="Islamabad" value="Islamabad" />
+            <Picker.Item label="Peshawar" value="Peshawar" />
+            <Picker.Item label="Multan" value="Multan" />
+            <Picker.Item label="Quetta" value="Quetta" />
+            <Picker.Item label="Faisalabad" value="Faisalabad" />
+          </Picker>
+          {/* )}
             name="start"
           />
-          {errors && errors.start && <Text>{errors.start.message}</Text>}
+          {errors && errors.start && <Text>{errors.start.message}</Text>} */}
 
           <Text style={styles.label}>Where are you travelling to?</Text>
-          <Controller
+          {/* <Controller
             control={control}
             rules={{
               required: "Destination  is required",
             }}
             render={({ field: { onChange, value } }) => (
-              <Field
-                placeholder="City, Country"
-                keyboardType={"default"}
-                width="90%"
-                onChangeText={onChange}
-                value={value}
-                defaultValue=""
-              />
-            )}
+              // <Field
+              //   placeholder="City, Country"
+              //   keyboardType={"default"}
+              //   width="90%"
+              //   onChangeText={onChange}
+              //   value={value}
+              //   defaultValue=""
+              // /> */}
+          <Picker
+            selectedValue={arrivalCity}
+            onValueChange={(itemValue) => setArrivalCity(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Arrival City" value="Arrival City" />
+            <Picker.Item label="Karachi" value="Karachi" />
+            <Picker.Item label="Lahore" value="Lahore" />
+            <Picker.Item label="Islamabad" value="Islamabad" />
+            <Picker.Item label="Peshawar" value="Peshawar" />
+            <Picker.Item label="Multan" value="Multan" />
+            <Picker.Item label="Quetta" value="Quetta" />
+            <Picker.Item label="Faisalabad" value="Faisalabad" />
+
+            {/* Add your city options here */}
+          </Picker>
+          {/* )}
             name="destination"
           />
           {errors && errors.destination && (
             <Text>{errors.destination.message}</Text>
-          )}
-
+          )} */}
+          <Text style={styles.label}>Your transport mode?</Text>
+          <Picker
+            selectedValue={transportMode}
+            onValueChange={(itemValue) => setTransportMode(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Set Transport" value="Set Transport" />
+            <Picker.Item label="By Road" value="By Road" />
+            <Picker.Item label="By Train" value="By Train" />
+            <Picker.Item label="By Aeroplane" value="By Aeroplane" />
+          </Picker>
           <Text style={styles.label}>When do you leave?</Text>
           <Controller
             control={control}
@@ -161,6 +239,29 @@ const NewTrip = () => {
             name="startdate"
           />
           {errors.startdate && <Text>{errors.startdate.message}</Text>}
+
+          {/* <Button title="Show" onPress={show} />
+          <Modal
+            visible={visible}
+            animationType="slide"
+            onRequestClose={hide}
+          ><DatePicker
+          onSelectedChange={date => setSelectedDate(date)}
+          options={{
+            backgroundColor: 'white',
+            textHeaderColor: 'black',
+            textDefaultColor: 'black',
+            selectedTextColor: 'white',
+            mainColor: 'blue',
+            textSecondaryColor: 'lightblue',
+            borderColor: 'rgba(122, 146, 165, 0.1)',
+          }}
+          minuteInterval={5}
+          minimumDate={formatDate()}
+          mode="time"
+          style={{ borderRadius: 10 }}
+        />
+        </Modal> */}
 
           <Text style={styles.label}>Time?</Text>
           <Controller
@@ -389,6 +490,20 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     marginVertical: 0,
+  },
+  picker: {
+    width: "60%",
+    height: 40,
+    borderRadius: 100,
+    marginBottom: 25,
+    color: "#47ADB8",
+    paddingVertical: 5,
+    fontWeight: "bold",
+    paddingHorizontal: 5,
+    borderWidth: 2,
+    marginVertical: 5,
+    borderColor: "black",
+    backgroundColor: "#1D4246",
   },
   formHeading: {
     color: "black",
