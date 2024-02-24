@@ -90,7 +90,7 @@ const Content3 = () => {
           <View style={styles.section}>
               <View style={styles.infoContainer}>
                   <View>
-                      <Text style={styles.infoText}>Change Password</Text>
+                      <Text style={styles.infoText}>Edit</Text>
                   </View>
               </View>
                   <Image source={require("../assets/Profile/Chevron.png")} style={styles.chevron} />
