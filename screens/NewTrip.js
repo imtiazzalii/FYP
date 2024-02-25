@@ -200,6 +200,7 @@ const NewTrip = () => {
               //   value={value}
               //   defaultValue=""
               // /> */}
+          
           <Picker
             selectedValue={arrivalCity}
             onValueChange={(itemValue) => setArrivalCity(itemValue)}
@@ -255,7 +256,25 @@ const NewTrip = () => {
           />
           {errors.startdate && <Text>{errors.startdate.message}</Text>} */}
 
-          <Button title="Show" onPress={() => setDepartureVisible(true)} />
+
+          <TouchableOpacity
+          style={tw.style(`items-center py-4 px-5`,
+          {
+          backgroundColor:'#1D4246',
+          width: Dimensions.get("screen").width * 70/100,
+          borderRadius: 20,
+          borderWidth: 2,
+          borderColor: "black",},
+          {
+            //marginBottom: Dimensions.get("screen").height * 10/100,
+            //marginLeft: Dimensions.get("screen").width * 1/100,
+          })}
+          onPress={() => setDepartureVisible(true)}
+          >
+          <Text style={tw.style({fontSize:15, color:"#47ADB8",fontWeight: "bold"})}>
+          Select Departure Date/Time</Text>
+          </TouchableOpacity>
+
           <Modal
             style={styles.modal}
             transparent={true}
@@ -310,9 +329,27 @@ const NewTrip = () => {
           {errors.starttime && <Text>{errors.starttime.message}</Text>} */}
 
           <Text style={styles.label}>When is your arrival?</Text>
-          <Button title="Show" onPress={() => setArrivalVisible(true)} />
+
+          <TouchableOpacity
+          style={tw.style(`items-center py-4 px-5`,
+          {
+          backgroundColor:'#1D4246',
+          width: Dimensions.get("screen").width * 70/100,
+          borderRadius: 20,
+          borderWidth: 2,
+          borderColor: "black",},
+          {
+            //marginBottom: Dimensions.get("screen").height * 10/100,
+            //marginLeft: Dimensions.get("screen").width * 1/100,
+          })}
+          onPress={() => setArrivalVisible(true)}
+          >
+          <Text style={tw.style({fontSize:15, color:"#47ADB8",fontWeight: "bold"})}>
+          Select Arrival Date/Time</Text>
+          </TouchableOpacity>
+
           <Modal
-            style={styles.modal}
+            style={width='10%'}
             transparent={true}
             visible={arrivalVisible}
             animationType="fade"
@@ -550,6 +587,8 @@ const styles = StyleSheet.create({
   picker: {
     width: Dimensions.get("screen").width * 70/100,
     height: 40,
+    borderWidth: 2,
+    borderColor: "black",
     borderRadius: 100,
     //marginBottom: 25,
     color: "#47ADB8",
@@ -572,6 +611,9 @@ const styles = StyleSheet.create({
     marginTop: Dimensions.get("screen").height / 5,
     borderRadius: 20,
   },
+  modal: {
+   width: 20, 
+  }
 });
 
 export default NewTrip;
