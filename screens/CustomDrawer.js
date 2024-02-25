@@ -31,10 +31,9 @@ const CustomDrawer = ({ navigation }) => {
         <View style={styles.container}>
             {/* Profile Section */}
             <View style={styles.profileSection}>
-                {/* {uri: userData.profilePic} */}
-                <Image source={require("../assets/Sidebar/mytrips.png")} style={styles.dp} />
-                {/* {userData.name} */}
-                <Text style={tw.style('text-white text-xl font-bold ml-2')}>zaki</Text>
+                <Image source={require("../assets/Sidebar/home.png")} style={styles.dp} /> 
+                {/* uri: userData.profilePic */}
+                <Text style={tw.style('text-white text-xl font-bold ml-2')}>Ahad</Text>
             </View>
             
             {/* Separator */}

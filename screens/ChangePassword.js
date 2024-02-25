@@ -1,16 +1,35 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground,TouchableOpacity, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, ScrollView } from "react-native";
+import { View, StyleSheet, Text, ImageBackground,TouchableOpacity, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, ScrollView, Alert } from "react-native";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import Field from "./Field";
 import tw from 'twrnc';
 import {useNavigation} from '@react-navigation/native';
+import axios from "axios";
+import Constants from 'expo-constants';
+import { useRoute } from "@react-navigation/native";
 
 const ChangePassword = () => {
   
   const {control, handleSubmit, formState: { errors }} = useForm();
-  const onSubmit = (data) => console.log(data, "data");
   const password = useWatch({ control, name: "password", defaultValue: "" });
   const navigation = useNavigation()
+  const route = useRoute();
+  const { email } = route.params; // Extract email from route params
+
+  const onSubmit = (data) => {
+    // Add email to data object
+    data.email = email;
+
+    axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/ChangePassword', data)
+      .then(res => {
+        console.log(res.data);
+        if (res.data.status == "ok") {
+          Alert.alert("Password has been updated")
+          navigation.navigate('Profile');
+        }
+      })
+      .catch(e => console.log(e))
+  };
   
   return (
     <ImageBackground
@@ -32,6 +51,7 @@ const ChangePassword = () => {
            <View style={styles.layoutContainer}>
         <Text style={styles.formTitle}>Please fill all fields in this page</Text>
 
+        
         <Text style={styles.label}>Enter Current Password</Text>
         <Controller
           control={control}

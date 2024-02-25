@@ -90,26 +90,25 @@ const Content2 = ({ userData }) => {
   );
 };
 
-const Content3 = () => {
+const Content3 = ({ userData }) => {
   // Change Password section
   const navigation = useNavigation();
   return (
     <View style={styles.card}>
-      <TouchableOpacity onPress={() => navigation.navigate("ChangePassword")}>
-        <View style={styles.section}></View>
-        <View style={styles.section}>
-          <View style={styles.infoContainer}>
-            <View>
-              <Text style={styles.infoText}>Change Password</Text>
-            </View>
-          </View>
-          <Image
-            source={require("../assets/Profile/Chevron.png")}
-            style={styles.chevron}
-          />
-        </View>
-      </TouchableOpacity>
+    <TouchableOpacity onPress={() => navigation.navigate("ChangePassword", { email: userData.email })}>
+    <View style={styles.section}>
     </View>
+    <View style={styles.section}>
+        <View style={styles.infoContainer}>
+            <View>
+                <Text style={styles.infoText}>Edit</Text>
+            </View>
+        </View>
+            <Image source={require("../assets/Profile/Chevron.png")} style={styles.chevron} />
+        
+    </View>
+    </TouchableOpacity>
+</View>
   );
 };
 
@@ -211,7 +210,7 @@ const Profile = () => {
 
         <View>
           {/* For Change Password section */}
-          <Content3 />
+          <Content3 userData={userData}/>
         </View>
       </ScrollView>
 

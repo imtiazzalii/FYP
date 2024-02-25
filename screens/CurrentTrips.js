@@ -22,92 +22,110 @@ import Constants from "expo-constants";
 
 const Content1 = ({ userData, tripData }) => {
   return (
-    <View style={styles.card}>
-      <View style={styles.userInfoContainer}>
-        <Image source={{ uri: userData.profilePic }} style={styles.dp} />
-        <View style={styles.userInfo}>
-          <Text style={tw.style("font-bold text-white mt-4 ml-1")}>
-            {userData.name}
-          </Text>
-          <Image source={require("../assets/CurrentTrips/star.png")} />
-        </View>
-      </View>
-      <View style={styles.divider2} />
-      <View>
-        <View style={styles.userInfoContainer}>
+    <ScrollView>
+      {Array.isArray(tripData) && tripData.map((trip, index) => (
+        <View key={index} style={styles.card}>
+          <View style={styles.userInfoContainer}>
+            <Image source={{ uri: userData.profilePic }} style={styles.dp} />
+            <View style={styles.userInfo}>
+              <Text style={tw.style("font-bold text-white mt-4 ml-1")}>
+                {userData.name}
+              </Text>
+              <Image source={require("../assets/CurrentTrips/star.png")} />
+            </View>
+          </View>
+          <View style={styles.divider2} />
           <View>
-            <Image source={require("../assets/CurrentTrips/blackarrow.png")} />
+            <View style={styles.userInfoContainer}>
+              <View>
+                <Image
+                  source={require("../assets/CurrentTrips/blackarrow.png")}
+                />
+              </View>
+              <View style={tw.style("ml-2", { flexDirection: "column" })}>
+                <View>
+                  <Text style={tw.style("font-bold text-white")}>
+                    Departure
+                  </Text>
+                  <Text style={tw.style("text-white text-xs")}>
+                    {trip.start}
+                  </Text>
+                  <Text style={tw.style("text-xs", { color: "#47ADB8" })}>
+                    {trip.startdate}
+                  </Text>
+                </View>
+                <View>
+                  <Image
+                    source={require("../assets/CurrentTrips/Airplane.png")}
+                  />
+                </View>
+                <View>
+                  <Text style={tw.style("font-bold text-white")}>Arrival</Text>
+                  <Text style={tw.style("text-white text-xs")}>
+                    {trip.destination}
+                  </Text>
+                  <Text style={tw.style("text-xs", { color: "#47ADB8" })}>
+                    {trip.enddate}
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
-          <View style={tw.style("ml-2", { flexDirection: "column" })}>
-            <View>
-              <Text style={tw.style("font-bold text-white")}>Departure</Text>
-              <Text style={tw.style("text-white text-xs")}>
-                {tripData.start}
-              </Text>
-              <Text style={tw.style("text-xs", { color: "#47ADB8" })}>
-              {tripData.startdate}
-              </Text>
-            </View>
-            <View>
-              <Image source={require("../assets/CurrentTrips/Airplane.png")} />
-            </View>
-            <View>
-              <Text style={tw.style("font-bold text-white")}>Arrival</Text>
-              <Text style={tw.style("text-white text-xs")}>
-                {tripData.destination}
-              </Text>
-              <Text style={tw.style("text-xs", { color: "#47ADB8" })}>
-              {tripData.enddate}
+          <View style={styles.divider2} />
+          <View>
+            <Text style={tw.style("font-bold text-white mb-1")}>
+              Capacity
+            </Text>
+            <View style={tw.style("mb-2", { flexDirection: "row" })}>
+              <Image
+                source={require("../assets/CurrentTrips/suitcase.png")}
+              />
+              <Text style={tw.style("font-bold text-white text-xs ml-1 mt-1")}>
+                {trip.capacity} KG
               </Text>
             </View>
           </View>
+          <View>
+            <Text style={tw.style("font-bold text-white mb-1")}>
+              Transport Mode
+            </Text>
+            <View style={tw.style("mb-2", { flexDirection: "row" })}>
+              <Text style={tw.style("font-bold text-white text-xs ml-1 mt-1")}>
+                {trip.tmode}
+              </Text>
+            </View>
+          </View>
+          <View>
+            <Image source={require("../assets/CurrentTrips/line.png")} />
+          </View>
+          <Text style={tw.style("font-bold text-white")}>Bids</Text>
+          <View style={styles.section}>
+            <View>
+              <Text style={tw.style("text-white")}>Current bids:</Text>
+              <Text style={tw.style("text-white")}>Buyout:</Text>
+              <Text style={tw.style("text-white")}>Starting bid:</Text>
+            </View>
+            <View style={tw.style({ marginRight: "10%" })}>
+              <Text style={tw.style("text-white")}>Rs. 250</Text>
+              <Text style={tw.style("text-white")}>Rs. {trip.buyout}</Text>
+              <Text style={tw.style("text-white")}>Rs. {trip.startbid}</Text>
+            </View>
+          </View>
+          <View>
+            <Image source={require("../assets/CurrentTrips/line.png")} />
+          </View>
+          <View style={tw.style({ marginBottom: "10%" })}>
+            <Text style={tw.style("font-bold text-white mt-1")}>
+              Description
+            </Text>
+            <Text style={tw.style("text-white")}>{trip.description}</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.divider2} />
-      <View>
-        <Text style={tw.style("font-bold text-white mb-1")}>Capacity</Text>
-        <View style={tw.style("mb-2", { flexDirection: "row" })}>
-          <Image source={require("../assets/CurrentTrips/suitcase.png")} />
-          <Text style={tw.style("font-bold text-white text-xs ml-1 mt-1")}>
-          {tripData.capacity} KG
-          </Text>
-        </View>
-      </View>
-      <View>
-        <Text style={tw.style("font-bold text-white mb-1")}>Transport Mode</Text>
-        <View style={tw.style("mb-2", { flexDirection: "row" })}>
-          <Text style={tw.style("font-bold text-white text-xs ml-1 mt-1")}>
-          {tripData.tmode}
-          </Text>
-        </View>
-      </View>
-      <View>
-        <Image source={require("../assets/CurrentTrips/line.png")} />
-      </View>
-
-      <Text style={tw.style("font-bold text-white")}>Bids</Text>
-      <View style={styles.section}>
-        <View>
-          <Text style={tw.style("text-white")}>Current bids:</Text>
-          <Text style={tw.style("text-white")}>Buyout:</Text>
-          <Text style={tw.style("text-white")}>Starting bid:</Text>
-        </View>
-        <View style={tw.style({ marginRight: "10%" })}>
-          <Text style={tw.style("text-white")}>Rs. 250</Text>
-          <Text style={tw.style("text-white")}>Rs. {tripData.buyout}</Text>
-          <Text style={tw.style("text-white")}>Rs. {tripData.startbid}</Text>
-        </View>
-      </View>
-      <View>
-        <Image source={require("../assets/CurrentTrips/line.png")} />
-      </View>
-      <View style={tw.style({ marginBottom: "30%" })}>
-        <Text style={tw.style("font-bold text-white mt-1")}>Description</Text>
-        <Text style={tw.style("text-white")}>{tripData.description}</Text>
-      </View>
-    </View>
+      ))}
+    </ScrollView>
   );
 };
+
 
 const Filters = () => {
   const [departureCity, setDepartureCity] = useState("");
@@ -209,80 +227,79 @@ const Filters = () => {
   );
 };
 
-const Content22 = ({userData, tripData}) => {
+const Content22 = ({ allTripsResponse }) => {
   return (
-    <View style={styles.card}>
-      {/* Departure and Arrival Section */}
-      <View style={styles.section}>
-        <Text style={styles.label}>Departure</Text>
-        <Text style={styles.label}>Arrival</Text>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.infoContainer1}>
-          <Text style={styles.infoText}>{tripData.start}</Text>
-          <Text style={styles.dateText}>{tripData.startdate}</Text>
-        </View>
+    <ScrollView>
+      {allTripsResponse.map((data, index) => (
+        <View key={index} style={styles.card}>
+          {/* Departure and Arrival Section */}
+          <View style={styles.section}>
+            <Text style={styles.label}>Departure</Text>
+            <Text style={styles.label}>Arrival</Text>
+          </View>
+          <View style={styles.section}>
+            <View style={styles.infoContainer1}>
+              <Text style={styles.infoText}>{data.trip.start}</Text>
+              <Text style={styles.dateText}>{data.trip.startdate}</Text>
+            </View>
 
-        <View style={styles.arrowContainer}>
-          <Image
-            source={require("../assets/OrderHistory/arrow.png")}
-            style={styles.arrowIcon}
-          />
-        </View>
-
-        <View style={styles.infoContainer1}>
-          <Text style={styles.infoText}>{tripData.destination}</Text>
-          <Text style={styles.dateText}>{tripData.enddate}</Text>
-        </View>
-      </View>
-
-      <View style={styles.divider} />
-
-      {/* Capacity and Cost Section */}
-      <View style={styles.section}>
-        <Text style={styles.label}>Capacity</Text>
-        <Text style={styles.label}>Transport Mode</Text>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.infoContainer}>
-          <Image
-            source={require("../assets/OrderHistory/suitcase.png")}
-            style={styles.iconW}
-          />
-          <Text style={styles.infoText}> {tripData.capacity} KG</Text>
-        </View>
-        <Text style={styles.infoText}>{tripData.tmode}</Text>
-      </View>
-
-      <View style={styles.divider} />
-
-      {/* Traveller Section */}
-      <View style={styles.section}>
-        <Text style={styles.label}>Traveller</Text>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.infoContainer}>
-          <Image
-            source={{ uri: userData.profilePic }}
-            style={styles.icon}
-          />
-          <View>
-            <Text style={styles.infoText}>{userData.name}</Text>
-            <View style={styles.ratingContainer}>
-              <Text style={styles.infoText}>5</Text>
+            <View style={styles.arrowContainer}>
               <Image
-                source={require("../assets/OrderHistory/star.png")}
-                style={styles.iconstar}
+                source={require("../assets/OrderHistory/arrow.png")}
+                style={styles.arrowIcon}
               />
+            </View>
+
+            <View style={styles.infoContainer1}>
+              <Text style={styles.infoText}>{data.trip.destination}</Text>
+              <Text style={styles.dateText}>{data.trip.enddate}</Text>
+            </View>
+          </View>
+
+          <View style={styles.divider} />
+
+          {/* Capacity and Cost Section */}
+          <View style={styles.section}>
+            <Text style={styles.label}>Capacity</Text>
+            <Text style={styles.label}>Transport Mode</Text>
+          </View>
+          <View style={styles.section}>
+            <View style={styles.infoContainer}>
+              <Image
+                source={require("../assets/OrderHistory/suitcase.png")}
+                style={styles.iconW}
+              />
+              <Text style={styles.infoText}> {data.trip.capacity} KG</Text>
+            </View>
+            <Text style={styles.infoText}>{data.trip.tmode}</Text>
+          </View>
+
+          <View style={styles.divider} />
+
+          {/* Traveller Section */}
+          <View style={styles.section}>
+            <Text style={styles.label}>Traveller</Text>
+          </View>
+          <View style={styles.section}>
+            <View style={styles.infoContainer}>
+              <Image
+                source={{ uri: data.user.profilePic }}
+                style={styles.icon}
+              />
+              <View>
+                <Text style={styles.infoText}>{data.user.username}</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </View>
+      ))}
+    </ScrollView>
   );
 };
 
-const Content2 = ({ userData, tripData }) => {
+
+
+const Content2 = ({ userData, allTripsResponse }) => {
   const [showFilters, setShowFilters] = useState(false);
 
   const toggleFilters = () => {
@@ -302,7 +319,7 @@ const Content2 = ({ userData, tripData }) => {
 
       <View>
         {showFilters === true ? <Filters /> : null}
-        {showFilters === false ? <Content22 userData={userData} tripData={tripData}/> : null}
+        {showFilters === false ? <Content22 allTripsResponse={allTripsResponse}/> : null}
       </View>
     </View>
   );
@@ -312,6 +329,7 @@ const CurrentTrips = () => {
   const [selectedButton, setSelectedButton] = useState("Details");
   const [userData, setUserData] = useState("");
   const [tripData, setTripData] = useState("");
+  const [allTripsResponse, setAllTripsResponse] = useState([]);
 
   const handleButtonPress = (button) => {
     setSelectedButton(button);
@@ -331,8 +349,13 @@ const CurrentTrips = () => {
         Constants.expoConfig.extra.IP_ADDRESS + "/tripData",
         { token: token }
       );
+      const response2 = await axios.post(
+        Constants.expoConfig.extra.IP_ADDRESS + "/allTrips",
+        { token: token }
+      );
       setUserData(response.data.data);
       setTripData(response1.data.data);
+      setAllTripsResponse(response2.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -423,7 +446,7 @@ const CurrentTrips = () => {
           {selectedButton === "Details" ? (
             <Content1 userData={userData} tripData={tripData} />
           ) : (
-            <Content2 userData={userData} tripData={tripData} />
+            <Content2 userData={userData} tripData={tripData} allTripsResponse={allTripsResponse} />
           )}
         </View>
       </ScrollView>
