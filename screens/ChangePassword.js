@@ -6,30 +6,30 @@ import tw from 'twrnc';
 import {useNavigation} from '@react-navigation/native';
 import axios from "axios";
 import Constants from 'expo-constants';
+import { useRoute } from "@react-navigation/native";
 
 const ChangePassword = () => {
   
   const {control, handleSubmit, formState: { errors }} = useForm();
   const password = useWatch({ control, name: "password", defaultValue: "" });
   const navigation = useNavigation()
+  const route = useRoute();
+  const { email } = route.params; // Extract email from route params
 
-  const onSubmit = (data) => 
-  { 
-    
-  axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/ChangePassword',data)
-  .then(res=>
-    {
-    console.log(res.data);
-    if(res.data.status=="ok")
-    {
-      Alert.alert("Password has been updated")
-      navigation.navigate('Profile');
-    }
-    
-})
-  .catch(e=>console.log(e))
-  
-};
+  const onSubmit = (data) => {
+    // Add email to data object
+    data.email = email;
+
+    axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/ChangePassword', data)
+      .then(res => {
+        console.log(res.data);
+        if (res.data.status == "ok") {
+          Alert.alert("Password has been updated")
+          navigation.navigate('Profile');
+        }
+      })
+      .catch(e => console.log(e))
+  };
   
   return (
     <ImageBackground
@@ -51,29 +51,7 @@ const ChangePassword = () => {
            <View style={styles.layoutContainer}>
         <Text style={styles.formTitle}>Please fill all fields in this page</Text>
 
-        <Text style={styles.label}>Enter Email</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: 'Email is required',
-            pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-              message: 'Invalid email address',
-            },
-          }}
-          render={({ field: { onChange, value } }) => (
-            <Field
-              placeholder="Email"
-              onChangeText={onChange}
-              value={value}
-              defaultValue=""
-            />
-          )}
-          name="email"
-        />
-        {errors && errors.email && (<Text>{errors.email.message}</Text>)}
-
-
+        
         <Text style={styles.label}>Enter Current Password</Text>
         <Controller
           control={control}
