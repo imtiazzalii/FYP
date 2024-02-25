@@ -24,7 +24,11 @@ import axios from "axios";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
-import DatePicker from 'react-native-modern-datepicker';
+import DatePicker from "react-native-modern-datepicker";
+
+setTimeout(() => {
+  <NewTrip />;
+}, 2000);
 
 const NewTrip = () => {
   const {
@@ -37,23 +41,27 @@ const NewTrip = () => {
   const [departureCity, setDepartureCity] = useState("");
   const [arrivalCity, setArrivalCity] = useState("");
   const [transportMode, setTransportMode] = useState("");
-  // const [visible, setVisible] = useState(false);
-  // const [selectedDate, setSelectedDate] = useState('');
+  const [departureVisible, setDepartureVisible] = useState(false);
+  const [arrivalVisible, setArrivalVisible] = useState(false);
+  const [departureDate, setDepartureDate] = useState("");
+  const [departureTime, setDepartureTime] = useState("");
+  const [arrivalDate, setArrivalDate] = useState("");
+  const [arrivalTime, setArrivalTime] = useState("");
 
-  // const show = () => setVisible(true);
-  // const hide = () => setVisible(false);
+  const show = () => setVisible(true);
+  const hide = () => setVisible(false);
 
-  // const formatDate = () => {
-  //   // Get the year, month, and day from the date object
-  //   date = new Date();
-  //   const year = date.getFullYear();
-  //   // Month is zero-based, so add 1 to get the correct month
-  //   const month = String(date.getMonth() + 1).padStart(2, '0'); 
-  //   const day = String(date.getDate()).padStart(2, '0');
-    
-  //   // Return the formatted date as a string in "YYYY-MM-DD" format
-  //   return `${year}-${month}-${day}`;
-  // };
+  const formatDate = () => {
+    // Get the year, month, and day from the date object
+    date = new Date();
+    const year = date.getFullYear();
+    // Month is zero-based, so add 1 to get the correct month
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    // Return the formatted date as a string in "YYYY-MM-DD" format
+    return `${year}-${month}-${day}`;
+  };
 
   const getData = async () => {
     try {
@@ -71,14 +79,17 @@ const NewTrip = () => {
 
   useEffect(() => {
     getData();
-    // console.log(selectedDate);
   }, []);
 
   const onSubmit = (data) => {
     if (
       departureCity == "Departure City" &&
       arrivalCity == "Arrival City" &&
-      transportMode == "Set Transport"
+      transportMode == "Set Transport" &&
+      arrivalDate == "" &&
+      arrivalTime == "" &&
+      departureDate == "" &&
+      departureTime == ""
     ) {
       alert("Complete all fields.");
       return;
@@ -88,6 +99,10 @@ const NewTrip = () => {
     data.start = departureCity;
     data.destination = arrivalCity;
     data.tmode = transportMode;
+    data.startdate = departureDate;
+    data.starttime = departureTime;
+    data.enddate = arrivalDate;
+    data.endtime = arrivalTime;
     axios
       .post(Constants.expoConfig.extra.IP_ADDRESS + "/NewTrip", data)
       .then((res) => {
@@ -99,7 +114,6 @@ const NewTrip = () => {
       .catch((e) => console.log(e));
   };
   const password = useWatch({ control, name: "password", defaultValue: "" });
-
 
   return (
     <ImageBackground
@@ -219,7 +233,7 @@ const NewTrip = () => {
             <Picker.Item label="By Aeroplane" value="By Aeroplane" />
           </Picker>
           <Text style={styles.label}>When do you leave?</Text>
-          <Controller
+          {/* <Controller
             control={control}
             rules={{
               required: "Date is required",
@@ -238,32 +252,41 @@ const NewTrip = () => {
             )}
             name="startdate"
           />
-          {errors.startdate && <Text>{errors.startdate.message}</Text>}
+          {errors.startdate && <Text>{errors.startdate.message}</Text>} */}
 
-          {/* <Button title="Show" onPress={show} />
+          <Button title="Show" onPress={() => setDepartureVisible(true)} />
           <Modal
-            visible={visible}
-            animationType="slide"
-            onRequestClose={hide}
-          ><DatePicker
-          onSelectedChange={date => setSelectedDate(date)}
-          options={{
-            backgroundColor: 'white',
-            textHeaderColor: 'black',
-            textDefaultColor: 'black',
-            selectedTextColor: 'white',
-            mainColor: 'blue',
-            textSecondaryColor: 'lightblue',
-            borderColor: 'rgba(122, 146, 165, 0.1)',
-          }}
-          minuteInterval={5}
-          minimumDate={formatDate()}
-          mode="time"
-          style={{ borderRadius: 10 }}
-        />
-        </Modal> */}
+            style={styles.modal}
+            transparent={true}
+            visible={departureVisible}
+            animationType="fade"
+            onRequestClose={() => setDepartureVisible(false)}
+          >
+            <DatePicker
+              onSelectedChange={(date) => {
+                const [dateString, timeString] = date.split(" ");
+                setDepartureDate(dateString);
+                setDepartureTime(timeString);
+                console.log(departureDate);
+                console.log(departureTime);
+              }}
+              options={{
+                backgroundColor: "#fff",
+                textHeaderColor: "#478086",
+                textDefaultColor: "#44A5B0",
+                selectedTextColor: "#fff",
+                mainColor: "#204A4E",
+                textSecondaryColor: "#AAD5D9",
+                borderColor: "rgba(122, 146, 165, 0.1)",
+              }}
+              minuteInterval={5}
+              minimumDate={formatDate()}
+              mode="datepicker"
+              style={styles.datepicker}
+            />
+          </Modal>
 
-          <Text style={styles.label}>Time?</Text>
+          {/* <Text style={styles.label}>Time?</Text>
           <Controller
             control={control}
             rules={{
@@ -283,10 +306,41 @@ const NewTrip = () => {
             )}
             name="starttime"
           />
-          {errors.starttime && <Text>{errors.starttime.message}</Text>}
+          {errors.starttime && <Text>{errors.starttime.message}</Text>} */}
 
           <Text style={styles.label}>When is your arrival?</Text>
-          <Controller
+          <Button title="Show" onPress={() => setArrivalVisible(true)} />
+          <Modal
+            style={styles.modal}
+            transparent={true}
+            visible={arrivalVisible}
+            animationType="fade"
+            onRequestClose={() => setArrivalVisible(false)}
+          >
+            <DatePicker
+              onSelectedChange={(date) => {
+                const [dateString1, timeString1] = date.split(" ");
+                setArrivalDate(dateString1);
+                setArrivalTime(timeString1);
+                console.log(arrivalDate);
+                console.log(arrivalTime);
+              }}
+              options={{
+                backgroundColor: "#fff",
+                textHeaderColor: "#478086",
+                textDefaultColor: "#44A5B0",
+                selectedTextColor: "#fff",
+                mainColor: "#204A4E",
+                textSecondaryColor: "#AAD5D9",
+                borderColor: "rgba(122, 146, 165, 0.1)",
+              }}
+              minuteInterval={5}
+              minimumDate={formatDate()}
+              mode="datepicker"
+              style={styles.datepicker}
+            />
+          </Modal>
+          {/* <Controller
             control={control}
             rules={{
               pattern: {
@@ -304,9 +358,9 @@ const NewTrip = () => {
             )}
             name="enddate"
           />
-          {errors.enddate && <Text>{errors.enddate.message}</Text>}
+          {errors.enddate && <Text>{errors.enddate.message}</Text>} */}
 
-          <Text style={styles.label}>Time?</Text>
+          {/* <Text style={styles.label}>Time?</Text>
           <Controller
             control={control}
             rules={{
@@ -326,7 +380,7 @@ const NewTrip = () => {
             )}
             name="endtime"
           />
-          {errors.endtime && <Text>{errors.endtime.message}</Text>}
+          {errors.endtime && <Text>{errors.endtime.message}</Text>} */}
 
           <Text style={styles.label}>What is your starting bid?</Text>
           <Controller
@@ -511,6 +565,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
     marginRight: Dimensions.get("screen").width / 2,
+  },
+  datepicker: {
+    marginTop: Dimensions.get("screen").height / 5,
+    borderRadius: 20,
   },
 });
 
