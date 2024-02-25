@@ -10,29 +10,31 @@ import Constants from 'expo-constants';
 const CustomDrawer = ({ navigation }) => {
     const navigation1 = useNavigation()
 
-    const [userData, setUserData] = useState('');
+    // const [userData, setUserData] = useState('');
 
-    const getData = async () => {
-        try {
-            const token = await AsyncStorage.getItem('token');
-            console.log(token);
-            const response = await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/userData', { token: token });
-            setUserData(response.data.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    // const getData = async () => {
+    //     try {
+    //         const token = await AsyncStorage.getItem('token');
+    //         console.log(token);
+    //         const response = await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/userData', { token: token });
+    //         setUserData(response.data.data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
   
-    useEffect(() => {
-        getData();
-    }, []);
+    // useEffect(() => {
+    //     getData();
+    // }, []);
 
     return (
         <View style={styles.container}>
             {/* Profile Section */}
             <View style={styles.profileSection}>
-                <Image source={{uri: userData.profilePic}} style={styles.dp} />
-                <Text style={tw.style('text-white text-xl font-bold ml-2')}>{userData.name}</Text>
+                {/* {uri: userData.profilePic} */}
+                <Image source={require("../assets/Sidebar/mytrips.png")} style={styles.dp} />
+                {/* {userData.name} */}
+                <Text style={tw.style('text-white text-xl font-bold ml-2')}>zaki</Text>
             </View>
             
             {/* Separator */}

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+// Dynamic
+// Error message
+// 
 import {
   View,
   StyleSheet,
@@ -178,7 +181,7 @@ const Signup = () => {
                   image ? { uri: image } : require("../assets/SignUp/User.png")
                 }
                 style={{
-                  marginLeft: 130,
+                  marginLeft: Dimensions.get("screen").width * 38/100,
                   marginBottom: 20,
                   marginTop: 10,
                   width: 60,
@@ -418,14 +421,15 @@ const Signup = () => {
             </View> 
             
 
-            <View style={tw.style("mt-6", "items-center", "justify-center")}>
+            <View style={tw.style("mt-6", "items-center", "justify-center", {})}>
               <TouchableOpacity
                 style={tw.style(
                   `rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,
                   {
                     backgroundColor: "#1D4246",
-                    marginBottom: "10%",
-                    marginLeft: "60%",
+
+                    marginBottom: Dimensions.get("screen").height * 6/100,
+                    marginRight: Dimensions.get("screen").width * -50/100,
                   }
                 )}
                 onPress={handleSubmit(onSubmit)}
@@ -533,6 +537,7 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 10,
   },
+
   formHeading: {
     color: "black",
     fontSize: 18,
@@ -540,5 +545,9 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginRight: Dimensions.get("screen").width / 2,
   },
+  errors: {
+    color: "red",
+  }
+
 });
 export default Signup;

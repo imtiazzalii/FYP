@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+// dropdowns
 //import DatePicker from "react-date-picker";
 import {
   View,
@@ -425,8 +426,8 @@ const NewTrip = () => {
                 `rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,
                 {
                   backgroundColor: "#1D4246",
-                  marginBottom: "10%",
-                  marginLeft: "60%",
+                  marginBottom: Dimensions.get("screen").height * 10/100,
+                  marginRight: Dimensions.get("screen").width * -50/100,
                 }
               )}
               onPress={handleSubmit(onSubmit)}
@@ -451,6 +452,7 @@ const styles = StyleSheet.create({
     height: "100%",
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
+
   container: {},
   header: {
     flexDirection: "row",
@@ -492,10 +494,10 @@ const styles = StyleSheet.create({
     marginVertical: 0,
   },
   picker: {
-    width: "60%",
+    width: Dimensions.get("screen").width * 70/100,
     height: 40,
     borderRadius: 100,
-    marginBottom: 25,
+    //marginBottom: 25,
     color: "#47ADB8",
     paddingVertical: 5,
     fontWeight: "bold",

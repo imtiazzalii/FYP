@@ -1,7 +1,7 @@
 import React from "react";
-import { TextInput } from "react-native";
+import { Dimensions, TextInput } from "react-native";
 
-const Field = ({ width = '60%', height = 40, borderRadius = 100, marginBottom = 25, ...props }) => {
+const Field = ({ width =  Dimensions.get("screen").width *70/100, height = 40, borderRadius = 100, marginBottom = 25, ...props }) => {
   const inputStyle = {
     borderRadius,
     color: "#47ADB8",
@@ -25,5 +25,4 @@ const Field = ({ width = '60%', height = 40, borderRadius = 100, marginBottom = 
     />
   );
 }
-
 export default Field;

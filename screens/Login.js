@@ -52,7 +52,7 @@ const Login = () => {
             </View> 
 
         
-       <View style={tw.style('items-center w-100',{marginTop:Dimensions.get('window').height /3,marginEnd:'10%',})}> 
+       <View style={tw.style('items-center w-100',{marginTop:Dimensions.get('screen').height /3,})}> 
         <Controller
           control={control}
           rules={{
@@ -101,7 +101,11 @@ const Login = () => {
         </View>
         <View style={tw.style('mt-6', 'items-center', 'justify-center')}>
         <TouchableOpacity
-          style={tw.style(`rounded-full items-center w-32 py-4 px-5 my-5 mx-5`,{backgroundColor:'#47ADB8'})}
+          style={tw.style(`rounded-full items-center w-32 py-4 px-5 my-5 mx-5`,{backgroundColor:'#47ADB8'},
+          {
+            marginBottom: Dimensions.get("screen").height * 10/100,
+            marginLeft: Dimensions.get("screen").width * 40/100,
+          })}
           onPress={handleSubmit(onSubmit)}
         >
           <Text style={tw.style('text-black', 'text-lg','font-bold',{fontSize:22})}>Login</Text>
