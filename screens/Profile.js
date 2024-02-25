@@ -90,12 +90,12 @@ const Content2 = ({ userData }) => {
   );
 };
 
-const Content3 = () => {
+const Content3 = ({ userData }) => {
   // Change Password section
   const navigation = useNavigation();
   return (
     <View style={styles.card}>
-    <TouchableOpacity onPress={() => navigation.navigate("ChangePassword")}>
+    <TouchableOpacity onPress={() => navigation.navigate("ChangePassword", { email: userData.email })}>
     <View style={styles.section}>
     </View>
     <View style={styles.section}>
@@ -210,7 +210,7 @@ const Profile = () => {
 
         <View>
           {/* For Change Password section */}
-          <Content3 />
+          <Content3 userData={userData}/>
         </View>
       </ScrollView>
 
