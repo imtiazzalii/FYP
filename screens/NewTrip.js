@@ -151,7 +151,7 @@ const NewTrip = () => {
         <View style={tw.style("ml-4 mt-8")}>
           <View style={styles.formContainer}></View>
 
-          <Text style={styles.label}>Where are you travelling from?</Text>
+          <Text style={[styles.label, { width: "49%" }]}>Where are you travelling from?</Text>
           {/* <Controller
             control={control}
             rules={{
@@ -185,7 +185,7 @@ const NewTrip = () => {
           />
           {errors && errors.start && <Text>{errors.start.message}</Text>} */}
 
-          <Text style={styles.label}>Where are you travelling to?</Text>
+          <Text style={[styles.label, { width: "45%" }]}>Where are you travelling to?</Text>
           {/* <Controller
             control={control}
             rules={{
@@ -223,7 +223,7 @@ const NewTrip = () => {
           {errors && errors.destination && (
             <Text>{errors.destination.message}</Text>
           )} */}
-          <Text style={styles.label}>Your transport mode?</Text>
+          <Text style={[styles.label, { width: "37%" }]}>Your transport mode?</Text>
           <Picker
             selectedValue={transportMode}
             onValueChange={(itemValue) => setTransportMode(itemValue)}
@@ -234,7 +234,7 @@ const NewTrip = () => {
             <Picker.Item label="By Train" value="By Train" />
             <Picker.Item label="By Aeroplane" value="By Aeroplane" />
           </Picker>
-          <Text style={styles.label}>When do you leave?</Text>
+          <Text style={[styles.label, { width: "34%" }]}>When do you leave?</Text>
           {/* <Controller
             control={control}
             rules={{
@@ -260,6 +260,7 @@ const NewTrip = () => {
           <TouchableOpacity
           style={tw.style(`items-center py-4 px-5`,
           {
+          marginVertical: 5,
           backgroundColor:'#1D4246',
           width: Dimensions.get("screen").width * 70/100,
           borderRadius: 20,
@@ -328,11 +329,12 @@ const NewTrip = () => {
           />
           {errors.starttime && <Text>{errors.starttime.message}</Text>} */}
 
-          <Text style={styles.label}>When is your arrival?</Text>
+          <Text style={[styles.label, { width: "38%" }]}>When is your arrival?</Text>
 
           <TouchableOpacity
           style={tw.style(`items-center py-4 px-5`,
           {
+          marginVertical: 5,
           backgroundColor:'#1D4246',
           width: Dimensions.get("screen").width * 70/100,
           borderRadius: 20,
@@ -420,7 +422,7 @@ const NewTrip = () => {
           />
           {errors.endtime && <Text>{errors.endtime.message}</Text>} */}
 
-          <Text style={styles.label}>What is your starting bid?</Text>
+          <Text style={[styles.label, { width: "42%" }]}>What is your starting bid?</Text>
           <Controller
             control={control}
             rules={{
@@ -442,7 +444,7 @@ const NewTrip = () => {
           />
           {errors && errors.startbid && <Text>{errors.startbid.message}</Text>}
 
-          <Text style={styles.label}>What is your buyout price?</Text>
+          <Text style={[styles.label, { width: "43%" }]}>What is your buyout price?</Text>
           <Controller
             control={control}
             rules={{
@@ -464,7 +466,7 @@ const NewTrip = () => {
           />
           {errors && errors.buyout && <Text>{errors.buyout.message}</Text>}
 
-          <Text style={styles.label}>
+          <Text style={[styles.label, { width: "68%" }]}>
             Enter the maximum capacity you can take:
           </Text>
           <Controller
@@ -488,7 +490,7 @@ const NewTrip = () => {
           />
           {errors && errors.capacity && <Text>{errors.capacity.message}</Text>}
 
-          <Text style={styles.label}>
+          <Text style={[styles.label, { width: "67%" }]}>
             Do you want to add any other description?
           </Text>
           <Controller
@@ -517,8 +519,8 @@ const NewTrip = () => {
                 `rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,
                 {
                   backgroundColor: "#1D4246",
-                  marginBottom: Dimensions.get("screen").height * 10/100,
-                  marginRight: Dimensions.get("screen").width * -50/100,
+                  marginBottom: Dimensions.get("screen").height * 12/100,
+                  marginLeft: Dimensions.get("screen").width * 60/100,
                 }
               )}
               onPress={handleSubmit(onSubmit)}
@@ -583,6 +585,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     marginVertical: 0,
+    backgroundColor: "#1D4246",
+    padding: 6,
+    borderRadius: 10,
   },
   picker: {
     width: Dimensions.get("screen").width * 70/100,
