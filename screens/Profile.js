@@ -101,7 +101,7 @@ const Content3 = ({ userData }) => {
     <View style={styles.section}>
         <View style={styles.infoContainer}>
             <View>
-                <Text style={styles.infoText}>Edit</Text>
+                <Text style={styles.infoText}>change password</Text>
             </View>
         </View>
             <Image source={require("../assets/Profile/Chevron.png")} style={styles.chevron} />
@@ -192,14 +192,14 @@ const Profile = () => {
                 <Text style={styles.cardText}>Personal Information:</Text>
               </View>
               <View style={styles.infoContainer1}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={() => navigation.navigate("EditProfile")}
                 >
                   <Image
                     source={require("../assets/Profile/Edit.png")}
                     style={styles.cardText}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
           </View>
