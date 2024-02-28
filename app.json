@@ -28,7 +28,7 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "IP_ADDRESS": "http://192.168.10.2:3000"
+      "IP_ADDRESS": "http://192.168.18.100:3000"
     }
   }
 }

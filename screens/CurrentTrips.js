@@ -561,6 +561,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 35,
     height: 35,
+    borderRadius:35,
   },
   statusText: {
     color: "#2D9CDB", // Change as needed to match status color
