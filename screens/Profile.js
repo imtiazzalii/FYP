@@ -345,6 +345,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 80,
     height: 80,
+    borderRadius:15,
   },
 
   divider: {
