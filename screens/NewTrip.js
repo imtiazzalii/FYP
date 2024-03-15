@@ -17,6 +17,7 @@ import {
   Dimensions,
   Alert,
   Modal,
+  Pressable,
 } from "react-native";
 import { useForm, Controller, useWatch, handleSubmit } from "react-hook-form";
 import Field from "./Field";
@@ -27,9 +28,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import DatePicker from "react-native-modern-datepicker";
 
-setTimeout(() => {
-  <NewTrip />;
-}, 2000);
 
 const NewTrip = () => {
   const {
@@ -49,8 +47,31 @@ const NewTrip = () => {
   const [arrivalDate, setArrivalDate] = useState("");
   const [arrivalTime, setArrivalTime] = useState("");
 
+  const [arrivalText, setArrivalText] = useState("Select Arrival Date/Time");
+  const [departureText, setDepartureText] = useState("Select Departure Date/Time");
+
+  const generateDepartureText = () => {
+    if(departureDate != "" && departureTime != "")
+    {
+      setDepartureText(departureDate + "  " + departureTime);
+      console.log(departureText);
+    }
+  }
+
+  const generateArrivalText = () => {
+    if(arrivalDate != "" && arrivalTime != "")
+    {
+      setArrivalText(arrivalDate + "  " + arrivalTime);
+      console.log(arrivalText);
+    }
+  }
+
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
+
+  const setArrivalVisibleFunc = () => {
+    arrivalVisible ? setArrivalVisible(!arrivalVisible) : arrivalVisible;
+  }
 
   const formatDate = () => {
     // Get the year, month, and day from the date object
@@ -63,6 +84,30 @@ const NewTrip = () => {
     // Return the formatted date as a string in "YYYY-MM-DD" format
     return `${year}-${month}-${day}`;
   };
+
+  function getNextMonthDate() {
+    const today = new Date();
+    
+    // Get the current month and year
+    let year = today.getFullYear();
+    let month = today.getMonth() + 1; // Adding 1 because January is 0
+  
+    // Adjust if it's December
+    if (month === 12) {
+      year++;
+      month = 1; // Reset to January
+    } else {
+      month++;
+    }
+  
+    // Get the last day of the next month
+    const lastDayNextMonth = new Date(year, month, 0).getDate();
+  
+    // Format the date
+    const nextMonthDate = `${year}-${month.toString().padStart(2, '0')}-${lastDayNextMonth.toString().padStart(2, '0')}`;
+  
+    return nextMonthDate;
+  }
 
   const getData = async () => {
     try {
@@ -152,20 +197,7 @@ const NewTrip = () => {
           <View style={styles.formContainer}></View>
 
           <Text style={styles.label}>Where are you travelling from?</Text>
-          {/* <Controller
-            control={control}
-            rules={{
-              required: "Start point  is required",
-            }}
-            render={({ field: { onChange, value } }) => ( */}
-          {/* // <Field
-              //   placeholder="City, Country"
-              //   keyboardType={"default"}
-              //   onChangeText={onChange}
-              //   width="90%"
-              //   value={value}
-              //   defaultValue=""
-              // /> */}
+          
           <Picker
             selectedValue={departureCity}
             onValueChange={(itemValue) => setDepartureCity(itemValue)}
@@ -180,26 +212,10 @@ const NewTrip = () => {
             <Picker.Item label="Quetta" value="Quetta" />
             <Picker.Item label="Faisalabad" value="Faisalabad" />
           </Picker>
-          {/* )}
-            name="start"
-          />
-          {errors && errors.start && <Text>{errors.start.message}</Text>} */}
+          
 
           <Text style={styles.label}>Where are you travelling to?</Text>
-          {/* <Controller
-            control={control}
-            rules={{
-              required: "Destination  is required",
-            }}
-            render={({ field: { onChange, value } }) => (
-              // <Field
-              //   placeholder="City, Country"
-              //   keyboardType={"default"}
-              //   width="90%"
-              //   onChangeText={onChange}
-              //   value={value}
-              //   defaultValue=""
-              // /> */}
+          
           
           <Picker
             selectedValue={arrivalCity}
@@ -217,12 +233,7 @@ const NewTrip = () => {
 
             {/* Add your city options here */}
           </Picker>
-          {/* )}
-            name="destination"
-          />
-          {errors && errors.destination && (
-            <Text>{errors.destination.message}</Text>
-          )} */}
+          
           <Text style={styles.label}>Your transport mode?</Text>
           <Picker
             selectedValue={transportMode}
@@ -235,26 +246,7 @@ const NewTrip = () => {
             <Picker.Item label="By Aeroplane" value="By Aeroplane" />
           </Picker>
           <Text style={styles.label}>When do you leave?</Text>
-          {/* <Controller
-            control={control}
-            rules={{
-              required: "Date is required",
-              pattern: {
-                value: /^[0-9]{8}$/,
-                message: "Invalid date format. Use DDMMYYYY format.",
-              },
-            }}
-            render={({ field: { onChange, value } }) => (
-              <Field
-                placeholder="DDMMYYYY"
-                keyboardType={"numeric"}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="startdate"
-          />
-          {errors.startdate && <Text>{errors.startdate.message}</Text>} */}
+          
 
 
           <TouchableOpacity
@@ -272,7 +264,7 @@ const NewTrip = () => {
           onPress={() => setDepartureVisible(true)}
           >
           <Text style={tw.style({fontSize:15, color:"#47ADB8",fontWeight: "bold"})}>
-          Select Departure Date/Time</Text>
+          {departureText}</Text>
           </TouchableOpacity>
 
           <Modal
@@ -289,6 +281,7 @@ const NewTrip = () => {
                 setDepartureTime(timeString);
                 console.log(departureDate);
                 console.log(departureTime);
+                generateDepartureText();
               }}
               options={{
                 backgroundColor: "#fff",
@@ -301,32 +294,12 @@ const NewTrip = () => {
               }}
               minuteInterval={5}
               minimumDate={formatDate()}
+              maximumDate={getNextMonthDate()}
               mode="datepicker"
               style={styles.datepicker}
             />
+            <Pressable style={styles.modalclosebutton} onPress={() => setDepartureVisible(false)}><Text style={styles.modalclosebuttontext}>Close</Text></Pressable>
           </Modal>
-
-          {/* <Text style={styles.label}>Time?</Text>
-          <Controller
-            control={control}
-            rules={{
-              pattern: {
-                value: /^[0-9]{3,4}$/,
-                message: "Invalid time format. Use 24hr format.",
-              },
-            }}
-            render={({ field: { onChange, value } }) => (
-              <Field
-                placeholder="0300"
-                width="30%"
-                keyboardType={"numeric"}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="starttime"
-          />
-          {errors.starttime && <Text>{errors.starttime.message}</Text>} */}
 
           <Text style={styles.label}>When is your arrival?</Text>
 
@@ -345,7 +318,7 @@ const NewTrip = () => {
           onPress={() => setArrivalVisible(true)}
           >
           <Text style={tw.style({fontSize:15, color:"#47ADB8",fontWeight: "bold"})}>
-          Select Arrival Date/Time</Text>
+          {arrivalText}</Text>
           </TouchableOpacity>
 
           <Modal
@@ -362,6 +335,7 @@ const NewTrip = () => {
                 setArrivalTime(timeString1);
                 console.log(arrivalDate);
                 console.log(arrivalTime);
+                generateArrivalText();
               }}
               options={{
                 backgroundColor: "#fff",
@@ -377,48 +351,9 @@ const NewTrip = () => {
               mode="datepicker"
               style={styles.datepicker}
             />
+            <Pressable style={styles.modalclosebutton} onPress={() => setArrivalVisible(false)}><Text style={styles.modalclosebuttontext}>Close</Text></Pressable>
           </Modal>
-          {/* <Controller
-            control={control}
-            rules={{
-              pattern: {
-                value: /^[0-9]{8}$/,
-                message: "Invalid date format. Use DDMMYYYY format.",
-              },
-            }}
-            render={({ field: { onChange, value } }) => (
-              <Field
-                placeholder="DDMMYYYY"
-                keyboardType={"numeric"}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="enddate"
-          />
-          {errors.enddate && <Text>{errors.enddate.message}</Text>} */}
-
-          {/* <Text style={styles.label}>Time?</Text>
-          <Controller
-            control={control}
-            rules={{
-              pattern: {
-                value: /^[0-9]{3,4}$/,
-                message: "Invalid time format. Use 24hr format. ",
-              },
-            }}
-            render={({ field: { onChange, value } }) => (
-              <Field
-                placeholder="0300"
-                width="30%"
-                keyboardType={"numeric"}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="endtime"
-          />
-          {errors.endtime && <Text>{errors.endtime.message}</Text>} */}
+          
 
           <Text style={styles.label}>What is your starting bid?</Text>
           <Controller
@@ -613,6 +548,17 @@ const styles = StyleSheet.create({
   },
   modal: {
    width: 20, 
+  },
+  modalclosebutton: {
+    alignSelf: "center",
+    backgroundColor: "#44A5B0",
+    marginTop: 20,
+    padding: 10,
+    borderRadius: 10,
+  },
+  modalclosebuttontext: {
+    color: "white",
+    fontWeight: "bold",
   }
 });
 
