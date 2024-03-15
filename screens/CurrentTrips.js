@@ -20,10 +20,15 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 
-const Content1 = ({ userData, tripData }) => {
+const Content1 = ({ userData, tripData, navigation }) => {
   return (
     <ScrollView>
       {Array.isArray(tripData) && tripData.map((trip, index) => (
+        <TouchableOpacity 
+        key={index} 
+        onPress={() => navigation.navigate('BiddingOptions', { trip: trip })}
+        style={tw`mb-4`}
+      >
         <View key={index} style={styles.card}>
           <View style={styles.userInfoContainer}>
             <Image source={{ uri: userData.profilePic }} style={styles.dp} />
@@ -121,6 +126,7 @@ const Content1 = ({ userData, tripData }) => {
             <Text style={tw.style("text-white")}>{trip.description}</Text>
           </View>
         </View>
+        </TouchableOpacity>
       ))}
     </ScrollView>
   );
@@ -227,10 +233,14 @@ const Filters = () => {
   );
 };
 
-const Content22 = ({ allTripsResponse }) => {
+const Content22 = ({ userData, tripData, allTripsResponse, navigation }) => {
   return (
     <ScrollView>
       {allTripsResponse.map((data, index) => (
+         <TouchableOpacity
+         key={index}
+         onPress={() => navigation.navigate('Bidding',{ selectedTripData: data })}
+       >
         <View key={index} style={styles.card}>
           {/* Departure and Arrival Section */}
           <View style={styles.section}>
@@ -292,6 +302,7 @@ const Content22 = ({ allTripsResponse }) => {
             </View>
           </View>
         </View>
+        </TouchableOpacity>
       ))}
     </ScrollView>
   );
@@ -299,7 +310,7 @@ const Content22 = ({ allTripsResponse }) => {
 
 
 
-const Content2 = ({ userData, allTripsResponse }) => {
+const Content2 = ({ userData, tripData, allTripsResponse, navigation }) => {
   const [showFilters, setShowFilters] = useState(false);
 
   const toggleFilters = () => {
@@ -319,7 +330,7 @@ const Content2 = ({ userData, allTripsResponse }) => {
 
       <View>
         {showFilters === true ? <Filters /> : null}
-        {showFilters === false ? <Content22 allTripsResponse={allTripsResponse}/> : null}
+        {showFilters === false ? <Content22 userData={userData} tripData={tripData} allTripsResponse={allTripsResponse} navigation={navigation} /> : null}
       </View>
     </View>
   );
@@ -444,9 +455,9 @@ const CurrentTrips = () => {
           </View>
 
           {selectedButton === "Details" ? (
-            <Content1 userData={userData} tripData={tripData} />
+            <Content1 userData={userData} tripData={tripData} navigation={navigation} />
           ) : (
-            <Content2 userData={userData} tripData={tripData} allTripsResponse={allTripsResponse} />
+            <Content2 userData={userData} tripData={tripData} allTripsResponse={allTripsResponse} navigation={navigation} />
           )}
         </View>
       </ScrollView>
