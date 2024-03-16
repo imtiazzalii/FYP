@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -95,20 +95,25 @@ const Content3 = ({ userData }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.card}>
-    <TouchableOpacity onPress={() => navigation.navigate("ChangePassword", { email: userData.email })}>
-    <View style={styles.section}>
-    </View>
-    <View style={styles.section}>
-        <View style={styles.infoContainer}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("ChangePassword", { email: userData.email })
+        }
+      >
+        <View style={styles.section}></View>
+        <View style={styles.section}>
+          <View style={styles.infoContainer}>
             <View>
-                <Text style={styles.infoText}>Edit</Text>
+              <Text style={styles.infoText}>change password</Text>
             </View>
+          </View>
+          <Image
+            source={require("../assets/Profile/Chevron.png")}
+            style={styles.chevron}
+          />
         </View>
-            <Image source={require("../assets/Profile/Chevron.png")} style={styles.chevron} />
-        
+      </TouchableOpacity>
     </View>
-    </TouchableOpacity>
-</View>
   );
 };
 
@@ -121,17 +126,17 @@ const Profile = () => {
   };
 
   const getData = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      console.log(token);
-      const response = await axios.post(
-        Constants.expoConfig.extra.IP_ADDRESS + "/userData",
-        { token: token }
-      );
-      setUserData(response.data.data);
-    } catch (error) {
-      console.error(error);
-    }
+    const token = await AsyncStorage.getItem("token");
+    console.log(token);
+
+    axios
+      .get(Constants.expoConfig.extra.IP_ADDRESS + `/userData/${token}`)
+      .then((response) => {
+        setUserData(response.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   useEffect(() => {
@@ -192,14 +197,14 @@ const Profile = () => {
                 <Text style={styles.cardText}>Personal Information:</Text>
               </View>
               <View style={styles.infoContainer1}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={() => navigation.navigate("EditProfile")}
                 >
                   <Image
                     source={require("../assets/Profile/Edit.png")}
                     style={styles.cardText}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
           </View>
@@ -210,7 +215,7 @@ const Profile = () => {
 
         <View>
           {/* For Change Password section */}
-          <Content3 userData={userData}/>
+          <Content3 userData={userData} />
         </View>
       </ScrollView>
 
@@ -345,6 +350,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 80,
     height: 80,
+    borderRadius: 15,
   },
 
   divider: {

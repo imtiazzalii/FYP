@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-// dropdowns
-//import DatePicker from "react-date-picker";
 import {
   View,
   StyleSheet,
@@ -197,7 +195,6 @@ const NewTrip = () => {
           <View style={styles.formContainer}></View>
 
           <Text style={styles.label}>Where are you travelling from?</Text>
-          
           <Picker
             selectedValue={departureCity}
             onValueChange={(itemValue) => setDepartureCity(itemValue)}
@@ -216,7 +213,6 @@ const NewTrip = () => {
 
           <Text style={styles.label}>Where are you travelling to?</Text>
           
-          
           <Picker
             selectedValue={arrivalCity}
             onValueChange={(itemValue) => setArrivalCity(itemValue)}
@@ -233,7 +229,6 @@ const NewTrip = () => {
 
             {/* Add your city options here */}
           </Picker>
-          
           <Text style={styles.label}>Your transport mode?</Text>
           <Picker
             selectedValue={transportMode}
@@ -246,12 +241,12 @@ const NewTrip = () => {
             <Picker.Item label="By Aeroplane" value="By Aeroplane" />
           </Picker>
           <Text style={styles.label}>When do you leave?</Text>
-          
 
 
           <TouchableOpacity
           style={tw.style(`items-center py-4 px-5`,
           {
+          marginVertical: 5,
           backgroundColor:'#1D4246',
           width: Dimensions.get("screen").width * 70/100,
           borderRadius: 20,
@@ -301,11 +296,13 @@ const NewTrip = () => {
             <Pressable style={styles.modalclosebutton} onPress={() => setDepartureVisible(false)}><Text style={styles.modalclosebuttontext}>Close</Text></Pressable>
           </Modal>
 
+
           <Text style={styles.label}>When is your arrival?</Text>
 
           <TouchableOpacity
           style={tw.style(`items-center py-4 px-5`,
           {
+          marginVertical: 5,
           backgroundColor:'#1D4246',
           width: Dimensions.get("screen").width * 70/100,
           borderRadius: 20,
@@ -377,7 +374,7 @@ const NewTrip = () => {
           />
           {errors && errors.startbid && <Text>{errors.startbid.message}</Text>}
 
-          <Text style={styles.label}>What is your buyout price?</Text>
+          <Text style={[styles.label, { width: "43%" }]}>What is your buyout price?</Text>
           <Controller
             control={control}
             rules={{
@@ -399,7 +396,7 @@ const NewTrip = () => {
           />
           {errors && errors.buyout && <Text>{errors.buyout.message}</Text>}
 
-          <Text style={styles.label}>
+          <Text style={[styles.label, { width: "68%" }]}>
             Enter the maximum capacity you can take:
           </Text>
           <Controller
@@ -423,7 +420,7 @@ const NewTrip = () => {
           />
           {errors && errors.capacity && <Text>{errors.capacity.message}</Text>}
 
-          <Text style={styles.label}>
+          <Text style={[styles.label, { width: "67%" }]}>
             Do you want to add any other description?
           </Text>
           <Controller
@@ -452,8 +449,8 @@ const NewTrip = () => {
                 `rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,
                 {
                   backgroundColor: "#1D4246",
-                  marginBottom: Dimensions.get("screen").height * 10/100,
-                  marginRight: Dimensions.get("screen").width * -50/100,
+                  marginBottom: Dimensions.get("screen").height * 12/100,
+                  marginLeft: Dimensions.get("screen").width * 60/100,
                 }
               )}
               onPress={handleSubmit(onSubmit)}
@@ -518,6 +515,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     marginVertical: 0,
+    backgroundColor: "#1D4246",
+    padding: 6,
+    borderRadius: 10,
   },
   picker: {
     width: Dimensions.get("screen").width * 70/100,

@@ -104,6 +104,20 @@ const Routing = (props) => {
                 Press={() => props.navigation.navigate("Profile")}
             />
 
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="Bidding"
+                Press={() => props.navigation.navigate("Bidding")}
+            />
+
+            <Btn
+                bgColor="#47ADB8"
+                textColor="black"
+                btnLabel="BiddingOptions"
+                Press={() => props.navigation.navigate("BiddingOptions")}
+            />
+
         </View>
         </ScrollView>
     );

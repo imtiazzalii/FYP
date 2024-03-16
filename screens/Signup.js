@@ -184,9 +184,9 @@ const Signup = () => {
                   marginLeft: Dimensions.get("screen").width * 38/100,
                   marginBottom: 20,
                   marginTop: 10,
-                  width: 60,
-                  height: 60,
-                  borderRadius: 20,
+                  width: 70,
+                  height: 70,
+                  borderRadius: 35,
                 }}
               />
             </TouchableOpacity>
@@ -256,7 +256,7 @@ const Signup = () => {
           />
           {errors && errors.username && <Text>{errors.username.message}</Text>} */}
 
-            <Text style={[styles.label, { width: "31%" }]}>
+            <Text style={[styles.label, { width: "32%" }]}>
               Create a Password
             </Text>
             <Controller
@@ -429,7 +429,7 @@ const Signup = () => {
                     backgroundColor: "#1D4246",
 
                     marginBottom: Dimensions.get("screen").height * 6/100,
-                    marginRight: Dimensions.get("screen").width * -50/100,
+                    marginLeft: Dimensions.get("screen").width * 60/100,
                   }
                 )}
                 onPress={handleSubmit(onSubmit)}
