@@ -1,33 +1,82 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
-import tw from 'twrnc';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+} from "react-native";
+import tw from "twrnc";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import Constants from "expo-constants";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const BiddingOptions = () => {
   // Dummy data for the example
   const items = [
-    { name: 'Cristiano', rating: 5, weight: '4kg', price: 'Rs. 400' },
+    { name: "Cristiano", rating: 5, weight: "4kg", price: "Rs. 400" },
     // ...more items
   ];
 
+  const navigation = useNavigation();
+  const [bidsInfo, setBidsInfo] = useState([]);
+  const route = useRoute();
+  const trip = route.params.trip;
+
+  const getData = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      //console.log(token);
+      //console.log(trip);
+
+      await axios
+        .get(Constants.expoConfig.extra.IP_ADDRESS + `/showbids/${trip._id}`)
+        .then((response) => {
+          setBidsInfo(response.data.data);
+          console.log(response.data.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+    
+  }, []);
+
   return (
-    <ImageBackground source={require("../assets/Dashboard/dashbg.jpeg")} style={tw`h-full`}>
+    <ImageBackground
+      source={require("../assets/Dashboard/dashbg.jpeg")}
+      style={tw`h-full`}
+    >
       <ScrollView contentContainerStyle={tw`p-4 mt-10`}>
-        {items.map((item, index) => (
-          <View key={index} style={tw`flex-row items-center justify-between p-3 bg-white my-2 rounded-lg shadow`}>
+        {bidsInfo.map((item, index) => (
+          <View
+            key={index}
+            style={tw`flex-row items-center justify-between p-3 bg-white my-2 rounded-lg shadow`}
+          >
             <Image
-              source={require("../assets/Dashboard/cr7.png")}
+              source={{uri: item.bidderProfilePic}}
               style={tw`w-12 h-12 rounded-full`}
             />
             <View>
-              <Text style={tw`font-bold`}>{item.name}</Text>
+              <Text style={tw`font-bold`}>{item.bidderName}</Text>
               <View style={tw`flex-row items-center`}>
                 <Text>{`⭐ ${item.rating}`}</Text>
-                <Text style={tw`ml-2`}>{item.weight}</Text>
+                <Text style={tw`ml-2`}>{item.capacity}kg</Text>
               </View>
             </View>
-            <Text style={tw`font-bold`}>{item.price}</Text>
+            <Text style={tw`font-bold`}>Rs. {item.bid}</Text>
             <View style={tw`flex-row`}>
-              <TouchableOpacity style={tw`bg-red-400 px-3 py-1 rounded-full mr-2`}>
+              <TouchableOpacity
+                style={tw`bg-red-400 px-3 py-1 rounded-full mr-2`}
+              >
                 <Text style={tw`text-white text-xs`}>Decline</Text>
               </TouchableOpacity>
               <TouchableOpacity style={tw`bg-green-500 px-3 py-1 rounded-full`}>

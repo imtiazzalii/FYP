@@ -9,6 +9,7 @@ import {
   Platform,
   StatusBar,
   ImageBackground,
+  Alert
 } from "react-native";
 import tw from "twrnc";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -50,9 +51,26 @@ const Bidding = () => {
     }
   };
 
-  const makeBid = () => {
-    
+  const makeBid = async () => {
+    const data = {};
+    data.id = selectedTripData.trip._id;
+    data.bid = bidAmount;
+    data.capacity = capacity;
+    data.token = await AsyncStorage.getItem("token");
+    console.log(data);
+
+    await axios
+      .post(Constants.expoConfig.extra.IP_ADDRESS + "/bid", data)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.status == "ok") {
+          Alert.alert("Bid submitted!", "press ok");
+        }
+      })
+      .catch((e) => console.log(e));
   };
+
+  
 
   return (
     <ImageBackground
@@ -258,7 +276,8 @@ const Bidding = () => {
             </View>
           </View>
           <TouchableOpacity
-            style={tw`bg-cyan-600 px-7 py-2 rounded-full self-center mb-4`} onPress={makeBid}
+            style={tw`bg-cyan-600 px-7 py-2 rounded-full self-center mb-4`}
+            onPress={makeBid}
           >
             <Text style={tw`text-white text-lg font-bold text-center`}>
               Place Bid
