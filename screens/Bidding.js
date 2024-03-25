@@ -126,7 +126,9 @@ const Bidding = () => {
                 <Text style={tw.style("font-bold text-white mt-4 ml-1")}>
                   {selectedTripData.user.username}
                 </Text>
-                <Image source={require("../assets/CurrentTrips/star.png")} />
+                <Text style={tw.style("font-bold text-white mt-1 ml-1")}>
+                  {selectedTripData.user.rating} ⭐
+                  </Text>
               </View>
             </View>
             <View style={styles.divider2} />

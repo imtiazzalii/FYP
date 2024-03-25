@@ -42,7 +42,9 @@ const Content1 = ({ userData, tripData, navigation }) => {
                   <Text style={tw.style("font-bold text-white mt-4 ml-1")}>
                     {userData.name}
                   </Text>
-                  <Image source={require("../assets/CurrentTrips/star.png")} />
+                  <Text style={tw.style("font-bold text-white mt-1 ml-1")}>
+                  {userData.rating} ⭐
+                  </Text>
                 </View>
               </View>
               <View style={styles.divider2} />
@@ -374,32 +376,31 @@ const CurrentTrips = () => {
       console.log(token);
 
       await axios
-      .get(Constants.expoConfig.extra.IP_ADDRESS + `/userData/${token}`)
-      .then((response) => {
-        setUserData(response.data.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
+        .get(Constants.expoConfig.extra.IP_ADDRESS + `/userData/${token}`)
+        .then((response) => {
+          setUserData(response.data.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+        
       await axios
-      .get(Constants.expoConfig.extra.IP_ADDRESS + `/tripData/${token}`)
-      .then((response1) => {
-        setTripData(response1.data.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        .get(Constants.expoConfig.extra.IP_ADDRESS + `/tripData/${token}`)
+        .then((response1) => {
+          setTripData(response1.data.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
 
       axios
-      .get(Constants.expoConfig.extra.IP_ADDRESS + `/allTrips`)
-      .then((response2) => {
-        setAllTripsResponse(response2.data.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-      
+        .get(Constants.expoConfig.extra.IP_ADDRESS + `/allTrips`)
+        .then((response2) => {
+          setAllTripsResponse(response2.data.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } catch (error) {
       console.error(error);
     }
@@ -787,7 +788,7 @@ const styles = StyleSheet.create({
     fontSize: 18, // Increase font size
   },
   stickyHeader: {
-    position: 'sticky',
+    position: "sticky",
     top: 0,
     zIndex: 999, // Adjust the zIndex to ensure the header stays on top of other content
   },

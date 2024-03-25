@@ -14,11 +14,6 @@ import Constants from "expo-constants";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 const BiddingOptions = () => {
-  // Dummy data for the example
-  const items = [
-    { name: "Cristiano", rating: 5, weight: "4kg", price: "Rs. 400" },
-    // ...more items
-  ];
 
   const navigation = useNavigation();
   const [bidsInfo, setBidsInfo] = useState([]);
@@ -50,13 +45,29 @@ const BiddingOptions = () => {
     
   }, []);
 
+  const updateBidStatus = async (bidId, newStatus) => {
+    try {
+      const updatedBids = bidsInfo.map(bid => {
+        if (bid._id === bidId) {
+          return { ...bid, status: newStatus };
+        }
+        return bid;
+      });
+      setBidsInfo(updatedBids);
+      // Make a request to your backend to update the bid status in the database
+      await axios.put(Constants.expoConfig.extra.IP_ADDRESS + `/updateBidStatus/${bidId}`, { status: newStatus });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <ImageBackground
       source={require("../assets/Dashboard/dashbg.jpeg")}
       style={tw`h-full`}
     >
       <ScrollView contentContainerStyle={tw`p-4 mt-10`}>
-        {bidsInfo.map((item, index) => (
+        {bidsInfo.filter(item => item.status === "pending").map((item, index) => (
           <View
             key={index}
             style={tw`flex-row items-center justify-between p-3 bg-white my-2 rounded-lg shadow`}
@@ -75,11 +86,11 @@ const BiddingOptions = () => {
             <Text style={tw`font-bold`}>Rs. {item.bid}</Text>
             <View style={tw`flex-row`}>
               <TouchableOpacity
-                style={tw`bg-red-400 px-3 py-1 rounded-full mr-2`}
+                style={tw`bg-red-400 px-3 py-1 rounded-full mr-2`} onPress={() => updateBidStatus(item._id, "rejected")}
               >
                 <Text style={tw`text-white text-xs`}>Decline</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={tw`bg-green-500 px-3 py-1 rounded-full`}>
+              <TouchableOpacity style={tw`bg-green-500 px-3 py-1 rounded-full`} onPress={() => updateBidStatus(item._id, "accepted")}>
                 <Text style={tw`text-white text-xs`}>Accept</Text>
               </TouchableOpacity>
             </View>
