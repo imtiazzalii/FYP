@@ -1,80 +1,81 @@
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, TouchableOpacity, ScrollView, TextInput }  from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import {useNavigation} from '@react-navigation/native';
-import { useForm, Controller, handleSubmit } from "react-hook-form";
-import Field from "./Field";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Text, ImageBackground, Image, Platform, StatusBar, ScrollView, TouchableOpacity } from "react-native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from 'expo-constants';
 import tw from 'twrnc';
-import { RollInRight } from "react-native-reanimated";
-//import { TextInput } from "react-native-gesture-handler";
 
+const Notifications = () => {
+  const [notifications, setNotifications] = useState([]);
 
-const Notifications = () =>{
-    const flatlistRef = useRef();
-    const navigation = useNavigation();
-    const {control, handleSubmit, formState: { errors }} = useForm();
-    const onSubmit = (data) => console.log(data, "data");
-    
-    
-    return (
-      <View style={styles.flexContainer}>
-      <ImageBackground source={require('../assets/AllChats/Background.png')}
-           style={styles.imageBackground}>
-          <ScrollView>
-              <View style={styles.container}>
-                  {/* Nav bar */}
-                  <View style={styles.header}>
-                      <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                          <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons}/>
-                      </TouchableOpacity>
-                      <Text style={styles.headerText}>Notifications</Text>
-                      <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons}/>
-                  </View>   
-                  <ScrollView style={styles.container}>
-                  {/* Notification items */}
-                  <View style={styles.notificationContainer}>
-                      <TouchableOpacity onPress={() => navigation.navigate("Chat")} style={styles.notificationItem}>
-                          <Text style={styles.notificationText}>Zaki Imran sent you a message.</Text>
-                          <Text style={styles.notificationTime}>8:00pm</Text>
-                      </TouchableOpacity>
+  useEffect(() => {
+    const fetchNotifications = async () => {
+        const token = await AsyncStorage.getItem("token");
+        if (token) {
+          try {
+            const response = await axios.get(`${Constants.expoConfig.extra.IP_ADDRESS}/notifications`, {
+              headers: {
+                Authorization: token
+              }
+            });
+            if (response.data.status === "ok") {
+              setNotifications(response.data.data);
+              console.log(response.data.data)
+            }
+          } catch (error) {
+            console.error("Error fetching notifications:", error);
+          }
+        }
+      };
 
-                      <View style={styles.notificationItem}>
-                          <Text style={styles.notificationText}>You have a new bid!!</Text>
-                          <Text style={styles.notificationTime}>6:00pm</Text>
-                      </View>
+    fetchNotifications();
+  }, []);
 
-                      <View style={styles.notificationItem}>
-                          <Text style={styles.notificationText}>Your bid has won!!</Text>
-                          <Text style={styles.notificationTime}>5:40pm</Text>
-                      </View>
+  return (
+    <View style={styles.flexContainer}>
+      <ImageBackground source={require('../assets/AllChats/Background.png')} style={styles.imageBackground}>
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <Image source={require("../assets/Dashboard/menu2.png")} style={styles.headerIcons} />
+              </TouchableOpacity>
+              <Text style={styles.headerText}>Notifications</Text>
+              <Image source={require("../assets/Dashboard/bell2.png")} style={styles.headerIcons} />
+            </View>
+            <ScrollView style={styles.container}>
+              <View style={styles.notificationContainer}>
+                {notifications.map((notification) => (
+                  <View key={notification._id} style={styles.notificationItem}>
+                    <Text style={styles.notificationText}>{notification.message}</Text>
+                    <Text style={styles.notificationTime}>{new Date(notification.timestamp).toLocaleTimeString()}</Text>
                   </View>
-                  </ScrollView>
-                  {/* Footer */}
-                  <View style={styles.footer}>
-                      <Text style={styles.footerText}>swyftbags ltd.</Text>
-                  </View>
+                ))}
               </View>
-          </ScrollView>
+            </ScrollView>
+            <View style={styles.footer}>
+              <Text style={styles.footerText}>swyftbags ltd.</Text>
+            </View>
+          </View>
+        </ScrollView>
       </ImageBackground>
-      </View>
+    </View>
   );
 };
 
-
-
-
 const styles = StyleSheet.create({
   flexContainer: {
-    flex: 1, // This will fill the height of the screen
+    flex: 1,
     marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-},
-imageBackground: {
-    flex: 1, // This will fill the flexContainer
-    width: '100%', // Ensure it fills the width
-},
-container: {
-    flex: 1, // Ensures the scroll view fills the space between header and footer
-},
-header: {
+  },
+  imageBackground: {
+    flex: 1,
+    width: '100%',
+  },
+  container: {
+    flex: 1,
+  },
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#1D4246',
@@ -82,7 +83,7 @@ header: {
     paddingHorizontal: '3%',
     paddingTop: '2%',
     paddingBottom: '2%',
-},
+  },
   headerIcons: {
     width: 20,
     height: 20,
@@ -90,41 +91,40 @@ header: {
   headerText: {
     fontSize: 22,
     fontWeight: 'bold',
-    color:'#47ADB8',
-    padding:5,
-
+    color: '#47ADB8',
+    padding: 5,
   },
   notificationContainer: {
-      marginTop: 16,
-      paddingHorizontal: 16,
+    marginTop: 16,
+    paddingHorizontal: 16,
   },
   notificationItem: {
-      backgroundColor: '#1D4246',
-      borderRadius: 10,
-      padding: 16,
-      marginBottom: 16,
+    backgroundColor: '#1D4246',
+    borderRadius: 10,
+    padding: 16,
+    marginBottom: 16,
   },
   notificationText: {
-      fontSize: 16,
-      color: 'white',
-      marginBottom: 5,
+    fontSize: 16,
+    color: 'white',
+    marginBottom: 5,
   },
   notificationTime: {
-      fontSize: 14,
-      color: 'white',
-      alignSelf: 'flex-end',
+    fontSize: 14,
+    color: 'white',
+    alignSelf: 'flex-end',
   },
   footer: {
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: '#1D4246',
-      padding: 10,
-      marginTop:'97%',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: '#1D4246',
+    padding: 10,
+    marginTop: '97%',
   },
   footerText: {
-      color: 'white',
-      fontSize: 12,
+    color: 'white',
+    fontSize: 12,
   },
 });
 
