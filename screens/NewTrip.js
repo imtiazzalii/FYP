@@ -111,11 +111,11 @@ const NewTrip = () => {
     try {
       const token = await AsyncStorage.getItem("token");
       console.log(token);
-      const response = await axios.post(
-        Constants.expoConfig.extra.IP_ADDRESS + "/userData",
-        { token: token }
-      );
-      setUserData(response.data.data);
+      axios
+      .get(Constants.expoConfig.extra.IP_ADDRESS + `/userData/${token}`)
+      .then((response) => {
+        setUserData(response.data.data);
+      });
     } catch (error) {
       console.error(error);
     }

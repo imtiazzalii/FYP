@@ -43,7 +43,7 @@ const Content1 = ({ userData, tripData, navigation }) => {
                     {userData.name}
                   </Text>
                   <Text style={tw.style("font-bold text-white mt-1 ml-1")}>
-                  {userData.rating} ⭐
+                    {userData.rating} ⭐
                   </Text>
                 </View>
               </View>
@@ -383,7 +383,7 @@ const CurrentTrips = () => {
         .catch((error) => {
           console.error(error);
         });
-        
+
       await axios
         .get(Constants.expoConfig.extra.IP_ADDRESS + `/tripData/${token}`)
         .then((response1) => {
