@@ -1,103 +1,263 @@
-import { View, StyleSheet, Text, ImageBackground, Image, StatusBar, TouchableOpacity, TextInput } from "react-native";
-import React from "react";
-import { useNavigation } from '@react-navigation/native';
-import { useForm, Controller } from "react-hook-form";
-import tw from 'twrnc';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ImageBackground,
+  Image,
+  StatusBar,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  KeyboardAvoidingView,
+} from "react-native";
+import React, { useState, useLayoutEffect, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import tw from "twrnc";
+import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import Constants from "expo-constants";
 
-const Chat = () => {
-    const navigation = useNavigation();
-    const { control, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data, "data");
+const Chat = ({ route }) => {
+  const navigation = useNavigation();
+  const item = route.params.item;
+  const [message, setMessage] = useState([]);
+  const [selectedMessages, setSelectedMessages] = useState([]);
+  const [recepientData, setRecepientData] = useState();
+  const [selectedImage, setSelectedImage] = useState("");
+  const [messages, setMessages] = useState([]);
 
-    const MessageBubble = ({ isLeft, children }) => (
-        <View style={[
-            tw.style('px-4 py-2 rounded-lg my-1', {
-                alignSelf: isLeft ? 'flex-start' : 'flex-end',
-                backgroundColor: isLeft ? '#e6e6e6' : '#47ADB8',
-                borderRadius:30 // Adjust colors accordingly
-            }),
-            isLeft ? styles.leftMessage : styles.rightMessage,
-        ]}>
-            <Text style={tw.style('text-black font-bold')}>{children}</Text>
-        </View>
-    );
+  const fetchMessages = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const recId = item._id;
+      const response = await fetch(
+        Constants.expoConfig.extra.IP_ADDRESS + `/messages/${token}/${recId}`
+      );
+      const data = await response.json();
 
-    return (
-        <ImageBackground source={require('../assets/Chat/Logobg.png')}
-            style={tw.style('h-full', { marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0, })}>
+      if (response.ok) {
+        setMessages(data);
+      } else {
+        console.log("error showing messags", response.status.message);
+      }
+    } catch (error) {
+      console.log("Error in fetching messages", error);
+    }
+  };
 
-            <View style={styles.container}>
-                <View style={tw.style('flex-row', 'justify-between', 'bg-teal-900', 'items-center', 'px-2','pt-1','pb-1')}>
-                    <TouchableOpacity onPress={() => {
-                        navigation.navigate("Notifications");
-                    }}><Image source={require("../assets/login/arrow-left.png")} style={styles.headerIcons} /></TouchableOpacity>
-                    <Text style={styles.headerText}>Ahad Ghouri</Text>
-                    <View style={styles.headerIcons}></View>
-                </View>
+  const handleSend = async (messageType, imageUri) => {
+    try {
+      const formData = new FormData();
+      const token = await AsyncStorage.getItem("token");
+      console.log(token);
+      formData.append("senderToken", token);
+      formData.append("recepientId", recepientData._id);
 
-                <View style={styles.chatContainer}>
-                <MessageBubble isLeft={true}>Hello</MessageBubble>
-                <MessageBubble isLeft={false}>Hello Ahad how much space do you have</MessageBubble>
-              </View>
+      //if the message type id image or a normal text
+      if (messageType === "image") {
+        formData.append("messageType", "image");
+        formData.append("imageFile", {
+          uri: imageUri,
+          name: "image.jpg",
+          type: "image/jpeg",
+        });
+      } else {
+        formData.append("messageType", "text");
+        formData.append("messageText", message);
+      }
 
-                <View style={tw.style('absolute bottom-16 w-full px-2', { paddingHorizontal:10})}>
-                    <View style={tw.style("flex-row bg-white rounded-full items-center")}>
-                        <Image style={tw.style("m-1")} source={require("../assets/Chat/Attach.png")} />
-                        <Controller
-                            control={control}
-                            rules={{}}
-                            render={({ field: { onChange, value } }) => (
-                                <TextInput
-                                    placeholder="Write your message here"
-                                    style={tw.style('flex-1')}
-                                    onChangeText={onChange}
-                                    value={value}
-                                    defaultValue=""
-                                />
-                            )}
-                            name="Message"
-                        />
-                        <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-                            <Image style={tw.style("m-1")} source={require("../assets/Chat/Send.png")} />
-                        </TouchableOpacity>
-                    </View>
-                </View>
+      const response = await fetch(
+        Constants.expoConfig.extra.IP_ADDRESS + "/messages",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          body: formData,
+        }
+      );
 
-                <View style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900 absolute bottom-9 w-full")}>
-                    <Text style={tw`text-white text-sm`}>swyftbags ltd.</Text>
-                </View>
+      if (response.ok) {
+        setMessage("");
+        setSelectedImage("");
+        fetchMessages();
+      }
+    } catch (error) {
+      console.log("error in sending the message", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchRecepientData = async () => {
+      try {
+        const response = await fetch(
+          Constants.expoConfig.extra.IP_ADDRESS + `/user/${item._id}`
+        );
+
+        const data = await response.json();
+        setRecepientData(data);
+      } catch (error) {
+        console.log("error retrieving details", error);
+      }
+    };
+
+    fetchRecepientData();
+    fetchMessages();
+  }, []);
+  console.log(messages);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: "",
+      headerLeft: () => {
+        return (
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <Ionicons
+              onPress={() => navigation.goBack()}
+              name="arrow-back"
+              size={24}
+              color="black"
+            />
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                style={{
+                  width: 30,
+                  height: 30,
+                  borderRadius: 15,
+                  resizeMode: "cover",
+                }}
+                source={{ uri: recepientData?.profilePic }}
+              />
+              <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold" }}>
+                {recepientData?.name}
+              </Text>
             </View>
+          </View>
+        );
+      },
+    });
+  }, [recepientData]);
 
-        </ImageBackground>
-    );
+  const formatTime = (time) => {
+    const options = { hour: "numeric", minute: "numeric" };
+    return new Date(time).toLocaleString("en-US", options);
+  };
+
+  console.log(messages);
+  return (
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <ImageBackground
+        source={require("../assets/Chat/Logobg.png")}
+        style={tw.style("h-full", {
+          marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        })}
+      >
+        <ScrollView>
+          {messages.map((item, index) => {
+            if (item.messageType === "text") {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    item?.senderId?._id !== recepientData._id
+                      ? {
+                          alignSelf: "flex-end",
+                          backgroundColor: "#DCF8C6",
+                          padding: 8,
+                          maxWidth: "60%",
+                          borderRadius: 7,
+                          margin: 10,
+                        }
+                      : {
+                          alignSelf: "flex-start",
+                          backgroundColor: "white",
+                          padding: 8,
+                          margin: 10,
+                          borderRadius: 7,
+                          maxWidth: "60%",
+                        },
+                  ]}
+                >
+                  <Text style={{ fontSize: 13, textAlign: "left" }}>
+                    {item?.message}
+                  </Text>
+                  <Text
+                    style={{
+                      textAlign: "right",
+                      fontSize: 9,
+                      color: "gray",
+                      marginTop: 5,
+                    }}
+                  >
+                    {formatTime(item.timeStamp)}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }
+          })}
+        </ScrollView>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            borderTopWidth: 1,
+            borderTopColor: "#dddddd",
+            marginBottom: 25,
+            backgroundColor: "lightblue",
+          }}
+        >
+          <TextInput
+            value={message}
+            onChangeText={(text) => setMessage(text)}
+            style={{
+              flex: 1,
+              height: 40,
+              borderWidth: 1,
+              borderColor: "#dddddd",
+              backgroundColor: "#dddddd",
+              borderRadius: 20,
+              paddingHorizontal: 10,
+            }}
+            placeholder="Type Your message..."
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 7,
+              marginHorizontal: 8,
+            }}
+          >
+            <Entypo name="camera" size={24} color="black" />
+          </View>
+
+          <TouchableOpacity
+            onPress={() => handleSend("text")}
+            style={{
+              backgroundColor: "#007bff",
+              paddingVertical: 8,
+              paddingHorizontal: 12,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              Send
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </KeyboardAvoidingView>
+  );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    headerIcons: {
-        width: 20,
-        height: 20,
-    },
-    headerText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#47ADB8',
-        padding: 5,
-    },
-    chatContainer: {
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginTop: '10%',
-    },
-    leftMessage: {
-        marginRight: 'auto',
-    },
-    rightMessage: {
-        marginLeft: 'auto',
-    },
-});
+const styles = StyleSheet.create({});
 
 export default Chat;

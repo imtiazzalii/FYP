@@ -15,6 +15,7 @@ import tw from "twrnc";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
+import UserChat from "./UserChat";
 
 const AllChats = () => {
   const navigation = useNavigation();
@@ -28,17 +29,17 @@ const AllChats = () => {
       .get(Constants.expoConfig.extra.IP_ADDRESS + `/accepted-friends/${token}`)
       .then((response) => {
         setAcceptedFriends(response.data.data);
-        console.log(acceptedFriends);
       })
       .catch((error) => {
         console.error(error);
       });
   };
-  
+
   useEffect(() => {
     getData();
+    // fetchMessages();
   }, []);
-  
+  console.log(acceptedFriends);
   return (
     <ImageBackground
       source={require("../assets/AllChats/Background.png")}
@@ -64,32 +65,9 @@ const AllChats = () => {
           </View>
 
           {/* Chat Items */}
-          {acceptedFriends.map((item, index) => (<View key={index} style={styles.chatItemsContainer}>
-            {/* First Chat Item */}
-            <TouchableOpacity 
-              style={styles.chatItem}
-              onPress={() => navigation.navigate("Chat")}
-            >
-              <Image
-                source={{ uri: item.profilePic }}
-                style={styles.userIcon}
-              />
-              <View style={styles.chatTextContainer}>
-                <Text style={styles.userName}>{item.name}</Text>
-                <View style={styles.timeAndStatusContainer}>
-                  <Text style={styles.messageText}>
-                    Hello Ahad how much space do you have?
-                  </Text>
-                  <Image
-                    source={require("../assets/AllChats/Tick.png")}
-                    style={styles.statusIcon}
-                  />
-                </View>
-                <Text style={styles.messageTime}>8:00pm</Text>
-              </View>
-            </TouchableOpacity>
-          {/* Footer */}
-        </View>))}
+          {acceptedFriends.map((item, index) => (
+            <UserChat key={index} item={item}/>
+          ))}
         </View>
       </ScrollView>
       {/* Footer */}
