@@ -23,14 +23,13 @@ const Chat = ({ route }) => {
   const navigation = useNavigation();
   const item = route.params.item;
   const [message, setMessage] = useState([]);
-  const [selectedMessages, setSelectedMessages] = useState([]);
   const [recepientData, setRecepientData] = useState();
-  const [selectedImage, setSelectedImage] = useState("");
   const [messages, setMessages] = useState([]);
 
   const fetchMessages = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
+      console.log(token);
       const recId = item._id;
       const response = await fetch(
         Constants.expoConfig.extra.IP_ADDRESS + `/messages/${token}/${recId}`
@@ -47,45 +46,41 @@ const Chat = ({ route }) => {
     }
   };
 
-  const handleSend = async (messageType, imageUri) => {
+  const handleSend = async (messageType) => {
     try {
-      const formData = new FormData();
-      const token = await AsyncStorage.getItem("token");
-      console.log(token);
-      formData.append("senderToken", token);
-      formData.append("recepientId", recepientData._id);
-
-      //if the message type id image or a normal text
-      if (messageType === "image") {
-        formData.append("messageType", "image");
-        formData.append("imageFile", {
-          uri: imageUri,
-          name: "image.jpg",
-          type: "image/jpeg",
-        });
-      } else {
-        formData.append("messageType", "text");
-        formData.append("messageText", message);
+      if (messageType === "text" && (!message || !message.trim())) {
+        alert("Message cannot be empty!");
+        return;
       }
-
-      const response = await fetch(
-        Constants.expoConfig.extra.IP_ADDRESS + "/messages",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          body: formData,
-        }
-      );
-
+  
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        console.log("No token found");
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append("recepientId", recepientData._id);
+      formData.append("messageType", "text");
+      formData.append("messageText", message);
+  
+      const response = await fetch(`${Constants.expoConfig.extra.IP_ADDRESS}/messages`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "multipart/form-data"
+        },
+        body: formData,
+      });
+  
       if (response.ok) {
         setMessage("");
-        setSelectedImage("");
         fetchMessages();
+      } else {
+        console.error("Failed to send message:", response.status);
       }
     } catch (error) {
-      console.log("error in sending the message", error);
+      console.error("Error in sending the message", error);
     }
   };
 
@@ -106,45 +101,65 @@ const Chat = ({ route }) => {
     fetchRecepientData();
     fetchMessages();
   }, []);
-  console.log(messages);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: "",
-      headerLeft: () => {
-        return (
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <Ionicons
-              onPress={() => navigation.goBack()}
-              name="arrow-back"
-              size={24}
-              color="black"
-            />
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 15,
-                  resizeMode: "cover",
-                }}
-                source={{ uri: recepientData?.profilePic }}
-              />
-              <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold" }}>
-                {recepientData?.name}
-              </Text>
-            </View>
-          </View>
-        );
-      },
-    });
-  }, [recepientData]);
+
+  // const uploadImage = async () => {
+  //   try {
+  //     let result = {};
+  //     await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //     result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       aspect: [1, 1],
+  //       quality: 1,
+  //       base64: true,
+  //     });
+
+  //     if (!result.canceled) {
+  //       handleSend("image", result.assets[0].base64);
+  //       //console.log(result.assets[0].uri);
+  //     }
+  //   } catch (error) {
+  //     // alert("Error uploading image: " + error.message);
+  //   }
+  // };
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerTitle: "",
+  //     headerLeft: () => {
+  //       return (
+  //         <View style={{ flexDirection: "row", alignItems: "center", gap: 10}}>
+  //           <Ionicons
+  //             onPress={() => navigation.goBack()}
+  //             name="arrow-back"
+  //             size={24}
+  //             color="black"
+  //           />
+  //           <View style={{ flexDirection: "row", alignItems: "center" }}>
+  //             <Image
+  //               style={{
+  //                 width: 30,
+  //                 height: 30,
+  //                 borderRadius: 15,
+  //                 resizeMode: "cover",
+  //               }}
+  //               source={{ uri: recepientData?.profilePic }}
+  //             />
+  //             <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold" }}>
+  //               {recepientData?.name}
+  //             </Text>
+  //           </View>
+  //         </View>
+  //       );
+  //     },
+  //   });
+  // }, [recepientData]);
 
   const formatTime = (time) => {
     const options = { hour: "numeric", minute: "numeric" };
     return new Date(time).toLocaleString("en-US", options);
   };
 
-  console.log(messages);
+  //console.log(messages);
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
       <ImageBackground
@@ -153,6 +168,47 @@ const Chat = ({ route }) => {
           marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         })}
       >
+        <View
+          style={tw.style(
+            "flex-row",
+            "justify-between",
+            "bg-teal-900",
+            "items-center",
+            "px-2",
+            "pt-2",
+            "pb-2"
+          )}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("AllChats");
+            }}
+          >
+            <Image
+              source={require("../assets/login/arrow-left.png")}
+              style={styles.headerIcons}
+            />
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+                resizeMode: "cover",
+              }}
+              source={{ uri: recepientData?.profilePic }}
+            />
+            <Text style={styles.headerText}>{recepientData?.name}</Text>
+          </View>
+          <View style={styles.headerIcons}></View>
+        </View>
         <ScrollView>
           {messages.map((item, index) => {
             if (item.messageType === "text") {
@@ -163,7 +219,7 @@ const Chat = ({ route }) => {
                     item?.senderId?._id !== recepientData._id
                       ? {
                           alignSelf: "flex-end",
-                          backgroundColor: "#DCF8C6",
+                          backgroundColor: "#1D4246",
                           padding: 8,
                           maxWidth: "60%",
                           borderRadius: 7,
@@ -171,7 +227,7 @@ const Chat = ({ route }) => {
                         }
                       : {
                           alignSelf: "flex-start",
-                          backgroundColor: "white",
+                          backgroundColor: "#388A93",
                           padding: 8,
                           margin: 10,
                           borderRadius: 7,
@@ -179,14 +235,16 @@ const Chat = ({ route }) => {
                         },
                   ]}
                 >
-                  <Text style={{ fontSize: 13, textAlign: "left" }}>
+                  <Text
+                    style={{ fontSize: 13, textAlign: "left", color: "white" }}
+                  >
                     {item?.message}
                   </Text>
                   <Text
                     style={{
                       textAlign: "right",
                       fontSize: 9,
-                      color: "gray",
+                      color: "darkgray",
                       marginTop: 5,
                     }}
                   >
@@ -195,6 +253,58 @@ const Chat = ({ route }) => {
                 </TouchableOpacity>
               );
             }
+            // if (item.messageType === "image") {
+            //   // const baseUrl =
+            //   //   "E:\\Swyftbags_backend\\files\\";
+            //   // const imageUrl = item.imageUrl;
+            //   // const filename = imageUrl.split("\\").pop();
+            //   // const source = { uri: baseUrl + filename };
+            //   // console.log(source);
+            //   return (
+            //     <TouchableOpacity
+            //       key={index}
+            //       style={[
+            //         item?.senderId?._id !== recepientData._id
+            //           ? {
+            //               alignSelf: "flex-end",
+            //               backgroundColor: "#1D4246",
+            //               padding: 8,
+            //               maxWidth: "60%",
+            //               borderRadius: 7,
+            //               margin: 10,
+            //             }
+            //           : {
+            //               alignSelf: "flex-start",
+            //               backgroundColor: "#388A93",
+            //               padding: 8,
+            //               margin: 10,
+            //               borderRadius: 7,
+            //               maxWidth: "60%",
+            //             },
+            //       ]}
+            //     >
+            //       <View>
+            //         <Image
+            //           source={{uri: item.imageUrl}}
+            //           style={{ width: 200, height: 200, borderRadius: 7 }}
+            //         />
+            //         <Text
+            //           style={{
+            //             textAlign: "right",
+            //             fontSize: 9,
+            //             position: "absolute",
+            //             right: 10,
+            //             bottom: 7,
+            //             color: "darkgray",
+            //             marginTop: 5,
+            //           }}
+            //         >
+            //           {formatTime(item?.timeStamp)}
+            //         </Text>
+            //       </View>
+            //     </TouchableOpacity>
+            //   );
+            // }
           })}
         </ScrollView>
         <View
@@ -203,10 +313,7 @@ const Chat = ({ route }) => {
             alignItems: "center",
             paddingHorizontal: 10,
             paddingVertical: 10,
-            borderTopWidth: 1,
-            borderTopColor: "#dddddd",
             marginBottom: 25,
-            backgroundColor: "lightblue",
           }}
         >
           <TextInput
@@ -231,7 +338,7 @@ const Chat = ({ route }) => {
               marginHorizontal: 8,
             }}
           >
-            <Entypo name="camera" size={24} color="black" />
+            {/* <Entypo name="camera" size={24} color="black" onPress={uploadImage} /> */}
           </View>
 
           <TouchableOpacity
@@ -258,6 +365,17 @@ const Chat = ({ route }) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  headerIcons: {
+    width: 20,
+    height: 20,
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#47ADB8",
+    padding: 5,
+  },
+});
 
 export default Chat;

@@ -29,9 +29,7 @@ const Content1 = ({ userData }) => {
           <View>
             <Text style={styles.mainText}>{userData.name}</Text>
             <View style={styles.ratingContainer}>
-            <Text style={styles.cardText}>
-                  {userData.rating} ⭐
-                  </Text>
+              <Text style={styles.cardText}>{userData.rating} ⭐</Text>
             </View>
           </View>
         </View>

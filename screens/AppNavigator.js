@@ -33,7 +33,7 @@ function Sidebar(){
         }} drawerContent={props => <CustomDrawer {...props} />}>
             <Drawer.Screen name="Routing" component={Routing} options={{ headerShown: false }}/>
             <Drawer.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }}/>
-            <Drawer.Screen name="Chat" component={Chat}/>
+            <Drawer.Screen name="Chat" component={Chat} options={{ headerShown: false }}/>
             <Drawer.Screen name="AllChats" component={AllChats} options={{ headerShown: false }}/>
             <Drawer.Screen name="Notifications" component={Notifications} options={{ headerShown: false }}/>
             <Drawer.Screen name="Wallet" component={Wallet} options={{ headerShown: false }}/>
