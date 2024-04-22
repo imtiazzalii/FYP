@@ -24,6 +24,7 @@ import tw from "twrnc";
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
+import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 
 const Signup = () => {
@@ -33,32 +34,57 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => 
-  { 
-    if (image !== null && image1 !== null && image2 !== null) {
-      data.profilePic = image;
-      data.frontCNIC = image1;
-      data.backCNIC = image2;
-    } else {
-      alert("Make sure you have uploaded all pictures.");
+
+  const registerForPushNotificationsAsync = async () => {
+    let token;
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
       return;
     }
-    
-  
-  axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/Signup',data)
-  .then(res=>
-    {
-    console.log(res.data);
-    if(res.data.status=="ok")
-    {
-      Alert.alert("Your registration will be confirmed in a day")
-      navigation.navigate('Login');
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    return token;
+  };
+  const onSubmit = async (data) => {
+    const pushToken = await registerForPushNotificationsAsync();
+    if (!pushToken) {
+        alert("Unable to get push token. Notifications will not be received.");
+        // Optionally return here if you require token for further process
     }
-    
-})
-  .catch(e=>console.log(e))
-  
+
+    if (image !== null && image1 !== null && image2 !== null) {
+        const formData = {
+            ...data,
+            profilePic: image,
+            frontCNIC: image1,
+            backCNIC: image2,
+            pushToken  // Include the token in the payload
+        };
+
+        axios.post(`${Constants.expoConfig.extra.IP_ADDRESS}/Signup`, formData)
+        .then(res => {
+            console.log(res.data);
+            if (res.data.status === "ok") {
+                Alert.alert("Your registration will be confirmed in a day");
+                navigation.navigate('Login');
+            } else {
+                Alert.alert("Error", res.data.message || "An error occurred");
+            }
+        })
+        .catch(e => {
+            console.error("Signup Error:", e);
+            Alert.alert("Error", "Failed to sign up");
+        });
+    } else {
+        alert("Make sure you have uploaded all pictures.");
+    }
 };
+
   
   const password = useWatch({ control, name: "password", defaultValue: "" });
   

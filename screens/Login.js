@@ -9,29 +9,49 @@ import tw from 'twrnc';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 
 
 
 const Login = () => {
   const navigation = useNavigation()
   const {control, handleSubmit, formState: { errors }} = useForm();
-  const onSubmit = (data) =>
-  { 
-    console.log(data)
-    axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/Login',data)
-    .then(res=>
-      {
-      console.log(res.data);
-      if(res.data.status=="ok")
-      {
-        Alert.alert('Login Successfull!!');
-        AsyncStorage.setItem('token',res.data.data);
-        navigation.navigate('Profile');
-      }
-      
-  })
-    .catch(e=>console.log(e))
+
+  const registerForPushNotificationsAsync = async () => {
+    let token;
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    return token;
   };
+
+  const onSubmit = async (data) => {
+    const pushToken = await registerForPushNotificationsAsync(); // Get the token
+    const loginData = {
+      ...data,
+      pushToken, // Include the token in the data sent to the backend
+    };
+  
+    axios.post(`${Constants.expoConfig.extra.IP_ADDRESS}/Login`, loginData)
+      .then(res => {
+        if(res.data.status === "ok") {
+          AsyncStorage.setItem('token', res.data.data);
+          navigation.navigate('Profile');
+        } else {
+          Alert.alert("Error", "Login Failed");
+        }
+      })
+      .catch(err => console.error("Login Error:", err));
+  };
+  
   
 
 

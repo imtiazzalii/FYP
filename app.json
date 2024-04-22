@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Swyftbags",
-    "slug": "Swyftbags",
+    "slug": "swyftbags",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,13 +22,18 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.Swyftbags"
+      "package": "com.anonymous.Swyftbags",
+      "jsEngine": "hermes"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "IP_ADDRESS": "http://192.168.18.100:3000"
-    }
+      "IP_ADDRESS": "http://192.168.18.100:3000",
+      "eas": {
+        "projectId": "ddc86832-0638-48ba-80e1-73947541d607"
+      }
+    },
+    "owner": "imtiazz.alii"
   }
 }

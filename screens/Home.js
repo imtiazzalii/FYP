@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
 import Background from "./background";
+import * as Notifications from 'expo-notifications';
 import tw from 'twrnc';
 import Btn from "./btn";
 
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  let finalStatus = existingStatus;
+  if (existingStatus !== 'granted') {
+    const { status } = await Notifications.requestPermissionsAsync();
+    finalStatus = status;
+  }
+  if (finalStatus !== 'granted') {
+    alert('Failed to get push token for push notification!');
+    return;
+  }
+  token = (await Notifications.getExpoPushTokenAsync()).data;
+
+  // Here you can send the token to your backend to store it for later use
+  console.log(token);
+
+  return token;
+}
+
 const Home = (props) => {
+
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+  }, []);
+
+  
   return (
     <Background>
       <View style={tw.style('mx-6','items-center',{marginTop:Dimensions.get('window').height /3,})}>

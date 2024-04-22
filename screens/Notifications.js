@@ -4,9 +4,11 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from 'expo-constants';
 import tw from 'twrnc';
+import { useNavigation } from '@react-navigation/native';
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -31,6 +33,27 @@ const Notifications = () => {
     fetchNotifications();
   }, []);
 
+  const handleNotificationPress = async (notificationId) => {
+    // Mark the notification as viewed
+    const token = await AsyncStorage.getItem("token");
+    await axios.patch(`${Constants.expoConfig.extra.IP_ADDRESS}/notification/${notificationId}`, {}, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    // Update the local state to reflect the change
+    setNotifications(notifications.map(notification => {
+      if (notification._id === notificationId) {
+        return { ...notification, viewed: true };
+      }
+      return notification;
+    }));
+
+    // Navigate to the BiddingOption page
+    navigation.navigate('CurrentTrips');
+  };
+
   return (
     <View style={styles.flexContainer}>
       <ImageBackground source={require('../assets/AllChats/Background.png')} style={styles.imageBackground}>
@@ -46,10 +69,14 @@ const Notifications = () => {
             <ScrollView style={styles.container}>
               <View style={styles.notificationContainer}>
                 {notifications.map((notification) => (
-                  <View key={notification._id} style={styles.notificationItem}>
+                  <TouchableOpacity
+                    key={notification._id}
+                    style={[styles.notificationItem, notification.viewed ? styles.viewedNotification : null]}
+                    onPress={() => handleNotificationPress(notification._id)}
+                  >
                     <Text style={styles.notificationText}>{notification.message}</Text>
                     <Text style={styles.notificationTime}>{new Date(notification.timestamp).toLocaleTimeString()}</Text>
-                  </View>
+                  </TouchableOpacity>
                 ))}
               </View>
             </ScrollView>
@@ -74,6 +101,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  viewedNotification: {
+    backgroundColor: '#2D2D2D', // Change this color as per your design
   },
   header: {
     flexDirection: 'row',
