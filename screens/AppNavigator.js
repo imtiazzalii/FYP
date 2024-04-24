@@ -22,6 +22,7 @@ import Status from './Status';
 import Profile from './Profile';
 import Bidding from './Bidding';
 import BiddingOptions from './BiddingOptions';
+import HelpDesk from './HelpDesk';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -43,6 +44,7 @@ function Sidebar(){
             <Drawer.Screen name="CurrentTrips" component={CurrentTrips} options={{ headerShown: false }}/>
             <Drawer.Screen name="Bidding" component={Bidding} options={{ headerShown: false }}/>
             <Drawer.Screen name="BiddingOptions" component={BiddingOptions} options={{ headerShown: false }}/>
+            <Drawer.Screen name="HelpDesk" component={HelpDesk} options={{ headerShown: false }}/>
         </Drawer.Navigator>
     );
 
@@ -72,6 +74,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
                 <Stack.Screen name="Bidding" component={Bidding} options={{headerShown: false}}/>
                 <Stack.Screen name="BiddingOptions" component={BiddingOptions} options={{headerShown: false}}/>
+                <Stack.Screen name="HelpDesk" component={HelpDesk} options={{headerShown: false}}/>
             </Stack.Navigator>
             
         </NavigationContainer>

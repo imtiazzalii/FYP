@@ -148,12 +148,18 @@ const Content1 = ({ userData, tripData, navigation }) => {
   );
 };
 
-const Filters = () => {
+const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
   const [departureCity, setDepartureCity] = useState("");
   const [arrivalCity, setArrivalCity] = useState("");
   const [weight, setWeight] = useState("");
   const [cost, setCost] = useState(100);
   const [transportMode, setTransportMode] = useState("By Road");
+
+  const applyFilters = () => {
+    fetchTripsWithFilters({ departureCity, arrivalCity, weight, cost, transportMode });
+    onApplyFilters();
+  };
+
 
   return (
     <View style={styles.filcontainer}>
@@ -240,7 +246,7 @@ const Filters = () => {
         </Picker>
       </View>
       <View style={styles.buttonView}>
-        <TouchableOpacity style={styles.setButton}>
+        <TouchableOpacity style={styles.setButton} onPress={applyFilters}>
           <Text style={styles.setText}>Set</Text>
         </TouchableOpacity>
       </View>
@@ -325,7 +331,7 @@ const Content22 = ({ userData, tripData, allTripsResponse, navigation }) => {
   );
 };
 
-const Content2 = ({ userData, tripData, allTripsResponse, navigation }) => {
+const Content2 = ({ userData, tripData, allTripsResponse, navigation,fetchTripsWithFilters }) => {
   const [showFilters, setShowFilters] = useState(false);
 
   const toggleFilters = () => {
@@ -344,7 +350,7 @@ const Content2 = ({ userData, tripData, allTripsResponse, navigation }) => {
       </View>
 
       <View>
-        {showFilters === true ? <Filters /> : null}
+        {showFilters === true ? <Filters fetchTripsWithFilters={fetchTripsWithFilters} onApplyFilters={toggleFilters} /> : null}
         {showFilters === false ? (
           <Content22
             userData={userData}
@@ -403,6 +409,18 @@ const CurrentTrips = () => {
         });
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const fetchTripsWithFilters = async (filters) => {
+    try {
+      const response = await axios.get(`${Constants.expoConfig.extra.IP_ADDRESS}/allTrips`, {
+        params: filters
+      });
+      console.log(response.data.data)
+      setAllTripsResponse(response.data.data);
+    } catch (error) {
+      console.error("Error fetching trips with filters:", error);
     }
   };
 
@@ -500,6 +518,7 @@ const CurrentTrips = () => {
               tripData={tripData}
               allTripsResponse={allTripsResponse}
               navigation={navigation}
+              fetchTripsWithFilters={fetchTripsWithFilters}
             />
           )}
         </View>

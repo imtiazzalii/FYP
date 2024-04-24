@@ -70,7 +70,22 @@ const Bidding = () => {
       .catch((e) => console.log(e));
   };
 
-  
+  const sendNotificationToUser = async () => {
+    const notificationData = {
+        userId: selectedTripData.user.userId,
+        message: "You have a new bid on your trip!",
+        type: "bid"
+    };
+
+    // Call the backend API to create the notification
+    await axios.post(Constants.expoConfig.extra.IP_ADDRESS + "/createNotification", notificationData);
+};
+
+const handleBidAndNotify = async () => {
+  await makeBid(); // Call makeBid first to place the bid
+  await sendNotificationToUser(); // Then send the notification with the bidder's name
+};
+
 
   return (
     <ImageBackground
@@ -279,7 +294,7 @@ const Bidding = () => {
           </View>
           <TouchableOpacity
             style={tw`bg-cyan-600 px-7 py-2 rounded-full self-center mb-4`}
-            onPress={makeBid}
+            onPress={handleBidAndNotify}
           >
             <Text style={tw`text-white text-lg font-bold text-center`}>
               Place Bid
