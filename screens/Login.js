@@ -26,6 +26,8 @@ const Login = () => {
       {
         Alert.alert('Login Successfull!!');
         AsyncStorage.setItem('token',res.data.data);
+        AsyncStorage.setItem('userId',res.data.userId);
+        console.log("user id is ", res.data.userId);
         navigation.navigate('Profile');
       }
       
