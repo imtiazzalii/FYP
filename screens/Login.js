@@ -33,7 +33,7 @@ const Login = () => {
     return token;
   };
 
-  const onSubmit = (data) =>
+  const onSubmit = async (data) =>
   { 
     const pushToken = await registerForPushNotificationsAsync(); // Get the token
     const loginData = {
