@@ -63,7 +63,7 @@ const UserChat = ({ item }) => {
       <TouchableOpacity
         style={styles.chatItem}
         onPress={() => {
-          console.log("Navigating with item:", item);
+          //console.log("Navigating with item:", item);
           navigation.navigate("Chat", { item: item });
         }}
       >

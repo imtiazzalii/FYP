@@ -7,8 +7,26 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
-const CustomDrawer = ({ navigation }) => {
-    const navigation1 = useNavigation()
+const CustomDrawer = () => {
+    const navigation = useNavigation();
+
+    const handleLogout = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const userId = await AsyncStorage.getItem('userId');
+            if (token && userId) {
+                await axios.post(`${Constants.expoConfig.extra.IP_ADDRESS}/logout`, { userId }, {
+                    headers: { Authorization: token }
+                });
+            }
+            await AsyncStorage.setItem('token', '');
+            await AsyncStorage.setItem('userId', '');
+            navigation.navigate('Login'); // Assuming 'Login' is your login screen route name
+        } catch (error) {
+            console.error("Logout Error:", error);
+            Alert.alert("Logout Failed", "Unable to logout. Please try again.");
+        }
+    };
 
     // const [userData, setUserData] = useState('');
 
@@ -66,9 +84,9 @@ const CustomDrawer = ({ navigation }) => {
                     <Image source={require("../assets/Sidebar/terms.png")} style={styles.icons} />
                     <Text style={styles.text}>Terms and conditions</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.menuItem}>
-                    <Image source={require("../assets/Sidebar/logout.png")} style={styles.icons} />
-                    <Text style={styles.text}>Logout</Text>
+                <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
+                <Image source={require("../assets/Sidebar/logout.png")} style={styles.icons} />
+                <Text style={styles.text}>Logout</Text>
                 </TouchableOpacity>
             </View>
         </View>

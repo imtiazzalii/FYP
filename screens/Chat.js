@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
+import axios from "axios";
 import io from "socket.io-client"; // Import the Socket.IO client
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -44,6 +45,16 @@ const Chat = ({ route }) => {
       };
     }, [item._id]) // Ensure the effect runs when item._id changes
   );
+
+  const sendNotificationToUser = async () => {
+    const notificationData = {
+        userId: item._id,
+        message: "You have a new chat message!",
+        type: "chat"
+    };
+
+    await axios.post(Constants.expoConfig.extra.IP_ADDRESS + "/createNotification", notificationData);
+  }
 
   useEffect(() => {
     const connectSocket = async () => {
@@ -81,6 +92,7 @@ const Chat = ({ route }) => {
         console.log("error retrieving details", error);
       }
     };
+    
 
     fetchRecepientData();
     connectSocket();
@@ -111,12 +123,13 @@ const Chat = ({ route }) => {
       console.log("Error in fetching messages", error);
     }
   };
-
+  
   const handleSend = async () => {
     if (message.trim() === "") {
+      
       return;
     }
-
+    await sendNotificationToUser();
     const token = await AsyncStorage.getItem("token");
     socket.emit("sendMessage", {
       token, // Now using the state-stored userId
@@ -125,6 +138,8 @@ const Chat = ({ route }) => {
     });
     // fetchMessages();
     setMessage(""); // Clear input after sending
+    
+    console.log(item);
   };
 
   const formatTime = (time) => {
