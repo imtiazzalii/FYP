@@ -1,20 +1,74 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, Image, StatusBar } from "react-native";
-import {useNavigation} from '@react-navigation/native';
-
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+  ScrollView,
+  Image,
+  StatusBar,
+  Alert,
+  amount,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useStripe } from "@stripe/stripe-react-native"; // Corrected import
+import axios from 'axios';
+import Constants from 'expo-constants';
 
 const Wallet = () => {
   const paymentMethods = [
-    { type: 'Visa', number: '**** 6881' },
-    { type: 'MasterCard', number: '**** 6892' }
+    { type: "Visa", number: "**** 6881" },
+    { type: "MasterCard", number: "**** 6892" }
   ];
 
   const recentActivity = [
-    { type: 'Order', amount: '-Rs.500.0' },
-    { type: 'Trip', amount: '+Rs.700.0' }
+    { type: "Order", amount: "-Rs.500.0" },
+    { type: "Trip", amount: "+Rs.700.0" }
   ];
 
   const navigation = useNavigation();
+  const { initPaymentSheet, presentPaymentSheet } = useStripe(); // Corrected usage
+  const [loading, setLoading] = useState(false);
+  const [walletBalance, setWalletBalance] = useState(0.0);
+
+  const handleTopUpPress = async () => {
+    const amount = 25000; // Move this outside the try block, and make sure it's accessible
+    setLoading(true);
+    try {
+      // Step 1: Fetch the payment intent client secret from the backend
+      const response = await axios.post(Constants.expoConfig.extra.IP_ADDRESS + "/initiate-payment", {
+        amount: amount // Now this uses the correctly scoped variable
+      });
+      const { clientSecret } = response.data;
+  
+      // Step 2: Initialize the payment sheet
+      const { error: initError } = await initPaymentSheet({
+        merchantDisplayName: 'notJust.dev',
+        paymentIntentClientSecret: clientSecret,
+      });
+  
+      if (initError) {
+        Alert.alert("Initialization error", initError.message);
+        setLoading(false);
+        return;
+      }
+  
+      // Step 3: Present the payment sheet
+      const { error: sheetError } = await presentPaymentSheet();
+      if (sheetError) {
+        Alert.alert("Payment failed", sheetError.message);
+      } else {
+        Alert.alert("Success", "Payment is successful");
+        setWalletBalance(prevBalance => prevBalance + amount / 100); // Ensure the unit conversion if necessary
+      }
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -35,9 +89,9 @@ const Wallet = () => {
         <View style={styles.walletHeader}>
           <View>
             <Text style={styles.walletTitle}>Your Wallet</Text>
-            <Text style={styles.walletBalance}>Rs. 100.0</Text>
-            <TouchableOpacity style={styles.topUpButton}>
-              <Text style={styles.topUpButtonText}>Top up</Text>
+            <Text style={styles.walletBalance}>Rs. {walletBalance}</Text>
+            <TouchableOpacity style={styles.topUpButton} onPress={handleTopUpPress} disabled={loading}>
+              <Text style={styles.topUpButtonText}>{loading ? "Processing..." : "Top up"}</Text>
             </TouchableOpacity>
           </View>
           <Image source={require('../assets/SignUp/User.png')} style={styles.userIcon}/>

@@ -54,12 +54,37 @@ const BiddingOptions = () => {
         return bid;
       });
       setBidsInfo(updatedBids);
+  
       // Make a request to your backend to update the bid status in the database
       await axios.put(Constants.expoConfig.extra.IP_ADDRESS + `/updateBidStatus/${bidId}`, { status: newStatus });
+  
+      // Define notification message and type based on the newStatus
+      let message, notificationType;
+      if (newStatus === 'accepted') {
+        message = 'Your bid has been accepted, please proceed to make payment.';
+        notificationType = 'Accept';
+      } else if (newStatus === 'rejected') {
+        message = 'Your bid has been rejected.';
+        notificationType = 'Reject';
+      }
+  
+      // Iterate through bidsInfo to find the bidderId for the accepted or rejected bid
+      const bid = bidsInfo.find(bid => bid._id === bidId);
+      if (bid) {
+        const bidderId = bid.bidderId; // Assuming bidderId is present in bidsInfo
+        
+        // Create a notification for the bidder
+        await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/createNotification', {
+          userId: bidderId,
+          message,
+          type: notificationType
+        });
+      }
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   return (
     <ImageBackground
