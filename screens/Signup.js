@@ -70,7 +70,7 @@ const Signup = () => {
         .then(res => {
             console.log(res.data);
             if (res.data.status === "ok") {
-                Alert.alert("Your registration will be confirmed in a day");
+                Alert.alert("Account created!", "Your registration will be confirmed once your details are verified.");
                 navigation.navigate('Login');
             } else {
                 Alert.alert("Error", res.data.message || "An error occurred");

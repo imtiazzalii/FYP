@@ -24,7 +24,7 @@ const Content1 = ({ userData, tripData, navigation }) => {
   return (
     <ScrollView>
       {Array.isArray(tripData) &&
-        tripData.map((trip, index) => (
+        tripData.filter(trip => trip.status != "completed").map((trip, index) => (
           <TouchableOpacity
             key={index}
             onPress={() =>
@@ -257,7 +257,7 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
 const Content22 = ({ userData, tripData, allTripsResponse, navigation }) => {
   return (
     <ScrollView>
-      {allTripsResponse.map((data, index) => (
+      {allTripsResponse.filter(data => data.trip.status === "pending").map((data, index) => (
         <TouchableOpacity
           key={index}
           onPress={() =>

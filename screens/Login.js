@@ -54,11 +54,19 @@ const Login = () => {
         console.log("user id is ", res.data.userId);
         navigation.navigate('Profile');
       }else {
-        Alert.alert("Error", "Login Failed");
+        Alert.alert("Error", res.data.error);  // Display specific error from the backend
       }
       
   })
-  .catch(err => console.error("Login Error:", err));
+  .catch(err => {
+    console.error("Login Error:", err);
+    // Check if error response is available and display the message from the backend
+    if (err.response && err.response.data) {
+      Alert.alert("Login Error", err.response.data.error || "Unknown error occurred");
+    } else {
+      Alert.alert("Login Error", "Network or server error");
+    }
+  });
   };
   
   

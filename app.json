@@ -29,7 +29,7 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "IP_ADDRESS": "http://192.168.18.100:3000",
+      "IP_ADDRESS": "http://192.168.100.4:3000",
       "eas": {
         "projectId": "ddc86832-0638-48ba-80e1-73947541d607"
       }
