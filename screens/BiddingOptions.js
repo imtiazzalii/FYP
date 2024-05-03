@@ -23,14 +23,10 @@ const BiddingOptions = () => {
   const getData = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-      //console.log(token);
-      //console.log(trip);
-
       await axios
         .get(Constants.expoConfig.extra.IP_ADDRESS + `/showbids/${trip._id}`)
         .then((response) => {
           setBidsInfo(response.data.data);
-          console.log(response.data.data);
         })
         .catch((error) => {
           console.error(error);
@@ -42,7 +38,6 @@ const BiddingOptions = () => {
 
   useEffect(() => {
     getData();
-    
   }, []);
 
   const updateBidStatus = async (bidId, newStatus) => {
@@ -55,10 +50,8 @@ const BiddingOptions = () => {
       });
       setBidsInfo(updatedBids);
   
-      // Make a request to your backend to update the bid status in the database
       await axios.put(Constants.expoConfig.extra.IP_ADDRESS + `/updateBidStatus/${bidId}`, { status: newStatus });
   
-      // Define notification message and type based on the newStatus
       let message, notificationType;
       if (newStatus === 'accepted') {
         message = 'Your bid has been accepted, please proceed to make payment.';
@@ -68,12 +61,16 @@ const BiddingOptions = () => {
         notificationType = 'Reject';
       }
   
-      // Iterate through bidsInfo to find the bidderId for the accepted or rejected bid
       const bid = bidsInfo.find(bid => bid._id === bidId);
       if (bid) {
-        const bidderId = bid.bidderId; // Assuming bidderId is present in bidsInfo
+        const bidderId = bid.bidderId;
         
-        // Create a notification for the bidder
+        await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/chargeWallet', {
+          bidderId,
+          bidAmount: bid.bid,
+          capacity: bid.capacity
+        });
+
         await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/createNotification', {
           userId: bidderId,
           message,
@@ -84,7 +81,6 @@ const BiddingOptions = () => {
       console.error(error);
     }
   };
-  
 
   return (
     <ImageBackground

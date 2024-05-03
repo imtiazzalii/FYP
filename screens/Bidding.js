@@ -58,17 +58,46 @@ const Bidding = () => {
     data.capacity = capacity;
     data.token = await AsyncStorage.getItem("token");
     console.log(data);
-
-    await axios
-      .post(Constants.expoConfig.extra.IP_ADDRESS + "/bid", data)
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.status == "ok") {
-          Alert.alert("Bid submitted!", "press ok");
+  
+    // Calculate the bid amount
+    const bidAmountWithFee = (bidAmount * capacity) + (0.05 * bidAmount * capacity);
+  
+    // Retrieve bidder's wallet balance
+    const userId = await AsyncStorage.getItem('userId');
+    const token = await AsyncStorage.getItem('token');
+    
+    try {
+      const walletResponse = await axios.get(`${Constants.expoConfig.extra.IP_ADDRESS}/wallet/details/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (walletResponse.status === 200) {
+        const walletBalance = walletResponse.data.data.balance;
+  
+        // Check if wallet balance is sufficient
+        if (walletBalance >= bidAmountWithFee) {
+          // Proceed with bid submission
+          await axios.post(Constants.expoConfig.extra.IP_ADDRESS + "/bid", data)
+            .then((res) => {
+              console.log(res.data);
+              if (res.data.status == "ok") {
+                // Send notification to user
+                sendNotificationToUser();
+                Alert.alert("Bid submitted!", "press ok");
+              }
+            })
+            .catch((e) => console.log(e));
+        } else {
+          // Display alert for insufficient funds
+          Alert.alert("Insufficient Funds", "You don't have enough funds in your wallet to place this bid.");
         }
-      })
-      .catch((e) => console.log(e));
+      }
+    } catch (error) {
+      console.error("Error fetching wallet details:", error);
+      Alert.alert("Error", "Could not fetch wallet details");
+    }
   };
+  
 
   const sendNotificationToUser = async () => {
     const notificationData = {
