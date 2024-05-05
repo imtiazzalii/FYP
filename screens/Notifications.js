@@ -74,6 +74,8 @@ const Notifications = () => {
       navigation.navigate("AllChats");
     } else if (notificationType === "bid") {
       navigation.navigate("CurrentTrips");
+    } else if (notificationType === "Accept") {
+      navigation.navigate("Wallet");
     }
   };
 

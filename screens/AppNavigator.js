@@ -37,7 +37,6 @@ function Sidebar(){
             <Drawer.Screen name="Chat" component={Chat} options={{ headerShown: false }}/>
             <Drawer.Screen name="AllChats" component={AllChats} options={{ headerShown: false }}/>
             <Drawer.Screen name="Notifications" component={Notifications} options={{ headerShown: false }}/>
-            <Drawer.Screen name="Wallet" component={Wallet} options={{ headerShown: false }}/>
             <Drawer.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
             <Drawer.Screen name="Status" component={Status} options={{ headerShown: false }}/>
             <Drawer.Screen name="OrderHistory" component={OrderHistory} options={{ headerShown: false }}/>
