@@ -22,6 +22,7 @@ import Profile from './Profile';
 import Bidding from './Bidding';
 import BiddingOptions from './BiddingOptions';
 import HelpDesk from './HelpDesk';
+import UserChat from './UserChat';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,7 +38,7 @@ function MainStackNavigator() {
             <Stack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
             <Stack.Screen name="AllChats" component={AllChats} options={{headerShown: false}}/>
             <Stack.Screen name="Notifications" component={Notifications} options={{headerShown: false}}/>
-
+            <Stack.Screen name="UserChat" component={UserChat} options={{headerShown: false}}/>
             <Stack.Screen name="NewTrip" component={NewTrip} options={{headerShown: false}}/>
             <Stack.Screen name="OrderHistory" component={OrderHistory} options={{headerShown: false}}/>
             <Stack.Screen name="CurrentTrips" component={CurrentTrips} options={{headerShown: false}}/>

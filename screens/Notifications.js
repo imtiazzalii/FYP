@@ -84,7 +84,7 @@ const Notifications = () => {
     } else if (notificationType === "bid") {
       navigation.navigate("CurrentTrips");
     } else if (notificationType === "Accept") {
-      navigation.navigate("Wallet");
+      navigation.navigate("UserChat");
     }
   };
 

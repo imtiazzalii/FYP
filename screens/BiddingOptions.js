@@ -73,11 +73,16 @@ const BiddingOptions = () => {
       const bid = bidsInfo.find(bid => bid._id === bidId);
       if (bid) {
         const bidderId = bid.bidderId;
+       
         
         await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/chargeWallet', {
           bidderId,
           bidAmount: bid.bid,
-          capacity: bid.capacity
+        });
+
+        await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/makeFriend', {
+          bidderId,
+          userId: await AsyncStorage.getItem("userId")
         });
 
         await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/createNotification', {

@@ -60,7 +60,7 @@ const Bidding = () => {
     console.log(data);
   
     // Calculate the bid amount
-    const bidAmountWithFee = (bidAmount * capacity) + (0.05 * bidAmount * capacity);
+    const bidAmountWithFee = (bidAmount) + (0.05 * bidAmount);
   
     // Retrieve bidder's wallet balance
     const userId = await AsyncStorage.getItem('userId');
