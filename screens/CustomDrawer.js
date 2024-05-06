@@ -7,6 +7,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
+
+
 const CustomDrawer = () => {
     const navigation = useNavigation();
 
@@ -59,7 +61,7 @@ const CustomDrawer = () => {
 
             {/* Menu Section */}
             <View style={styles.menuSection}>
-                <TouchableOpacity onPress={() => navigation1.navigate("Dashboard")} style={styles.menuItem}>
+                <TouchableOpacity onPress={() => navigation.navigate("Dashboard")} style={styles.menuItem}>
                     <Image source={require("../assets/Sidebar/home.png")} style={styles.icons} />
                     <Text style={styles.text}>Home</Text>
                 </TouchableOpacity>

@@ -8,6 +8,7 @@ import {
   ScrollView,
   Image,
   StatusBar,
+  RefreshControl,
   Alert,
   amount,
 } from "react-native";
@@ -34,6 +35,7 @@ const Wallet = () => {
   const [walletBalance, setWalletBalance] = useState(0.0);
   const [activityList, setActivityList] = useState(recentActivity);
   const [userDetails, setUserDetails] = useState({ name: "", profilePic: "" });
+  const [refreshing, setRefreshing] = useState(false);
 
 
   const fetchUserProfile = async () => {
@@ -62,6 +64,8 @@ const Wallet = () => {
       }
     }
   };
+
+  
 
   const checkAndCreateWallet = async () => {
     const userId = await AsyncStorage.getItem('userId');
@@ -98,6 +102,12 @@ const Wallet = () => {
       console.error("Error fetching wallet details:", error);
       Alert.alert("Error", "Could not fetch wallet details");
     }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getData(); // Fetch data from backend
+    setRefreshing(false); // Set refreshing to false after data is fetched
   };
 
   async function initializeWallet() {
@@ -161,6 +171,13 @@ const Wallet = () => {
   
 
   return (
+
+    <ScrollView refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    }>
     <View style={styles.container}>
        <ImageBackground
         source={require('../assets/wallet/Headerbg.png')} // Replace with the path to your background image
@@ -220,6 +237,7 @@ const Wallet = () => {
   )}
 </View>
     </View>
+    </ScrollView>
   );
 };
 

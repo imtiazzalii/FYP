@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  RefreshControl,
   ScrollView,
   ImageBackground,
 } from "react-native";
@@ -17,6 +18,7 @@ const BiddingOptions = () => {
 
   const navigation = useNavigation();
   const [bidsInfo, setBidsInfo] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const route = useRoute();
   const trip = route.params.trip;
 
@@ -35,6 +37,13 @@ const BiddingOptions = () => {
       console.log(error);
     }
   };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getData(); // Fetch data from backend
+    setRefreshing(false); // Set refreshing to false after data is fetched
+  };
+  
 
   useEffect(() => {
     getData();
@@ -87,7 +96,12 @@ const BiddingOptions = () => {
       source={require("../assets/Dashboard/dashbg.jpeg")}
       style={tw`h-full`}
     >
-      <ScrollView contentContainerStyle={tw`p-4 mt-10`}>
+      <ScrollView  refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        } contentContainerStyle={tw`p-4 mt-10`}>
         {bidsInfo.filter(item => item.status === "pending").map((item, index) => (
           <View
             key={index}

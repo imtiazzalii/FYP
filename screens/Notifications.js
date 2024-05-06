@@ -5,6 +5,7 @@ import {
   Text,
   ImageBackground,
   Image,
+  RefreshControl,
   Platform,
   StatusBar,
   ScrollView,
@@ -18,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -45,6 +47,13 @@ const Notifications = () => {
 
     fetchNotifications();
   }, []);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getData(); // Fetch data from backend
+    setRefreshing(false); // Set refreshing to false after data is fetched
+  };
+  
 
   const handleNotificationPress = async (notificationId, notificationType) => {
     // Mark the notification as viewed
@@ -85,7 +94,12 @@ const Notifications = () => {
         source={require("../assets/AllChats/Background.png")}
         style={styles.imageBackground}
       >
-        <ScrollView>
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }>
           <View style={styles.container}>
             <View style={styles.header}>
               <TouchableOpacity onPress={() => navigation.openDrawer()}>

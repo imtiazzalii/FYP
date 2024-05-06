@@ -10,6 +10,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   TextInput,
+  RefreshControl,
   ScrollView,
 } from "react-native";
 import Slider from "@react-native-community/slider";
@@ -254,10 +255,10 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
   );
 };
 
-const Content22 = ({ userData, tripData, allTripsResponse, navigation }) => {
+const Content22 = ({ userData, tripData, allTripsResponse, navigation, userid }) => {
   return (
     <ScrollView>
-      {allTripsResponse.filter(data => data.trip.status === "pending").map((data, index) => (
+      {allTripsResponse.filter(data => data.trip.status === "pending" && data.user.userId !== userid).map((data, index) => (
         <TouchableOpacity
           key={index}
           onPress={() =>
@@ -331,7 +332,7 @@ const Content22 = ({ userData, tripData, allTripsResponse, navigation }) => {
   );
 };
 
-const Content2 = ({ userData, tripData, allTripsResponse, navigation,fetchTripsWithFilters }) => {
+const Content2 = ({ userData, tripData, allTripsResponse, navigation,fetchTripsWithFilters, userid}) => {
   const [showFilters, setShowFilters] = useState(false);
 
   const toggleFilters = () => {
@@ -357,6 +358,7 @@ const Content2 = ({ userData, tripData, allTripsResponse, navigation,fetchTripsW
             tripData={tripData}
             allTripsResponse={allTripsResponse}
             navigation={navigation}
+            userid={userid}
           />
         ) : null}
       </View>
@@ -369,6 +371,8 @@ const CurrentTrips = () => {
   const [userData, setUserData] = useState("");
   const [tripData, setTripData] = useState("");
   const [allTripsResponse, setAllTripsResponse] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [userid, setUserid] = useState("");
 
   const handleButtonPress = (button) => {
     setSelectedButton(button);
@@ -379,6 +383,8 @@ const CurrentTrips = () => {
   const getData = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
+      const userId = await AsyncStorage.getItem("userId")
+      setUserid(userId)
       console.log(token);
 
       await axios
@@ -424,6 +430,13 @@ const CurrentTrips = () => {
     }
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getData(); // Fetch data from backend
+    setRefreshing(false); // Set refreshing to false after data is fetched
+  };
+  
+
   useEffect(() => {
     getData();
   }, []);
@@ -433,7 +446,14 @@ const CurrentTrips = () => {
       source={require("../assets/Dashboard/dashbg.jpeg")}
       style={tw.style("h-full")}
     >
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      >
         <View
           style={tw.style({
             paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
@@ -519,6 +539,7 @@ const CurrentTrips = () => {
               allTripsResponse={allTripsResponse}
               navigation={navigation}
               fetchTripsWithFilters={fetchTripsWithFilters}
+              userid={userid}
             />
           )}
         </View>

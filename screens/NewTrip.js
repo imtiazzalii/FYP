@@ -25,7 +25,7 @@ import Constants from "expo-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import DatePicker from "react-native-modern-datepicker";
-
+import { useNavigation } from "@react-navigation/native";
 
 const NewTrip = () => {
   const {
@@ -34,6 +34,9 @@ const NewTrip = () => {
     register,
     formState: { errors },
   } = useForm();
+
+  const navigation = useNavigation();
+
   const [userData, setUserData] = useState("");
   const [departureCity, setDepartureCity] = useState("");
   const [arrivalCity, setArrivalCity] = useState("");
@@ -46,30 +49,30 @@ const NewTrip = () => {
   const [arrivalTime, setArrivalTime] = useState("");
 
   const [arrivalText, setArrivalText] = useState("Select Arrival Date/Time");
-  const [departureText, setDepartureText] = useState("Select Departure Date/Time");
+  const [departureText, setDepartureText] = useState(
+    "Select Departure Date/Time"
+  );
 
   const generateDepartureText = () => {
-    if(departureDate != "" && departureTime != "")
-    {
+    if (departureDate != "" && departureTime != "") {
       setDepartureText(departureDate + "  " + departureTime);
       console.log(departureText);
     }
-  }
+  };
 
   const generateArrivalText = () => {
-    if(arrivalDate != "" && arrivalTime != "")
-    {
+    if (arrivalDate != "" && arrivalTime != "") {
       setArrivalText(arrivalDate + "  " + arrivalTime);
       console.log(arrivalText);
     }
-  }
+  };
 
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
 
   const setArrivalVisibleFunc = () => {
     arrivalVisible ? setArrivalVisible(!arrivalVisible) : arrivalVisible;
-  }
+  };
 
   const formatDate = () => {
     // Get the year, month, and day from the date object
@@ -85,11 +88,11 @@ const NewTrip = () => {
 
   function getNextMonthDate() {
     const today = new Date();
-    
+
     // Get the current month and year
     let year = today.getFullYear();
     let month = today.getMonth() + 1; // Adding 1 because January is 0
-  
+
     // Adjust if it's December
     if (month === 12) {
       year++;
@@ -97,13 +100,15 @@ const NewTrip = () => {
     } else {
       month++;
     }
-  
+
     // Get the last day of the next month
     const lastDayNextMonth = new Date(year, month, 0).getDate();
-  
+
     // Format the date
-    const nextMonthDate = `${year}-${month.toString().padStart(2, '0')}-${lastDayNextMonth.toString().padStart(2, '0')}`;
-  
+    const nextMonthDate = `${year}-${month
+      .toString()
+      .padStart(2, "0")}-${lastDayNextMonth.toString().padStart(2, "0")}`;
+
     return nextMonthDate;
   }
 
@@ -112,10 +117,10 @@ const NewTrip = () => {
       const token = await AsyncStorage.getItem("token");
       console.log(token);
       axios
-      .get(Constants.expoConfig.extra.IP_ADDRESS + `/userData/${token}`)
-      .then((response) => {
-        setUserData(response.data.data);
-      });
+        .get(Constants.expoConfig.extra.IP_ADDRESS + `/userData/${token}`)
+        .then((response) => {
+          setUserData(response.data.data);
+        });
     } catch (error) {
       console.error(error);
     }
@@ -153,6 +158,7 @@ const NewTrip = () => {
         console.log(res.data);
         if (res.data.status == "ok") {
           Alert.alert("Trip Posted!");
+          navigation.navigate("CurrentTrips");
         }
       })
       .catch((e) => console.log(e));
@@ -209,10 +215,9 @@ const NewTrip = () => {
             <Picker.Item label="Quetta" value="Quetta" />
             <Picker.Item label="Faisalabad" value="Faisalabad" />
           </Picker>
-          
 
           <Text style={styles.label}>Where are you travelling to?</Text>
-          
+
           <Picker
             selectedValue={arrivalCity}
             onValueChange={(itemValue) => setArrivalCity(itemValue)}
@@ -242,24 +247,33 @@ const NewTrip = () => {
           </Picker>
           <Text style={styles.label}>When do you leave?</Text>
 
-
           <TouchableOpacity
-          style={tw.style(`items-center py-4 px-5`,
-          {
-          marginVertical: 5,
-          backgroundColor:'#1D4246',
-          width: Dimensions.get("screen").width * 70/100,
-          borderRadius: 20,
-          borderWidth: 2,
-          borderColor: "black",},
-          {
-            //marginBottom: Dimensions.get("screen").height * 10/100,
-            //marginLeft: Dimensions.get("screen").width * 1/100,
-          })}
-          onPress={() => setDepartureVisible(true)}
+            style={tw.style(
+              `items-center py-4 px-5`,
+              {
+                marginVertical: 5,
+                backgroundColor: "#1D4246",
+                width: (Dimensions.get("screen").width * 70) / 100,
+                borderRadius: 20,
+                borderWidth: 2,
+                borderColor: "black",
+              },
+              {
+                //marginBottom: Dimensions.get("screen").height * 10/100,
+                //marginLeft: Dimensions.get("screen").width * 1/100,
+              }
+            )}
+            onPress={() => setDepartureVisible(true)}
           >
-          <Text style={tw.style({fontSize:15, color:"#47ADB8",fontWeight: "bold"})}>
-          {departureText}</Text>
+            <Text
+              style={tw.style({
+                fontSize: 15,
+                color: "#47ADB8",
+                fontWeight: "bold",
+              })}
+            >
+              {departureText}
+            </Text>
           </TouchableOpacity>
 
           <Modal
@@ -293,33 +307,47 @@ const NewTrip = () => {
               mode="datepicker"
               style={styles.datepicker}
             />
-            <Pressable style={styles.modalclosebutton} onPress={() => setDepartureVisible(false)}><Text style={styles.modalclosebuttontext}>Close</Text></Pressable>
+            <Pressable
+              style={styles.modalclosebutton}
+              onPress={() => setDepartureVisible(false)}
+            >
+              <Text style={styles.modalclosebuttontext}>Close</Text>
+            </Pressable>
           </Modal>
-
 
           <Text style={styles.label}>When is your arrival?</Text>
 
           <TouchableOpacity
-          style={tw.style(`items-center py-4 px-5`,
-          {
-          marginVertical: 5,
-          backgroundColor:'#1D4246',
-          width: Dimensions.get("screen").width * 70/100,
-          borderRadius: 20,
-          borderWidth: 2,
-          borderColor: "black",},
-          {
-            //marginBottom: Dimensions.get("screen").height * 10/100,
-            //marginLeft: Dimensions.get("screen").width * 1/100,
-          })}
-          onPress={() => setArrivalVisible(true)}
+            style={tw.style(
+              `items-center py-4 px-5`,
+              {
+                marginVertical: 5,
+                backgroundColor: "#1D4246",
+                width: (Dimensions.get("screen").width * 70) / 100,
+                borderRadius: 20,
+                borderWidth: 2,
+                borderColor: "black",
+              },
+              {
+                //marginBottom: Dimensions.get("screen").height * 10/100,
+                //marginLeft: Dimensions.get("screen").width * 1/100,
+              }
+            )}
+            onPress={() => setArrivalVisible(true)}
           >
-          <Text style={tw.style({fontSize:15, color:"#47ADB8",fontWeight: "bold"})}>
-          {arrivalText}</Text>
+            <Text
+              style={tw.style({
+                fontSize: 15,
+                color: "#47ADB8",
+                fontWeight: "bold",
+              })}
+            >
+              {arrivalText}
+            </Text>
           </TouchableOpacity>
 
           <Modal
-            style={width='10%'}
+            style={(width = "10%")}
             transparent={true}
             visible={arrivalVisible}
             animationType="fade"
@@ -348,9 +376,13 @@ const NewTrip = () => {
               mode="datepicker"
               style={styles.datepicker}
             />
-            <Pressable style={styles.modalclosebutton} onPress={() => setArrivalVisible(false)}><Text style={styles.modalclosebuttontext}>Close</Text></Pressable>
+            <Pressable
+              style={styles.modalclosebutton}
+              onPress={() => setArrivalVisible(false)}
+            >
+              <Text style={styles.modalclosebuttontext}>Close</Text>
+            </Pressable>
           </Modal>
-          
 
           <Text style={styles.label}>What is your starting bid?</Text>
           <Controller
@@ -374,7 +406,9 @@ const NewTrip = () => {
           />
           {errors && errors.startbid && <Text>{errors.startbid.message}</Text>}
 
-          <Text style={[styles.label, { width: "43%" }]}>What is your buyout price?</Text>
+          <Text style={[styles.label, { width: "43%" }]}>
+            What is your buyout price?
+          </Text>
           <Controller
             control={control}
             rules={{
@@ -449,8 +483,8 @@ const NewTrip = () => {
                 `rounded-full items-center w-30 py-3 px-5 my-5 mx-5`,
                 {
                   backgroundColor: "#1D4246",
-                  marginBottom: Dimensions.get("screen").height * 12/100,
-                  marginLeft: Dimensions.get("screen").width * 60/100,
+                  marginBottom: (Dimensions.get("screen").height * 12) / 100,
+                  marginLeft: (Dimensions.get("screen").width * 60) / 100,
                 }
               )}
               onPress={handleSubmit(onSubmit)}
@@ -520,7 +554,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   picker: {
-    width: Dimensions.get("screen").width * 70/100,
+    width: (Dimensions.get("screen").width * 70) / 100,
     height: 40,
     borderWidth: 2,
     borderColor: "black",
@@ -547,7 +581,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   modal: {
-   width: 20, 
+    width: 20,
   },
   modalclosebutton: {
     alignSelf: "center",
@@ -559,7 +593,7 @@ const styles = StyleSheet.create({
   modalclosebuttontext: {
     color: "white",
     fontWeight: "bold",
-  }
+  },
 });
 
 export default NewTrip;

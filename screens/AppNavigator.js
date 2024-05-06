@@ -1,8 +1,7 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
@@ -27,55 +26,39 @@ import HelpDesk from './HelpDesk';
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function Sidebar(){
-    return(
-        <Drawer.Navigator screenOptions={{
-            swipeEnabled: false,
-        }} drawerContent={props => <CustomDrawer {...props} />}>
-            <Drawer.Screen name="Routing" component={Routing} options={{ headerShown: false }}/>
-            <Drawer.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }}/>
-            <Drawer.Screen name="Chat" component={Chat} options={{ headerShown: false }}/>
-            <Drawer.Screen name="AllChats" component={AllChats} options={{ headerShown: false }}/>
-            <Drawer.Screen name="Notifications" component={Notifications} options={{ headerShown: false }}/>
-            <Drawer.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
-            <Drawer.Screen name="Status" component={Status} options={{ headerShown: false }}/>
-            <Drawer.Screen name="OrderHistory" component={OrderHistory} options={{ headerShown: false }}/>
-            <Drawer.Screen name="CurrentTrips" component={CurrentTrips} options={{ headerShown: false }}/>
-            <Drawer.Screen name="Bidding" component={Bidding} options={{ headerShown: false }}/>
-            <Drawer.Screen name="BiddingOptions" component={BiddingOptions} options={{ headerShown: false }}/>
-            <Drawer.Screen name="HelpDesk" component={HelpDesk} options={{ headerShown: false }}/>
-        </Drawer.Navigator>
-    );
+function MainStackNavigator() {
+    return (
+        <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false}}/>
+           <Stack.Screen name="Routing" component={Routing} options={{headerShown: false}}/>
+            <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
+            <Stack.Screen name="Signup" component={Signup} options={{headerShown: false}}/>
+            <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+            <Stack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
+            <Stack.Screen name="AllChats" component={AllChats} options={{headerShown: false}}/>
+            <Stack.Screen name="Notifications" component={Notifications} options={{headerShown: false}}/>
 
+            <Stack.Screen name="NewTrip" component={NewTrip} options={{headerShown: false}}/>
+            <Stack.Screen name="OrderHistory" component={OrderHistory} options={{headerShown: false}}/>
+            <Stack.Screen name="CurrentTrips" component={CurrentTrips} options={{headerShown: false}}/>
+            <Stack.Screen name="Wallet" component={Wallet} options={{headerShown: false}}/>
+            <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
+            <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false}}/>
+            <Stack.Screen name="Status" component={Status} options={{headerShown: false}}/>
+            <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
+            <Stack.Screen name="Bidding" component={Bidding} options={{headerShown: false}}/>
+            <Stack.Screen name="BiddingOptions" component={BiddingOptions} options={{headerShown: false}}/>
+            <Stack.Screen name="HelpDesk" component={HelpDesk} options={{headerShown: false}}/>
+        </Stack.Navigator>
+    );
 }
 
 const AppNavigator = () => {
-    return(
+    return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName={Routing}>
-                <Stack.Screen name="Sidebar" component={Sidebar} options={{ headerShown: false }}/>
-                <Stack.Screen name="Routing" component={Routing} options={{headerShown: false}}/>
-                <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
-                <Stack.Screen name="Signup" component={Signup} options={{headerShown: false}}/>
-                <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-                <Stack.Screen name="Chat" component={Chat} options={{headerShown: false}}/>
-                <Stack.Screen name="AllChats" component={AllChats} options={{headerShown: false}}/>
-                <Stack.Screen name="Notifications" component={Notifications} options={{headerShown: false}}/>
-                
-                <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false}}/>
-                <Stack.Screen name="NewTrip" component={NewTrip} options={{headerShown: false}}/>
-                <Stack.Screen name="OrderHistory" component={OrderHistory} options={{headerShown: false}}/>
-                <Stack.Screen name="CurrentTrips" component={CurrentTrips} options={{headerShown: false}}/>
-                <Stack.Screen name="Wallet" component={Wallet} options={{headerShown: false}}/>
-                <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
-                <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false}}/>
-                <Stack.Screen name="Status" component={Status} options={{headerShown: false}}/>
-                <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
-                <Stack.Screen name="Bidding" component={Bidding} options={{headerShown: false}}/>
-                <Stack.Screen name="BiddingOptions" component={BiddingOptions} options={{headerShown: false}}/>
-                <Stack.Screen name="HelpDesk" component={HelpDesk} options={{headerShown: false}}/>
-            </Stack.Navigator>
-            
+            <Drawer.Navigator initialRouteName="MainStack" screenOptions={{ swipeEnabled: false }} drawerContent={props => <CustomDrawer {...props} />}>
+                <Drawer.Screen name="MainStack" component={MainStackNavigator} options={{ headerShown: false }}/>
+            </Drawer.Navigator>
         </NavigationContainer>
     );
 };

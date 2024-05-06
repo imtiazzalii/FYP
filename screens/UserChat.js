@@ -6,6 +6,7 @@ import {
   Image,
   Platform,
   StatusBar,
+  RefreshControl,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -18,6 +19,7 @@ import Constants from "expo-constants";
 
 const UserChat = ({ item }) => {
   const [messages, setMessages] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
 
   const fetchMessages = async () => {
@@ -37,6 +39,12 @@ const UserChat = ({ item }) => {
     } catch (error) {
       console.log("Error in fetching messages", error);
     }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getData(); // Fetch data from backend
+    setRefreshing(false); // Set refreshing to false after data is fetched
   };
 
   useEffect(() => {
@@ -59,6 +67,12 @@ const UserChat = ({ item }) => {
   };
 
   return (
+    <ScrollView refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    }>
     <View style={styles.chatItemsContainer}>
       <TouchableOpacity
         style={styles.chatItem}
@@ -85,6 +99,7 @@ const UserChat = ({ item }) => {
           </Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 
