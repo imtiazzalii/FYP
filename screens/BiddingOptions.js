@@ -51,50 +51,67 @@ const BiddingOptions = () => {
 
   const updateBidStatus = async (bidId, newStatus) => {
     try {
-      const updatedBids = bidsInfo.map(bid => {
-        if (bid._id === bidId) {
-          return { ...bid, status: newStatus };
-        }
-        return bid;
-      });
-      setBidsInfo(updatedBids);
-  
-      await axios.put(Constants.expoConfig.extra.IP_ADDRESS + `/updateBidStatus/${bidId}`, { status: newStatus });
-  
-      let message, notificationType;
-      if (newStatus === 'accepted') {
-        message = 'Your bid has been accepted, please proceed to make payment.';
-        notificationType = 'Accept';
-      } else if (newStatus === 'rejected') {
-        message = 'Your bid has been rejected.';
-        notificationType = 'Reject';
-      }
-  
-      const bid = bidsInfo.find(bid => bid._id === bidId);
-      if (bid) {
-        const bidderId = bid.bidderId;
-       
+        // Update local state first
+        const updatedBids = bidsInfo.map(bid => {
+            if (bid._id === bidId) {
+                return { ...bid, status: newStatus };
+            }
+            return bid;
+        });
+        setBidsInfo(updatedBids);
         
-        await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/chargeWallet', {
-          bidderId,
-          bidAmount: bid.bid,
-        });
+        // Update bid status in the backend
+        await axios.put(Constants.expoConfig.extra.IP_ADDRESS + `/updateBidStatus/${bidId}`, { status: newStatus });
 
-        await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/makeFriend', {
-          bidderId,
-          userId: await AsyncStorage.getItem("userId")
-        });
+        let message, notificationType;
+        if (newStatus === 'accepted') {
+            message = 'Your bid has been accepted, please proceed to make payment.';
+            notificationType = 'Accept';
 
-        await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/createNotification', {
-          userId: bidderId,
-          message,
-          type: notificationType
-        });
-      }
+            // Fetch the bid details including receiver information
+            const bidDetailsResponse = await axios.get(`${Constants.expoConfig.extra.IP_ADDRESS}/getBidById/${bidId}`);
+            const { recvName, recvNumber, recvCnic, tripId } = bidDetailsResponse.data.data;
+              console.log("Receiver Name:", recvName);
+              console.log("Receiver Number:", recvNumber);
+              console.log("Receiver CNIC:", recvCnic);
+              console.log("Trip ID:", tripId);
+
+            // Update the trip details with receiver information
+            await axios.put(`${Constants.expoConfig.extra.IP_ADDRESS}/updateTripDetails/${tripId}`, {
+                recvName,
+                recvNumber,
+                recvCnic
+            });
+
+        } else if (newStatus === 'rejected') {
+            message = 'Your bid has been rejected.';
+            notificationType = 'Reject';
+        }
+        
+        const bid = bidsInfo.find(bid => bid._id === bidId);
+        if (bid) {
+            const bidderId = bid.bidderId;
+            
+            // Execute further actions based on bid status
+            await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/chargeWallet', {
+                bidderId,
+                bidAmount: bid.bid,
+            });
+            await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/makeFriend', {
+                bidderId,
+                userId: await AsyncStorage.getItem("userId")
+            });
+            await axios.post(Constants.expoConfig.extra.IP_ADDRESS + '/createNotification', {
+                userId: bidderId,
+                message,
+                type: notificationType
+            });
+        }
     } catch (error) {
-      console.error(error);
+        console.error("Error in updateBidStatus:", error);
     }
-  };
+};
+
 
   return (
     <ImageBackground

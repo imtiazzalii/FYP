@@ -7,6 +7,9 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  Modal, 
+  TextInput, 
+  Button,
   StatusBar,
   ImageBackground,
   Alert
@@ -23,6 +26,8 @@ const Bidding = () => {
 
   // Assuming `tripData` contains the user data directly or nested within
   const { selectedTripData } = route.params;
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [bidAmount, setBidAmount] = useState(
     parseInt(selectedTripData.trip.startbid)
@@ -51,12 +56,20 @@ const Bidding = () => {
     }
   };
 
+  const [recvName, setRecvName] = useState('');
+  const [recvNumber, setRecvNumber] = useState('');
+  const [recvCnic, setRecvCnic] = useState('');
+
+
   const makeBid = async () => {
     const data = {};
     data.id = selectedTripData.trip._id;
     data.bid = bidAmount;
     data.capacity = capacity;
     data.token = await AsyncStorage.getItem("token");
+    data.recvName = recvName;
+    data.recvNumber = recvNumber;
+    data.recvCnic = recvCnic;
     console.log(data);
   
     // Calculate the bid amount
@@ -322,15 +335,54 @@ const handleBidAndNotify = async () => {
             </View>
           </View>
           <TouchableOpacity
-            style={tw`bg-cyan-600 px-7 py-2 rounded-full self-center mb-4`}
-            onPress={handleBidAndNotify}
-          >
-            <Text style={tw`text-white text-lg font-bold text-center`}>
-              Place Bid
-            </Text>
-          </TouchableOpacity>
+          style={tw`bg-cyan-600 px-7 py-2 rounded-full self-center mb-4`}
+          onPress={() => setModalVisible(true)}  // Change here
+        >
+          <Text style={tw`text-white text-lg font-bold text-center`}>
+            Place Bid
+          </Text>
+        </TouchableOpacity>
         </View>
       </ScrollView>
+      <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        Alert.alert("Modal has been closed.");
+        setModalVisible(!modalVisible);
+      }}
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <TextInput
+            style={styles.inputField}
+            placeholder="Receiver's Name"
+            value={recvName}
+            onChangeText={setRecvName}
+          />
+          <TextInput
+            style={styles.inputField}
+            placeholder="Receiver's Phone Number"
+            value={recvNumber}
+            onChangeText={setRecvNumber}
+          />
+          <TextInput
+            style={styles.inputField}
+            placeholder="Receiver's CNIC"
+            value={recvCnic}
+            onChangeText={setRecvCnic}
+          />
+          <Button
+            title="Submit Bid"
+            onPress={() => {
+              setModalVisible(false);
+              handleBidAndNotify(); // This function should handle the logic to submit the bid details
+            }}
+          />
+        </View>
+      </View>
+    </Modal>
       <View
         style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900")}
       >
@@ -614,6 +666,37 @@ const styles = StyleSheet.create({
     color: "white", // Set text color to white
     fontWeight: "bold", // Make the text bold
     fontSize: 18, // Increase font size
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Semi-transparent background
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    width: '80%',  // Adjust width to fit your design
+  },
+  inputField: {
+    width: '100%',
+    padding: 10,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
   },
 });
 
