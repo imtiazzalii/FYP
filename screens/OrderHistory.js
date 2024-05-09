@@ -63,7 +63,7 @@ const Content1 = ({ myOrders }) => {
             {/* Item Weight and Status Section */}
             <View style={styles.section}>
               <Text style={styles.label}>Item Weight</Text>
-              <Text style={styles.label}>Status</Text>
+              <Text style={styles.label}>Transport Mode</Text>
             </View>
             <View style={styles.section}>
               <View style={styles.infoContainer}>
@@ -73,7 +73,7 @@ const Content1 = ({ myOrders }) => {
                 />
                 <Text style={styles.infoText}>{data.trip.capacity} KG</Text>
               </View>
-              <Text style={styles.statusText}>{data.trip.status}</Text>
+              <Text style={styles.statusText}>{data.trip.tmode}</Text>
             </View>
 
             <View style={styles.divider} />
@@ -156,7 +156,7 @@ const Content2 = ({ trips }) => {
             {/* Capacity and Cost Section */}
             <View style={styles.section}>
               <Text style={styles.label}>Capacity</Text>
-              <Text style={styles.label}>Status</Text>
+              <Text style={styles.label}>Transport Mode</Text>
             </View>
             <View style={styles.section}>
               <View style={styles.infoContainer}>
@@ -166,7 +166,7 @@ const Content2 = ({ trips }) => {
                 />
                 <Text style={styles.infoText}>{data.trip.capacity} KG</Text>
               </View>
-              <Text style={styles.statusText}>{data.trip.status}</Text>
+              <Text style={styles.statusText}>{data.trip.tmode}</Text>
             </View>
 
             <View style={styles.divider} />

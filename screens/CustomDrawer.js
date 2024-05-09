@@ -23,7 +23,7 @@ const CustomDrawer = () => {
             }
             await AsyncStorage.setItem('token', '');
             await AsyncStorage.setItem('userId', '');
-            navigation.navigate('Login'); // Assuming 'Login' is your login screen route name
+            navigation.navigate('Home'); // Assuming 'Login' is your login screen route name
         } catch (error) {
             console.error("Logout Error:", error);
             Alert.alert("Logout Failed", "Unable to logout. Please try again.");

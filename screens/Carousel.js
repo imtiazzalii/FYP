@@ -48,11 +48,11 @@ const Carousel = () => {
     },
     {
       id: "02",
-      image: require("../assets/carousel/2.png"),
+      image: require("../assets/carousel/2.jpg"),
     },
     {
       id: "03",
-      image: require("../assets/carousel/1.png"),
+      image: require("../assets/carousel/3.jpg"),
     },
   ];
 
@@ -104,7 +104,7 @@ const Carousel = () => {
           <View
             key={index}
             style={{
-              backgroundColor: "black",
+              backgroundColor: "white",
               height: 7,
               width: 7,
               borderRadius: 5,

@@ -191,15 +191,15 @@ const Status = () => {
             <Text style={styles.contentboxheading}>To</Text>
             <View style={styles.content}>
               <Image source={require("../assets/Status/User.png")} />
-              <Text> Ahad</Text>
+              <Text> {selectedTripData.trip.recvName}</Text>
             </View>
             <View style={styles.content}>
               <Image source={require("../assets/Status/Placeholder.png")} />
-              <Text> Lahore, Pakistan</Text>
+              <Text> {selectedTripData.trip.destination}</Text>
             </View>
             <View style={styles.content}>
               <Image source={require("../assets/Status/Calendar.png")} />
-              <Text> 18-Nov-2023</Text>
+              <Text> {selectedTripData.trip.enddate}</Text>
             </View>
           </View>
         </View>
