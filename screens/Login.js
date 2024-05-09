@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState} from "react";
 import {
   View,
   StyleSheet,
@@ -11,6 +11,8 @@ import {
   Animated,
   FlatList,
   Dimensions,
+  Modal, 
+  TextInput,
   TouchableOpacity,
   Alert,
 } from "react-native";
@@ -26,6 +28,9 @@ import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 
 const Login = () => {
+
+  const [email, setEmail] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const {
     control,
@@ -84,6 +89,19 @@ const Login = () => {
     }
   });
   };
+
+  const handleForgotPassword = () => {
+    axios.post(`${Constants.expoConfig.extra.IP_ADDRESS}/forgot-password`, { email: email })
+      .then(response => {
+        Alert.alert('Success', response.data.message);
+        setModalVisible(false);
+      })
+      .catch(error => {
+        console.error("Forgot Password Error:", error);
+        Alert.alert('Error', error.response ? error.response.data.error : 'Failed to reset password');
+      });
+  };
+
 
   return (
     <ImageBackground
@@ -170,9 +188,36 @@ const Login = () => {
           {errors && errors.Password && <Text>{errors.Password.message}</Text>}
 
           <View style={tw.style("items-end w-70 pr-4")}>
-            <Text style={tw.style("text-black font-bold text-xs")}>
-              Forgot Password?
-            </Text>
+          <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.forgotPasswordContainer}>
+        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      </TouchableOpacity>
+
+      {/* Modal for Forgot Password */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TextInput
+              placeholder="Enter your email"
+              value={email}
+              onChangeText={setEmail}
+              style={styles.textInput}
+            />
+            <Button
+              title="Reset Password"
+              onPress={handleForgotPassword}
+              style={styles.modalButton}
+            />
+          </View>
+        </View>
+      </Modal>
           </View>
           <View style={tw.style("mt-6", "items-center", "justify-center")}>
             <TouchableOpacity
@@ -254,6 +299,35 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "bold",
     fontSize: 12,
+  },centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  textInput: {
+    height: 40,
+    padding: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius:20,
+    width: 200,
+    marginBottom: 20
   },
 });
 
