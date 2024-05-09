@@ -4,6 +4,8 @@ import Background from "./background";
 import * as Notifications from 'expo-notifications';
 import tw from 'twrnc';
 import Btn from "./btn";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 
 async function registerForPushNotificationsAsync() {
@@ -28,7 +30,24 @@ async function registerForPushNotificationsAsync() {
 
 const Home = (props) => {
 
+  const navigation = useNavigation();
+  
   useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+
+        if (token) {
+          navigation.replace("Dashboard");
+        } else {
+          // token not found , show the login screen itself
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    checkLoginStatus();
     registerForPushNotificationsAsync();
   }, []);
 

@@ -198,7 +198,6 @@ const NewTrip = () => {
 
       <ScrollView>
         <View style={tw.style("ml-4 mt-8")}>
-          <View style={styles.formContainer}></View>
 
           <Text style={styles.label}>Where are you travelling from?</Text>
           <Picker
@@ -548,7 +547,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 13,
     fontWeight: "bold",
-    marginVertical: 0,
+    marginRight: 140,
     backgroundColor: "#1D4246",
     padding: 6,
     borderRadius: 10,
