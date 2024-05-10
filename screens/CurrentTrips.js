@@ -25,126 +25,130 @@ const Content1 = ({ userData, tripData, navigation }) => {
   return (
     <ScrollView>
       {Array.isArray(tripData) &&
-        tripData.filter(trip => trip.status != "completed").map((trip, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() =>
-              navigation.navigate("BiddingOptions", { trip: trip })
-            }
-            style={tw`mb-4`}
-          >
-            <View key={index} style={styles.card}>
-              <View style={styles.userInfoContainer}>
-                <Image
-                  source={{ uri: userData.profilePic }}
-                  style={styles.dp}
-                />
-                <View style={styles.userInfo}>
-                  <Text style={tw.style("font-bold text-white mt-4 ml-1")}>
-                    {userData.name}
-                  </Text>
-                  <Text style={tw.style("font-bold text-white mt-1 ml-1")}>
-                    {userData.rating} ⭐
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.divider2} />
-              <View>
+        tripData
+          .filter((trip) => trip.status === "pending")
+          .map((trip, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() =>
+                navigation.navigate("BiddingOptions", { trip: trip })
+              }
+              style={tw`mb-4`}
+            >
+              <View key={index} style={styles.card}>
                 <View style={styles.userInfoContainer}>
-                  <View>
-                    <Image
-                      source={require("../assets/CurrentTrips/blackarrow.png")}
-                    />
+                  <Image
+                    source={{ uri: userData.profilePic }}
+                    style={styles.dp}
+                  />
+                  <View style={styles.userInfo}>
+                    <Text style={tw.style("font-bold text-white mt-4 ml-1")}>
+                      {userData.name}
+                    </Text>
+                    <Text style={tw.style("font-bold text-white mt-1 ml-1")}>
+                      {userData.rating} ⭐
+                    </Text>
                   </View>
-                  <View style={tw.style("ml-2", { flexDirection: "column" })}>
-                    <View>
-                      <Text style={tw.style("font-bold text-white")}>
-                        Departure
-                      </Text>
-                      <Text style={tw.style("text-white text-xs")}>
-                        {trip.start}
-                      </Text>
-                      <Text style={tw.style("text-xs", { color: "#47ADB8" })}>
-                        {trip.startdate}
-                      </Text>
-                    </View>
+                </View>
+                <View style={styles.divider2} />
+                <View>
+                  <View style={styles.userInfoContainer}>
                     <View>
                       <Image
-                        source={require("../assets/CurrentTrips/Airplane.png")}
+                        source={require("../assets/CurrentTrips/blackarrow.png")}
                       />
                     </View>
-                    <View>
-                      <Text style={tw.style("font-bold text-white")}>
-                        Arrival
-                      </Text>
-                      <Text style={tw.style("text-white text-xs")}>
-                        {trip.destination}
-                      </Text>
-                      <Text style={tw.style("text-xs", { color: "#47ADB8" })}>
-                        {trip.enddate}
-                      </Text>
+                    <View style={tw.style("ml-2", { flexDirection: "column" })}>
+                      <View>
+                        <Text style={tw.style("font-bold text-white")}>
+                          Departure
+                        </Text>
+                        <Text style={tw.style("text-white text-xs")}>
+                          {trip.start}
+                        </Text>
+                        <Text style={tw.style("text-xs", { color: "#47ADB8" })}>
+                          {trip.startdate}
+                        </Text>
+                      </View>
+                      <View>
+                        <Image
+                          source={require("../assets/CurrentTrips/Airplane.png")}
+                        />
+                      </View>
+                      <View>
+                        <Text style={tw.style("font-bold text-white")}>
+                          Arrival
+                        </Text>
+                        <Text style={tw.style("text-white text-xs")}>
+                          {trip.destination}
+                        </Text>
+                        <Text style={tw.style("text-xs", { color: "#47ADB8" })}>
+                          {trip.enddate}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
-              <View style={styles.divider2} />
-              <View>
-                <Text style={tw.style("font-bold text-white mb-1")}>
-                  Capacity
-                </Text>
-                <View style={tw.style("mb-2", { flexDirection: "row" })}>
-                  <Image
-                    source={require("../assets/CurrentTrips/suitcase.png")}
-                  />
-                  <Text
-                    style={tw.style("font-bold text-white text-xs ml-1 mt-1")}
-                  >
-                    {trip.capacity} KG
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <Text style={tw.style("font-bold text-white mb-1")}>
-                  Transport Mode
-                </Text>
-                <View style={tw.style("mb-2", { flexDirection: "row" })}>
-                  <Text
-                    style={tw.style("font-bold text-white text-xs ml-1 mt-1")}
-                  >
-                    {trip.tmode}
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <Image source={require("../assets/CurrentTrips/line.png")} />
-              </View>
-              <Text style={tw.style("font-bold text-white")}>Bids</Text>
-              <View style={styles.section}>
+                <View style={styles.divider2} />
                 <View>
-                  <Text style={tw.style("text-white")}>Current bids:</Text>
-                  <Text style={tw.style("text-white")}>Buyout:</Text>
-                  <Text style={tw.style("text-white")}>Starting bid:</Text>
-                </View>
-                <View style={tw.style({ marginRight: "10%" })}>
-                  <Text style={tw.style("text-white")}>Rs. 250</Text>
-                  <Text style={tw.style("text-white")}>Rs. {trip.buyout}</Text>
-                  <Text style={tw.style("text-white")}>
-                    Rs. {trip.startbid}
+                  <Text style={tw.style("font-bold text-white mb-1")}>
+                    Capacity
                   </Text>
+                  <View style={tw.style("mb-2", { flexDirection: "row" })}>
+                    <Image
+                      source={require("../assets/CurrentTrips/suitcase.png")}
+                    />
+                    <Text
+                      style={tw.style("font-bold text-white text-xs ml-1 mt-1")}
+                    >
+                      {trip.capacity} KG
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  <Text style={tw.style("font-bold text-white mb-1")}>
+                    Transport Mode
+                  </Text>
+                  <View style={tw.style("mb-2", { flexDirection: "row" })}>
+                    <Text
+                      style={tw.style("font-bold text-white text-xs ml-1 mt-1")}
+                    >
+                      {trip.tmode}
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  <Image source={require("../assets/CurrentTrips/line.png")} />
+                </View>
+                <Text style={tw.style("font-bold text-white")}>Bids</Text>
+                <View style={styles.section}>
+                  <View>
+                    <Text style={tw.style("text-white")}>Current bids:</Text>
+                    <Text style={tw.style("text-white")}>Buyout:</Text>
+                    <Text style={tw.style("text-white")}>Starting bid:</Text>
+                  </View>
+                  <View style={tw.style({ marginRight: "10%" })}>
+                    <Text style={tw.style("text-white")}>Rs. 250</Text>
+                    <Text style={tw.style("text-white")}>
+                      Rs. {trip.buyout}
+                    </Text>
+                    <Text style={tw.style("text-white")}>
+                      Rs. {trip.startbid}
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  <Image source={require("../assets/CurrentTrips/line.png")} />
+                </View>
+                <View style={tw.style({ marginBottom: "10%" })}>
+                  <Text style={tw.style("font-bold text-white mt-1")}>
+                    Description
+                  </Text>
+                  <Text style={tw.style("text-white")}>{trip.description}</Text>
                 </View>
               </View>
-              <View>
-                <Image source={require("../assets/CurrentTrips/line.png")} />
-              </View>
-              <View style={tw.style({ marginBottom: "10%" })}>
-                <Text style={tw.style("font-bold text-white mt-1")}>
-                  Description
-                </Text>
-                <Text style={tw.style("text-white")}>{trip.description}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        ))}
+            </TouchableOpacity>
+          ))}
     </ScrollView>
   );
 };
@@ -157,10 +161,15 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
   const [transportMode, setTransportMode] = useState("By Road");
 
   const applyFilters = () => {
-    fetchTripsWithFilters({ departureCity, arrivalCity, weight, cost, transportMode });
+    fetchTripsWithFilters({
+      departureCity,
+      arrivalCity,
+      weight,
+      cost,
+      transportMode,
+    });
     onApplyFilters();
   };
-
 
   return (
     <View style={styles.filcontainer}>
@@ -255,84 +264,102 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
   );
 };
 
-const Content22 = ({ userData, tripData, allTripsResponse, navigation, userid }) => {
+const Content22 = ({
+  userData,
+  tripData,
+  allTripsResponse,
+  navigation,
+  userid,
+}) => {
   return (
     <ScrollView>
-      {allTripsResponse.filter(data => data.trip.status === "pending" && data.user.userId !== userid).map((data, index) => (
-        <TouchableOpacity
-          key={index}
-          onPress={() =>
-            navigation.navigate("Bidding", { selectedTripData: data })
-          }
-        >
-          <View key={index} style={styles.card}>
-            {/* Departure and Arrival Section */}
-            <View style={styles.section}>
-              <Text style={styles.label}>Departure</Text>
-              <Text style={styles.label}>Arrival</Text>
-            </View>
-            <View style={styles.section}>
-              <View style={styles.infoContainer1}>
-                <Text style={styles.infoText}>{data.trip.start}</Text>
-                <Text style={styles.dateText}>{data.trip.startdate}</Text>
+      {allTripsResponse
+        .filter(
+          (data) =>
+            data.trip.status === "pending" && data.user.userId !== userid
+        )
+        .map((data, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() =>
+              navigation.navigate("Bidding", { selectedTripData: data })
+            }
+          >
+            <View key={index} style={styles.card}>
+              {/* Departure and Arrival Section */}
+              <View style={styles.section}>
+                <Text style={styles.label}>Departure</Text>
+                <Text style={styles.label}>Arrival</Text>
+              </View>
+              <View style={styles.section}>
+                <View style={styles.infoContainer1}>
+                  <Text style={styles.infoText}>{data.trip.start}</Text>
+                  <Text style={styles.dateText}>{data.trip.startdate}</Text>
+                </View>
+
+                <View style={styles.arrowContainer}>
+                  <Image
+                    source={require("../assets/OrderHistory/arrow.png")}
+                    style={styles.arrowIcon}
+                  />
+                </View>
+
+                <View style={styles.infoContainer1}>
+                  <Text style={styles.infoText}>{data.trip.destination}</Text>
+                  <Text style={styles.dateText}>{data.trip.enddate}</Text>
+                </View>
               </View>
 
-              <View style={styles.arrowContainer}>
-                <Image
-                  source={require("../assets/OrderHistory/arrow.png")}
-                  style={styles.arrowIcon}
-                />
+              <View style={styles.divider} />
+
+              {/* Capacity and Cost Section */}
+              <View style={styles.section}>
+                <Text style={styles.label}>Capacity</Text>
+                <Text style={styles.label}>Transport Mode</Text>
+              </View>
+              <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                  <Image
+                    source={require("../assets/OrderHistory/suitcase.png")}
+                    style={styles.iconW}
+                  />
+                  <Text style={styles.infoText}> {data.trip.capacity} KG</Text>
+                </View>
+                <Text style={styles.infoText}>{data.trip.tmode}</Text>
               </View>
 
-              <View style={styles.infoContainer1}>
-                <Text style={styles.infoText}>{data.trip.destination}</Text>
-                <Text style={styles.dateText}>{data.trip.enddate}</Text>
+              <View style={styles.divider} />
+
+              {/* Traveller Section */}
+              <View style={styles.section}>
+                <Text style={styles.label}>Traveller</Text>
               </View>
-            </View>
-
-            <View style={styles.divider} />
-
-            {/* Capacity and Cost Section */}
-            <View style={styles.section}>
-              <Text style={styles.label}>Capacity</Text>
-              <Text style={styles.label}>Transport Mode</Text>
-            </View>
-            <View style={styles.section}>
-              <View style={styles.infoContainer}>
-                <Image
-                  source={require("../assets/OrderHistory/suitcase.png")}
-                  style={styles.iconW}
-                />
-                <Text style={styles.infoText}> {data.trip.capacity} KG</Text>
-              </View>
-              <Text style={styles.infoText}>{data.trip.tmode}</Text>
-            </View>
-
-            <View style={styles.divider} />
-
-            {/* Traveller Section */}
-            <View style={styles.section}>
-              <Text style={styles.label}>Traveller</Text>
-            </View>
-            <View style={styles.section}>
-              <View style={styles.infoContainer}>
-                <Image
-                  source={{ uri: data.user.profilePic }}
-                  style={styles.icon}
-                />
-                <View>
-                  <Text style={styles.infoText}>{data.user.username}</Text>
+              <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                  <Image
+                    source={{ uri: data.user.profilePic }}
+                    style={styles.icon}
+                  />
+                  <View>
+                    <Text style={styles.infoText}>{data.user.username}</Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      ))}
+          </TouchableOpacity>
+        ))}
     </ScrollView>
   );
 };
 
-const Content2 = ({ userData, tripData, allTripsResponse, navigation,fetchTripsWithFilters, userid}) => {
+const Content2 = ({
+  userData,
+  tripData,
+  allTripsResponse,
+  navigation,
+  fetchTripsWithFilters,
+  userid,
+}) => {
   const [showFilters, setShowFilters] = useState(false);
 
   const toggleFilters = () => {
@@ -351,7 +378,12 @@ const Content2 = ({ userData, tripData, allTripsResponse, navigation,fetchTripsW
       </View>
 
       <View>
-        {showFilters === true ? <Filters fetchTripsWithFilters={fetchTripsWithFilters} onApplyFilters={toggleFilters} /> : null}
+        {showFilters === true ? (
+          <Filters
+            fetchTripsWithFilters={fetchTripsWithFilters}
+            onApplyFilters={toggleFilters}
+          />
+        ) : null}
         {showFilters === false ? (
           <Content22
             userData={userData}
@@ -383,8 +415,8 @@ const CurrentTrips = () => {
   const getData = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const userId = await AsyncStorage.getItem("userId")
-      setUserid(userId)
+      const userId = await AsyncStorage.getItem("userId");
+      setUserid(userId);
       console.log(token);
 
       await axios
@@ -420,10 +452,13 @@ const CurrentTrips = () => {
 
   const fetchTripsWithFilters = async (filters) => {
     try {
-      const response = await axios.get(`${Constants.expoConfig.extra.IP_ADDRESS}/allTrips`, {
-        params: filters
-      });
-      console.log(response.data.data)
+      const response = await axios.get(
+        `${Constants.expoConfig.extra.IP_ADDRESS}/allTrips`,
+        {
+          params: filters,
+        }
+      );
+      console.log(response.data.data);
       setAllTripsResponse(response.data.data);
     } catch (error) {
       console.error("Error fetching trips with filters:", error);
@@ -435,7 +470,6 @@ const CurrentTrips = () => {
     await getData(); // Fetch data from backend
     setRefreshing(false); // Set refreshing to false after data is fetched
   };
-  
 
   useEffect(() => {
     getData();
@@ -448,10 +482,7 @@ const CurrentTrips = () => {
     >
       <ScrollView
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <View
@@ -527,12 +558,16 @@ const CurrentTrips = () => {
           </View>
 
           {selectedButton === "Details" ? (
-            <Content1
-              userData={userData}
-              tripData={tripData}
-              navigation={navigation}
-            />
-          ) : (
+            tripData.length > 0 ? (
+              <Content1
+                userData={userData}
+                tripData={tripData}
+                navigation={navigation}
+              />
+            ) : (
+              <Text style={styles.noTripsText}>No trips available</Text>
+            )
+          ) : allTripsResponse.length > 0 ? (
             <Content2
               userData={userData}
               tripData={tripData}
@@ -541,6 +576,8 @@ const CurrentTrips = () => {
               fetchTripsWithFilters={fetchTripsWithFilters}
               userid={userid}
             />
+          ) : (
+            <Text style={styles.noTripsText}>No trips available</Text>
           )}
         </View>
       </ScrollView>
@@ -566,6 +603,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#47ADB8",
     padding: 5,
+  },
+
+  noTripsText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 20,
+    color: "#47ADB8",
   },
 
   toggleButtonsContainer: {

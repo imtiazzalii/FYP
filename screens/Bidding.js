@@ -97,6 +97,7 @@ const Bidding = () => {
                 // Send notification to user
                 sendNotificationToUser();
                 Alert.alert("Bid submitted!", "press ok");
+                navigation.navigate("CurrentTrips");
               }
             })
             .catch((e) => console.log(e));

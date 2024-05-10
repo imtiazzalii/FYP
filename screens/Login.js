@@ -73,7 +73,7 @@ const Login = () => {
         AsyncStorage.setItem('token',res.data.data);
         AsyncStorage.setItem('userId',res.data.userId);
         console.log("user id is ", res.data.userId);
-        navigation.navigate('Dashboard');
+        navigation.replace('Dashboard');
       }else {
         Alert.alert("Error", res.data.error);  // Display specific error from the backend
       }
