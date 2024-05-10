@@ -63,7 +63,7 @@ const BiddingOptions = () => {
 
         let message, notificationType;
         const bid = bidsInfo.find(bid => bid._id === bidId);
-      const BidderId = bid.bidderId;
+        const BidderId = bid.bidderId;
 
         if (newStatus === 'accepted') {
             message = 'Your bid has been accepted, please proceed to make payment.';

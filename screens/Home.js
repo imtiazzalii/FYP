@@ -47,7 +47,7 @@ const Home = (props) => {
       }
     };
 
-    checkLoginStatus();
+    // checkLoginStatus();
     registerForPushNotificationsAsync();
   }, []);
 

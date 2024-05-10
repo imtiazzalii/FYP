@@ -60,6 +60,31 @@ const Bidding = () => {
   const [recvNumber, setRecvNumber] = useState('');
   const [recvCnic, setRecvCnic] = useState('');
 
+  const [errors, setErrors] = useState({})
+
+  const validateForm = () => {
+    const newErrors = {};
+    const phoneNumberPattern = /^03[0-9]{2}[0-9]{7}$/;
+    const cnicPattern = /^\d{5}\d{7}\d{1}$/;
+
+    if (!recvName) {
+      newErrors.recvName = "Receiver's name is required";
+    }
+    if (!recvNumber) {
+      newErrors.recvNumber = "Phone number is required";
+    } else if (!phoneNumberPattern.test(recvNumber)) {
+      newErrors.recvNumber = "Invalid phone number format. Use 03XXXXXXXX format.";
+    }
+    if (!recvCnic) {
+      newErrors.recvCnic = "CNIC is required";
+    } else if (!cnicPattern.test(recvCnic)) {
+      newErrors.recvCnic = "Invalid CNIC format. Use XXXXXXXXXXXXX format.";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   const makeBid = async () => {
     const data = {};
@@ -346,44 +371,51 @@ const handleBidAndNotify = async () => {
         </View>
       </ScrollView>
       <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-        setModalVisible(!modalVisible);
-      }}
-    >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <TextInput
-            style={styles.inputField}
-            placeholder="Receiver's Name"
-            value={recvName}
-            onChangeText={setRecvName}
-          />
-          <TextInput
-            style={styles.inputField}
-            placeholder="Receiver's Phone Number"
-            value={recvNumber}
-            onChangeText={setRecvNumber}
-          />
-          <TextInput
-            style={styles.inputField}
-            placeholder="Receiver's CNIC"
-            value={recvCnic}
-            onChangeText={setRecvCnic}
-          />
-          <Button
-            title="Submit Bid"
-            onPress={() => {
-              setModalVisible(false);
-              handleBidAndNotify(); // This function should handle the logic to submit the bid details
-            }}
-          />
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TextInput
+              style={styles.inputField}
+              placeholder="Receiver's Name"
+              value={recvName}
+              onChangeText={setRecvName}
+            />
+            {errors.recvName && <Text style={styles.errors}>{errors.recvName}</Text>}
+            <TextInput
+              style={styles.inputField}
+              placeholder="Receiver's Phone Number"
+              value={recvNumber}
+              onChangeText={setRecvNumber}
+              keyboardType="numeric"
+            />
+            {errors.recvNumber && <Text style={styles.errors}>{errors.recvNumber}</Text>}
+            <TextInput
+              style={styles.inputField}
+              placeholder="Receiver's CNIC"
+              value={recvCnic}
+              onChangeText={setRecvCnic}
+              keyboardType="numeric"
+            />
+            {errors.recvCnic && <Text style={styles.errors}>{errors.recvCnic}</Text>}
+            <Button
+              title="Submit Bid"
+              onPress={() => {
+                if (validateForm()) {
+                  setModalVisible(false);
+                  handleBidAndNotify(); // This function should handle the logic to submit the bid details
+                }
+              }}
+            />
+          </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
       <View
         style={tw.style("flex-row p-1 justify-evenly items-center bg-teal-900")}
       >
@@ -469,6 +501,11 @@ const styles = StyleSheet.create({
     marginLeft: 2,
     fontSize: 14,
   },
+  errors: {
+    color: "red",
+    marginBottom: 10,
+  },
+  
   dateText: {
     color: "#47ADB8",
   },
