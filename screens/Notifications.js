@@ -22,37 +22,41 @@ const Notifications = () => {
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      const token = await AsyncStorage.getItem("token");
-      if (token) {
-        try {
-          const response = await axios.get(
-            `${Constants.expoConfig.extra.IP_ADDRESS}/notifications`,
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-          );
-          if (response.data.status === "ok") {
-            setNotifications(response.data.data);
-            console.log(response.data.data);
+  const fetchNotifications = async () => {
+    const token = await AsyncStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await axios.get(
+          `${Constants.expoConfig.extra.IP_ADDRESS}/notifications`,
+          {
+            headers: {
+              Authorization: token,
+            },
           }
-        } catch (error) {
-          console.error("Error fetching notifications:", error);
+        );
+        if (response.data.status === "ok") {
+          const sortedNotifications = response.data.data.sort(
+            (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+          );
+          setNotifications(sortedNotifications);
+          console.log(sortedNotifications);
         }
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchNotifications();
   }, []);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await getData(); // Fetch data from backend
-    setRefreshing(false); // Set refreshing to false after data is fetched
+    await fetchNotifications();
+    setRefreshing(false);
   };
+
   
 
   const handleNotificationPress = async (notificationId, notificationType) => {

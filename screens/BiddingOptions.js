@@ -119,6 +119,8 @@ const BiddingOptions = () => {
             userId: await AsyncStorage.getItem("userId"),
           }
         );
+
+        navigation.navigate("AllChats")
       } else if (newStatus === "rejected") {
         message = "Your bid has been rejected.";
         notificationType = "Reject";

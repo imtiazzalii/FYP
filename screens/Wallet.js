@@ -106,7 +106,7 @@ const Wallet = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await getData(); // Fetch data from backend
+    await initializeWallet();
     setRefreshing(false); // Set refreshing to false after data is fetched
   };
 
