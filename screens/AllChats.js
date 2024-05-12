@@ -65,9 +65,15 @@ const AllChats = () => {
           </View>
 
           {/* Chat Items */}
-          {acceptedFriends.map((friend) => (
-            <UserChat key={friend._id} item={friend} />
-          ))}
+          {acceptedFriends.length === 0 ? (
+            <View style={styles.noChatsContainer}>
+              <Text style={styles.noChatsText}>No chats available</Text>
+            </View>
+          ) : (
+            acceptedFriends.map((friend) => (
+              <UserChat key={friend._id} item={friend} />
+            ))
+          )}
         </View>
       </ScrollView>
       {/* Footer */}
@@ -119,6 +125,13 @@ const styles = StyleSheet.create({
   },
   chatTextContainer: {
     flex: 1,
+  },
+  noChatsText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 20,
+    color: "#47ADB8",
   },
   userName: {
     fontSize: 16,

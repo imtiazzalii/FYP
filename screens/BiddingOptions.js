@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  Alert,
   ScrollView,
   StyleSheet,
   ImageBackground,
@@ -50,6 +51,20 @@ const BiddingOptions = () => {
 
   const updateBidStatus = async (bidId, newStatus) => {
     try {
+
+
+      // Fetch current trip status
+      const tripResponse = await axios.get(
+        `${Constants.expoConfig.extra.IP_ADDRESS}/tripDetails/${trip._id}`
+      );
+      const currentTripStatus = tripResponse.data.status;
+
+      // Check if trip status is already accepted
+      if (currentTripStatus === "accepted") {
+        Alert.alert("Error", "No more bids can be accepted for this trip.");
+        return;
+      }
+
       // Update local state first
       const updatedBids = bidsInfo.map((bid) => {
         if (bid._id === bidId) {
@@ -70,7 +85,7 @@ const BiddingOptions = () => {
       const BidderId = bid.bidderId;
 
       if (newStatus === "accepted") {
-        message = "Your bid has been accepted, please proceed to make payment.";
+        message = "Your bid has been accepted, tap to chat!.";
         notificationType = "Accept";
 
         // Fetch the bid details including receiver information

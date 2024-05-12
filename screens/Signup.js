@@ -12,6 +12,7 @@ import {
   Image,
   Platform,
   StatusBar,
+  ActivityIndicator,
   Animated,
   FlatList,
   Dimensions,
@@ -35,6 +36,9 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
+
+  const [loading, setLoading] = useState(false);  // Loading state
+
   const registerForPushNotificationsAsync = async () => {
     let token;
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -51,9 +55,13 @@ const Signup = () => {
     return token;
   };
   const onSubmit = async (data) => {
+
+    setLoading(true); 
+
     const pushToken = await registerForPushNotificationsAsync();
     if (!pushToken) {
         alert("Unable to get push token. Notifications will not be received.");
+        setLoading(false); 
         // Optionally return here if you require token for further process
     }
 
@@ -69,19 +77,23 @@ const Signup = () => {
         axios.post(`${Constants.expoConfig.extra.IP_ADDRESS}/Signup`, formData)
         .then(res => {
             console.log(res.data);
+            setLoading(false);
             if (res.data.status === "ok") {
                 Alert.alert("Account created!", "Your registration will be confirmed once your details are verified.");
                 navigation.navigate('Login');
             } else {
                 Alert.alert("Error", res.data.message || "An error occurred");
+                
             }
         })
         .catch(e => {
             console.error("Signup Error:", e);
+            setLoading(false); 
             Alert.alert("Error", "Failed to sign up");
         });
     } else {
         alert("Make sure you have uploaded all pictures.");
+        setLoading(false); 
     }
 };
 
@@ -459,13 +471,17 @@ const Signup = () => {
                   }
                 )}
                 onPress={handleSubmit(onSubmit)}
+                disabled={loading}  // Disable button when loading
               >
                 <Text
                   style={tw.style("text-white", "text-lg", "font-bold", {
                     fontSize: 22,
                   })}
-                >
-                  Sign Up
+                >{loading ? (
+                  <ActivityIndicator size="small" color="#FFFFFF" /> // Show loading spinner
+                ) : (
+                  "Sign Up"
+                )}
                 </Text>
               </TouchableOpacity>
             </View>

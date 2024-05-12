@@ -287,15 +287,15 @@ const handleBidAndNotify = async () => {
             <Text style={tw.style("font-bold text-white")}>Bids</Text>
             <View style={styles.section}>
               <View>
-                <Text style={tw.style("text-white")}>Current bids:</Text>
-                <Text style={tw.style("text-white")}>Buyout:</Text>
+                {/* <Text style={tw.style("text-white")}>Current bids:</Text>
+                <Text style={tw.style("text-white")}>Buyout:</Text> */}
                 <Text style={tw.style("text-white")}>Starting bid:</Text>
               </View>
               <View style={tw.style({ marginRight: "10%" })}>
-                <Text style={tw.style("text-white")}>Rs. 250</Text>
+                {/* <Text style={tw.style("text-white")}>Rs. 250</Text>
                 <Text style={tw.style("text-white")}>
                   Rs. {selectedTripData.trip.buyout}
-                </Text>
+                </Text> */}
                 <Text style={tw.style("text-white")}>
                   Rs. {selectedTripData.trip.startbid}
                 </Text>
