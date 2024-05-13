@@ -28,7 +28,11 @@ const Wallet = () => {
 
   const recentActivity = [
     { type: "Order", amount: "-Rs.500.0" },
-    { type: "Trip", amount: "+Rs.700.0" }
+    { type: "Trip", amount: "+Rs.700.0" },
+    { type: "Order", amount: "-Rs.500.0" },
+    { type: "Order", amount: "-Rs.500.0" },
+    { type: "Order", amount: "-Rs.500.0" },
+    { type: "Order", amount: "-Rs.500.0" }
   ];
 
   const navigation = useNavigation();
@@ -378,6 +382,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#4DB6AC",
     padding: 20,
     marginTop: '10%',
+    marginBottom: '100%',
     marginHorizontal: '5%',
     borderRadius: 30,
   },
