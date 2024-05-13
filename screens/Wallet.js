@@ -75,23 +75,23 @@ const Wallet = () => {
 
   
 
-  const checkAndCreateWallet = async () => {
-    const userId = await AsyncStorage.getItem('userId');
-    const token = await AsyncStorage.getItem('token');
-    if (userId && token) {
-      try {
-        const response = await axios.post(`${Constants.expoConfig.extra.IP_ADDRESS}/wallet/create`, {
-          userId: userId
-        }, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        console.log(response.data.message); // Log the server response
-      } catch (error) {
-        console.error("Failed to check/create wallet:", error);
-        Alert.alert("Error", "Could not check/create wallet");
-      }
-    }
-  };
+  // const checkAndCreateWallet = async () => {
+  //   const userId = await AsyncStorage.getItem('userId');
+  //   const token = await AsyncStorage.getItem('token');
+  //   if (userId && token) {
+  //     try {
+  //       const response = await axios.post(`${Constants.expoConfig.extra.IP_ADDRESS}/wallet/create`, {
+  //         userId: userId
+  //       }, {
+  //         headers: { Authorization: `Bearer ${token}` }
+  //       });
+  //       console.log(response.data.message); // Log the server response
+  //     } catch (error) {
+  //       console.error("Failed to check/create wallet:", error);
+  //       Alert.alert("Error", "Could not check/create wallet");
+  //     }
+  //   }
+  // };
 
   const fetchWalletDetails = async () => {
     const userId = await AsyncStorage.getItem('userId');
@@ -119,7 +119,7 @@ const Wallet = () => {
   };
 
   async function initializeWallet() {
-    await checkAndCreateWallet();  // Ensure this completes before proceeding.
+    // await checkAndCreateWallet();  // Ensure this completes before proceeding.
     await fetchUserProfile();      // These can also be awaited to ensure sequence.
     await fetchWalletDetails();
   }
