@@ -21,18 +21,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from 'expo-constants';
 
 const Wallet = () => {
-  const paymentMethods = [
-    { type: "Visa", number: "**** 6881" },
-    { type: "MasterCard", number: "**** 6892" }
-  ];
+  
 
   const recentActivity = [
     { type: "Order", amount: "-Rs.500.0" },
-    { type: "Trip", amount: "+Rs.700.0" },
-    { type: "Order", amount: "-Rs.500.0" },
-    { type: "Order", amount: "-Rs.500.0" },
-    { type: "Order", amount: "-Rs.500.0" },
-    { type: "Order", amount: "-Rs.500.0" }
   ];
 
   const navigation = useNavigation();

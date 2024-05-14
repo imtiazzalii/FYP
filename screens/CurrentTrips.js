@@ -5,6 +5,7 @@ import {
   Text,
   Button,
   Image,
+  Alert,
   Platform,
   StatusBar,
   ImageBackground,
@@ -22,6 +23,42 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 
 const Content1 = ({ userData, tripData, navigation }) => {
+
+  const handleCancelTrip = (tripId) => {
+    Alert.alert(
+      "Delete Trip",
+      "Are you sure you want to remove this trip?",
+      [
+        {
+          text: "No",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => deleteTrip(tripId),
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const deleteTrip = async (tripId) => {
+    await axios
+      .delete(Constants.expoConfig.extra.IP_ADDRESS + `/trip/${tripId}`)
+      .then((response) => {
+        if (response.data.status === "ok") {
+          Alert.alert("Trip Deleted", "The trip has been successfully deleted.");
+          // Optionally refresh trip data here or navigate
+        } else {
+          Alert.alert("Error", "Failed to delete the trip.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting trip:", error);
+        Alert.alert("Error", "Failed to delete trip. Please try again.");
+      });
+  };
+
   return (
     <ScrollView>
       {Array.isArray(tripData) &&
@@ -146,6 +183,12 @@ const Content1 = ({ userData, tripData, navigation }) => {
                   </Text>
                   <Text style={tw.style("text-white")}>{trip.description}</Text>
                 </View>
+                <TouchableOpacity onPress={() => handleCancelTrip(trip._id)}>
+                  <Image
+                    source={require('../assets/CurrentTrips/cancel.png')}
+                    style={{ width: 30, height: 30, }} // Adjust size as needed
+                  />
+                </TouchableOpacity>
               </View>
             </TouchableOpacity>
           ))}

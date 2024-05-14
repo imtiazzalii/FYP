@@ -6,6 +6,7 @@ import {
   Image,
   Platform,
   StatusBar,
+  RefreshControl,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -20,7 +21,7 @@ import UserChat from "./UserChat";
 const AllChats = () => {
   const navigation = useNavigation();
   const [acceptedFriends, setAcceptedFriends] = useState([]);
-
+  const [refreshing, setRefreshing] = useState(false);
   const getData = async () => {
     const token = await AsyncStorage.getItem("token");
     console.log(token);
@@ -35,6 +36,12 @@ const AllChats = () => {
       });
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getData();
+    setRefreshing(false); // Set refreshing to false after data is fetched
+  };
+
   useEffect(() => {
     getData();
     // fetchMessages();
@@ -47,7 +54,12 @@ const AllChats = () => {
         marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       })}
     >
-      <ScrollView>
+      <ScrollView refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    }>
         <View style={styles.container}>
           {/* NavBar */}
           <View style={styles.navBar}>
