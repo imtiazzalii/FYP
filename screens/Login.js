@@ -1,4 +1,4 @@
-import React,{ useState} from "react";
+import React,{ useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -18,7 +18,7 @@ import {
 } from "react-native";
 import { useForm, Controller, handleSubmit } from "react-hook-form";
 import Background from "./background";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 import Field from "./Field";
 import Btn from "./btn";
 import tw from "twrnc";
@@ -70,10 +70,11 @@ const Login = () => {
       if(res.data.status=="ok")
       {
         Alert.alert('Login Successfull!!');
-        AsyncStorage.setItem('token',res.data.data);
         AsyncStorage.setItem('userId',res.data.userId);
         console.log("user id is ", res.data.userId);
-        navigation.replace('Dashboard');
+        AsyncStorage.setItem('token', res.data.data);
+        AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
+        navigation.navigate('DrawerNav');
       }else {
         Alert.alert("Error", res.data.error);  // Display specific error from the backend
       }

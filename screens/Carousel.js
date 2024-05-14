@@ -13,6 +13,8 @@ const Carousel = () => {
   const flatlistRef = useRef();
   // Get Dimensions
   const screenWidth = Dimensions.get("window").width;
+  const imageAspectRatio = 16 / 9;
+  const imageHeight = screenWidth / imageAspectRatio;
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Auto Scroll
@@ -62,7 +64,7 @@ const Carousel = () => {
       <View>
         <Image
           source={item.image}
-          style={{ height: 300, width: screenWidth }}
+          style={{ height: imageHeight, width: screenWidth  }}
         />
       </View>
     );

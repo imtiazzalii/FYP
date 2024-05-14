@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity, Alert } from 'react-native';
 
 import tw from 'twrnc';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
@@ -21,9 +21,10 @@ const CustomDrawer = () => {
                     headers: { Authorization: token }
                 });
             }
-            await AsyncStorage.setItem('token', '');
-            await AsyncStorage.setItem('userId', '');
-            navigation.navigate('Home'); // Assuming 'Login' is your login screen route name
+            AsyncStorage.setItem('isLoggedIn','');
+            AsyncStorage.setItem('token','');
+            AsyncStorage.setItem('userId', '');
+            navigation.navigate("LoginNav");
         } catch (error) {
             console.error("Logout Error:", error);
             Alert.alert("Logout Failed", "Unable to logout. Please try again.");
@@ -51,9 +52,9 @@ const CustomDrawer = () => {
         <View style={styles.container}>
             {/* Profile Section */}
             <View style={styles.profileSection}>
-                <Image source={require("../assets/Sidebar/home.png")} style={styles.dp} /> 
+                {/* <Image source={require("../assets/Sidebar/home.png")} style={styles.dp} />  */}
                 {/* uri: userData.profilePic */}
-                <Text style={tw.style('text-white text-xl font-bold ml-2')}>Ahad</Text>
+                <Text style={tw.style('text-white text-xl font-bold ml-5 mt-5')}>SWYFTBAGS</Text>
             </View>
             
             {/* Separator */}
@@ -66,10 +67,10 @@ const CustomDrawer = () => {
                     <Text style={styles.text}>Home</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.menuItem} onPress={() => {
-                    navigation.navigate("OrderHistory")
+                    navigation.navigate("Profile")
                 }}>
                     <Image source={require("../assets/Sidebar/mytrips.png")} style={styles.icons} />
-                    <Text style={styles.text}>My Trips</Text>
+                    <Text style={styles.text}>My Profile</Text>
                 </TouchableOpacity>
             </View>
             
@@ -79,7 +80,7 @@ const CustomDrawer = () => {
             {/* Bottom Menu Section */}
             <View style={styles.menuSection}>
                 <TouchableOpacity style={styles.menuItem}>
-                    <Image source={require("../assets/Sidebar/help.png")} style={styles.icons} />
+                    <Image onPress={() => navigation.navigate("HelpDesk")} source={require("../assets/Sidebar/help.png")} style={styles.icons} />
                     <Text style={styles.text}>Help Centre</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.menuItem}>

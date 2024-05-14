@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions } from "react-native";
+import React, { useEffect, useContext } from 'react';
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, BackHandler } from "react-native";
 import Background from "./background";
 import * as Notifications from 'expo-notifications';
 import tw from 'twrnc';
 import Btn from "./btn";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 
 async function registerForPushNotificationsAsync() {
@@ -31,23 +31,56 @@ async function registerForPushNotificationsAsync() {
 const Home = (props) => {
 
   const navigation = useNavigation();
+
+  const handleBackPress = () => {
+    Alert.alert("Exit App", "Are you sure you want to exit?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel",
+      },
+      {
+        text: "Exit",
+        onPress: () => BackHandler.exitApp(),
+      },
+    ]);
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+
+      return () => {
+        BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+      };
+    })
+  );
   
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const token = await AsyncStorage.getItem("token");
+    // const checkLoginStatus = async () => {
+    //   try {
+    //     const token = await AsyncStorage.getItem("token");
 
-        if (token) {
-          navigation.replace("Dashboard");
-        } else {
-          // token not found , show the login screen itself
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
+    //     if (token) {
+    //       login(token);
+    //       navigation.dispatch(
+    //         CommonActions.reset({
+    //           index: 0,
+    //           routes: [
+    //             { name: 'Dashboard' } // Directly targeting 'Dashboard'
+    //           ],
+    //         })
+    //       );
+    //     } else {
+    //       // token not found , show the login screen itself
+    //     }
+    //   } catch (error) {
+    //     console.log("error", error);
+    //   }
+    // };
 
-    // checkLoginStatus();
+    //checkLoginStatus();
     registerForPushNotificationsAsync();
   }, []);
 
