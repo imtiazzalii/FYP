@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  Alert,
 } from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
@@ -23,6 +24,76 @@ import Constants from "expo-constants";
 
 const Content1 = ({ myOrders }) => {
   const navigation = useNavigation();
+
+  const handleCancelTrip = (tripId, semail, temail) => {
+
+    console.log("SEmail: ", semail, "TEmail: ", temail);
+    Alert.alert(
+      "Delete Trip",
+      "Are you sure you want to cancel this order?",
+      [
+        {
+          text: "No",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => deleteTrip(tripId, semail, temail),
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const deleteTrip = async (tripId, semail, temail) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const userId = await AsyncStorage.getItem("userId");
+      const tripResponse = await axios.get(`${Constants.expoConfig.extra.IP_ADDRESS}/myOrders/trips/${tripId}`);
+      if (tripResponse.status !== 200) {
+        throw new Error('Failed to fetch trip details.');
+      }
+  
+      const trip = tripResponse.data;
+      if (trip.status !== "accepted") {
+        Alert.alert("Delete Trip", "This trip cannot be deleted");
+        return;
+      }
+  
+      const removeFriendsResponse = await axios.post(
+        `${Constants.expoConfig.extra.IP_ADDRESS}/friends/remove1`,
+        { senderEmail: userId, travellerEmail: temail },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (removeFriendsResponse.status !== 200) {
+        throw new Error('Failed to remove friends.');
+      }
+
+      
+  
+      const refundResponse = await axios.post(
+        `${Constants.expoConfig.extra.IP_ADDRESS}/refund`,
+        { userId: userId, tripId: tripId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (refundResponse.status !== 200) {
+        throw new Error('Failed to process refund.');
+      }
+
+      const deleteResponse = await axios.delete(`${Constants.expoConfig.extra.IP_ADDRESS}/myOrders/trips/${tripId}`);
+      if (deleteResponse.status !== 200) {
+        throw new Error('Failed to delete trip.');
+      }
+  
+      Alert.alert("Success", "Trip has been successfully deleted.");
+    } catch (error) {
+      console.error(error.response || error); // Log the error to the console for better debugging.
+      Alert.alert("Error", error.message || "Failed to delete the trip");
+    }
+  };
+  
+
+
   return (
     <>
       {myOrders
@@ -95,12 +166,11 @@ const Content1 = ({ myOrders }) => {
                     </View>
                   </View>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate("AllChats")}>
+                <TouchableOpacity onPress={() => handleCancelTrip(data.trip._id, data.user.email, data.trip.email)}>
                   <Image
-                    source={require("../assets/OrderHistory/chat.png")}
-                    style={styles.icon}
+                    source={require('../assets/CurrentTrips/cancel.png')}
+                    style={{ width: 30, height: 30, }} // Adjust size as needed
                   />
-                  <Text style={styles.chatText}>Open Chat</Text>
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
