@@ -88,7 +88,7 @@ const Notifications = () => {
     } else if (notificationType === "bid") {
       navigation.navigate("CurrentTrips");
     } else if (notificationType === "Accept") {
-      navigation.navigate("UserChat");
+      navigation.navigate("AllChats");
     }
   };
 
@@ -98,12 +98,11 @@ const Notifications = () => {
         source={require("../assets/AllChats/Background.png")}
         style={styles.imageBackground}
       >
-        <ScrollView refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <View style={styles.container}>
             <View style={styles.header}>
               <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -120,28 +119,38 @@ const Notifications = () => {
             </View>
             <ScrollView style={styles.container}>
               <View style={styles.notificationContainer}>
-                {notifications.map((notification) => (
-                  <TouchableOpacity
-                    key={notification._id}
-                    style={[
-                      styles.notificationItem,
-                      notification.viewed ? styles.viewedNotification : null,
-                    ]}
-                    onPress={() =>
-                      handleNotificationPress(
-                        notification._id,
-                        notification.type
-                      )
-                    } // Pass notification type here
-                  >
-                    <Text style={styles.notificationText}>
-                      {notification.message}
+                {notifications.length === 0 ? (
+                  <View style={styles.noNotificationsContainer}>
+                    <Text style={styles.noNotificationsText}>
+                      No notifications available
                     </Text>
-                    <Text style={styles.notificationTime}>
-                      {new Date(notification.timestamp).toLocaleTimeString()}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
+                  </View>
+                ) : (
+                  notifications.map((notification) => (
+                    <TouchableOpacity
+                      key={notification._id}
+                      style={[
+                        styles.notificationItem,
+                        notification.viewed
+                          ? styles.viewedNotification
+                          : null,
+                      ]}
+                      onPress={() =>
+                        handleNotificationPress(
+                          notification._id,
+                          notification.type
+                        )
+                      }
+                    >
+                      <Text style={styles.notificationText}>
+                        {notification.message}
+                      </Text>
+                      <Text style={styles.notificationTime}>
+                        {new Date(notification.timestamp).toLocaleTimeString()}
+                      </Text>
+                    </TouchableOpacity>
+                  ))
+                )}
               </View>
             </ScrollView>
             <View style={styles.footer}>
@@ -153,6 +162,7 @@ const Notifications = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   flexContainer: {
@@ -167,7 +177,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   viewedNotification: {
-    backgroundColor: "#2D2D2D", // Change this color as per your design
+    backgroundColor: "#30949D", // Change this color as per your design
   },
   header: {
     flexDirection: "row",
@@ -215,6 +225,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#1D4246",
     padding: 10,
     marginTop: "97%",
+  },
+  noNotificationsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: '65%',
+  },
+  noNotificationsText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 20,
+    color: "#47ADB8",
   },
   footerText: {
     color: "white",

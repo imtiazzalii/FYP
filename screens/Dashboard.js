@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -16,11 +16,32 @@ import {
   Alert,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from 'expo-constants';
 import Carousel from "./Carousel.js";
 import tw from "twrnc";
 
 const Dashboard = (props) => {
   const navigation = useNavigation();
+
+  const checkAndCreateWallet = async () => {
+    const userId = await AsyncStorage.getItem('userId');
+    const token = await AsyncStorage.getItem('token');
+    if (userId && token) {
+      try {
+        const response = await axios.post(`${Constants.expoConfig.extra.IP_ADDRESS}/wallet/create`, {
+          userId: userId
+        }, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        console.log(response.data.message); // Log the server response
+      } catch (error) {
+        console.error("Failed to check/create wallet:", error);
+        Alert.alert("Error", "Could not check/create wallet");
+      }
+    }
+  };
 
   const handleBackPress = () => {
     Alert.alert("Exit App", "Are you sure you want to exit?", [
@@ -46,6 +67,10 @@ const Dashboard = (props) => {
       };
     })
   );
+
+  useEffect(() => {
+    checkAndCreateWallet();
+  }, []);
 
   return (
     <ImageBackground

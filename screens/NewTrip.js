@@ -405,40 +405,20 @@ const NewTrip = () => {
           />
           {errors && errors.startbid && <Text>{errors.startbid.message}</Text>}
 
-          <Text style={[styles.label, { width: "43%" }]}>
-            What is your buyout price?
+            <Text style={[styles.label, { width: "68%" }]}>
+            Enter the maximum capacity in KG you can take:
           </Text>
           <Controller
             control={control}
             rules={{
-              required: "Buyout price is required",
+              required: "Capacity is required",
               pattern: {
-                value: /^[0-9]{3,9}$/,
-                message: "Invalid amount, Please enter numerical value",
+                value: /^[0-9]+$/,
+                message: "Invalid amount, please enter a numerical value",
               },
-            }}
-            render={({ field: { onChange, value } }) => (
-              <Field
-                placeholder="100"
-                keyboardType={"numeric"}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="buyout"
-          />
-          {errors && errors.buyout && <Text>{errors.buyout.message}</Text>}
-
-          <Text style={[styles.label, { width: "68%" }]}>
-            Enter the maximum capacity you can take:
-          </Text>
-          <Controller
-            control={control}
-            rules={{
-              required: "capacity is required",
-              pattern: {
-                value: /^[0-9]/,
-                message: "Invalid amount, Please enter numerical value",
+              validate: {
+                maxCapacity: (value) =>
+                  parseFloat(value) <= 20 || "Max capacity should be less than or equal to 20",
               },
             }}
             render={({ field: { onChange, value } }) => (
