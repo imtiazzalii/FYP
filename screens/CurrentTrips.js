@@ -18,7 +18,7 @@ import {
 import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
 import tw from "twrnc";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation,useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
@@ -198,7 +198,6 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
   const [departureCity, setDepartureCity] = useState("");
   const [arrivalCity, setArrivalCity] = useState("");
   const [weight, setWeight] = useState("");
-  const [cost, setCost] = useState(100);
   const [transportMode, setTransportMode] = useState("By Road");
 
   const applyFilters = () => {
@@ -206,10 +205,13 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
       departureCity,
       arrivalCity,
       weight,
-      cost,
       transportMode,
+      
     });
+    
+
     onApplyFilters();
+    
   };
 
   return (
@@ -258,7 +260,7 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
       </View>
 
       {/* Weight Input Field */}
-      <View style={styles.filter1Container}>
+      {/* <View style={styles.filter1Container}>
         <Text style={styles.filterLabel}>Weight:</Text>
         <TextInput
           style={styles.inputField}
@@ -267,9 +269,9 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
           value={weight}
           onChangeText={(text) => setWeight(text)}
         />
-      </View>
+      </View> */}
 
-      {/* Cost Slider */}
+      {/* Cost Slider
       <View style={styles.filter1Container}>
         <Text style={styles.filterLabel}>Cost:</Text>
         <Slider
@@ -281,7 +283,7 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
           onValueChange={(value) => setCost(value)}
         />
         <Text style={tw.style("text-white text-sm font-bold")}>{cost}</Text>
-      </View>
+      </View> */}
 
       {/* Transport Mode Dropdown */}
       <Text style={styles.filterLabel}>Transport Mode:</Text>

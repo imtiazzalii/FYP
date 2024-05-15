@@ -28,9 +28,6 @@ const Content1 = ({ userData }) => {
         <View style={styles.infoContainer}>
           <View>
             <Text style={styles.mainText}>{userData.name}</Text>
-            <View style={styles.ratingContainer}>
-              <Text style={styles.cardText}>{userData.rating} ⭐</Text>
-            </View>
           </View>
         </View>
         <Image source={{ uri: userData.profilePic }} style={styles.icon} />
