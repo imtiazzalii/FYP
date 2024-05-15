@@ -183,8 +183,8 @@ const BiddingOptions = () => {
                 <View style={styles.textContainer}>
                   <Text style={tw`font-bold`}>{item.bidderName}</Text>
                   <View style={tw`flex-row items-center`}>
-                    <Text>{`⭐ ${item.rating}`}</Text>
-                    <Text style={tw`ml-2`}>{item.capacity}kg</Text>
+  
+                    <Text style={tw`ml-2 `}>{item.capacity}kg</Text>
                   </View>
                 </View>
                 <View style={styles.bidContainer}>

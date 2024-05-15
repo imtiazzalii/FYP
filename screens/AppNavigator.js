@@ -24,6 +24,7 @@ import Bidding from "./Bidding";
 import BiddingOptions from "./BiddingOptions";
 import HelpDesk from "./HelpDesk";
 import UserChat from "./UserChat";
+import TermsCondition from "./TermsCondition";
 
 function MainStackNavigator() {
   const Stack = createNativeStackNavigator();
@@ -67,6 +68,11 @@ function MainStackNavigator() {
       <Stack.Screen
         name="CurrentTrips"
         component={CurrentTrips}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TermsCondition"
+        component={TermsCondition}
         options={{ headerShown: false }}
       />
       <Stack.Screen

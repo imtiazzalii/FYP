@@ -86,13 +86,7 @@ const Content1 = ({ myOrders }) => {
                   />
                   <View>
                     <Text style={styles.infoText}>{data.user.username}</Text>
-                    <View style={styles.ratingContainer}>
-                      <Text style={styles.infoText}>{data.user.rating}</Text>
-                      <Image
-                        source={require("../assets/OrderHistory/star.png")}
-                        style={styles.iconstar}
-                      />
-                    </View>
+                   
                   </View>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate("AllChats")}>
@@ -180,13 +174,6 @@ const Content2 = ({ trips }) => {
                 />
                 <View>
                   <Text style={styles.infoText}> {data.user.username}</Text>
-                  <View style={styles.ratingContainer}>
-                    <Text style={styles.infoText}> {data.user.rating}</Text>
-                    <Image
-                      source={require("../assets/OrderHistory/star.png")}
-                      style={styles.iconstar}
-                    />
-                  </View>
                 </View>
               </View>
             </View>

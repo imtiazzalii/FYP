@@ -10,6 +10,7 @@ import {
   StatusBar,
   ImageBackground,
   TouchableOpacity,
+  BackHandler,
   TextInput,
   RefreshControl,
   ScrollView,
@@ -17,7 +18,7 @@ import {
 import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
 import tw from "twrnc";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
@@ -81,9 +82,6 @@ const Content1 = ({ userData, tripData, navigation }) => {
                   <View style={styles.userInfo}>
                     <Text style={tw.style("font-bold text-white mt-4 ml-1")}>
                       {userData.name}
-                    </Text>
-                    <Text style={tw.style("font-bold text-white mt-1 ml-1")}>
-                      {userData.rating} ⭐
                     </Text>
                   </View>
                 </View>
@@ -513,6 +511,21 @@ const CurrentTrips = () => {
     await getData(); // Fetch data from backend
     setRefreshing(false); // Set refreshing to false after data is fetched
   };
+
+  const handleBackPress = () => {
+    navigation.navigate('Dashboard'); // Navigate directly to the Dashboard screen
+    return true; // Prevent default back action
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+
+      return () => {
+        BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+      };
+    }, [])
+  );
 
   useEffect(() => {
     getData();
