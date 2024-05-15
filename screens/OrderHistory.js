@@ -24,92 +24,89 @@ import Constants from "expo-constants";
 const Content1 = ({ myOrders }) => {
   const navigation = useNavigation();
   return (
-    <ScrollView style={styles.card}>
-      {/* Departure and Arrival Section */}
+    <>
       {myOrders
-        .filter((data) => data.status != "pending")
+        .filter((data) => data.status !== "pending")
         .map((data, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() =>
-              navigation.navigate("Status", { selectedTripData: data })
-            }
-          >
-            <View style={styles.section}>
-              <Text style={styles.label}>Departure</Text>
-              <Text style={styles.label}>Arrival</Text>
-            </View>
-            <View style={styles.section}>
-              <View style={styles.infoContainer1}>
-                <Text style={styles.infoText}>{data.trip.start}</Text>
-                <Text style={styles.dateText}>{data.trip.startdate}</Text>
+          <ScrollView key={index} style={styles.card}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Status", { selectedTripData: data })
+              }
+            >
+              <View style={styles.section}>
+                <Text style={styles.label}>Departure</Text>
+                <Text style={styles.label}>Arrival</Text>
               </View>
+              <View style={styles.section}>
+                <View style={styles.infoContainer1}>
+                  <Text style={styles.infoText}>{data.trip.start}</Text>
+                  <Text style={styles.dateText}>{data.trip.startdate}</Text>
+                </View>
 
-              <View style={styles.arrowContainer}>
-                {/* Adjust the arrow icon styles */}
-                <Image
-                  source={require("../assets/OrderHistory/arrow.png")}
-                  style={styles.arrowIcon}
-                />
-              </View>
-              <View style={styles.infoContainer1}>
-                <Text style={styles.infoText}>{data.trip.destination}</Text>
-                <Text style={styles.dateText}>{data.trip.enddate}</Text>
-              </View>
-            </View>
-
-            <View style={styles.divider} />
-
-            {/* Item Weight and Status Section */}
-            <View style={styles.section}>
-              <Text style={styles.label}>Item Weight</Text>
-              <Text style={styles.label}>Transport Mode</Text>
-            </View>
-            <View style={styles.section}>
-              <View style={styles.infoContainer}>
-                <Image
-                  source={require("../assets/OrderHistory/suitcase.png")}
-                  style={styles.iconW}
-                />
-                <Text style={styles.infoText}>{data.trip.capacity} KG</Text>
-              </View>
-              <Text style={styles.statusText}>{data.trip.tmode}</Text>
-            </View>
-
-            <View style={styles.divider} />
-
-            {/* Sender Section */}
-            <View style={styles.section}>
-              <Text style={styles.label}>Sender</Text>
-            </View>
-            <View style={styles.section}>
-              <View style={styles.infoContainer}>
-                <Image
-                  source={{ uri: data.user.profilePic }}
-                  style={styles.icon}
-                />
-                <View>
-                  <Text style={styles.infoText}>{data.user.username}</Text>
-                  <View style={styles.ratingContainer}>
-                    <Text style={styles.infoText}>{data.user.rating}</Text>
-                    <Image
-                      source={require("../assets/OrderHistory/star.png")}
-                      style={styles.iconstar}
-                    />
-                  </View>
+                <View style={styles.arrowContainer}>
+                  <Image
+                    source={require("../assets/OrderHistory/arrow.png")}
+                    style={styles.arrowIcon}
+                  />
+                </View>
+                <View style={styles.infoContainer1}>
+                  <Text style={styles.infoText}>{data.trip.destination}</Text>
+                  <Text style={styles.dateText}>{data.trip.enddate}</Text>
                 </View>
               </View>
-              <TouchableOpacity onPress={() => navigation.navigate("AllChats")}>
-                <Image
-                  source={require("../assets/OrderHistory/chat.png")}
-                  style={styles.icon}
-                />
-                <Text style={styles.chatText}>Open Chat</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
+
+              <View style={styles.divider} />
+
+              <View style={styles.section}>
+                <Text style={styles.label}>Item Weight</Text>
+                <Text style={styles.label}>Transport Mode</Text>
+              </View>
+              <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                  <Image
+                    source={require("../assets/OrderHistory/suitcase.png")}
+                    style={styles.iconW}
+                  />
+                  <Text style={styles.infoText}>{data.trip.capacity} KG</Text>
+                </View>
+                <Text style={styles.statusText}>{data.trip.tmode}</Text>
+              </View>
+
+              <View style={styles.divider} />
+
+              <View style={styles.section}>
+                <Text style={styles.label}>Sender</Text>
+              </View>
+              <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                  <Image
+                    source={{ uri: data.user.profilePic }}
+                    style={styles.icon}
+                  />
+                  <View>
+                    <Text style={styles.infoText}>{data.user.username}</Text>
+                    <View style={styles.ratingContainer}>
+                      <Text style={styles.infoText}>{data.user.rating}</Text>
+                      <Image
+                        source={require("../assets/OrderHistory/star.png")}
+                        style={styles.iconstar}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate("AllChats")}>
+                  <Image
+                    source={require("../assets/OrderHistory/chat.png")}
+                    style={styles.icon}
+                  />
+                  <Text style={styles.chatText}>Open Chat</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          </ScrollView>
         ))}
-    </ScrollView>
+    </>
   );
 };
 
@@ -372,14 +369,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     width: "60%",
-    height: "10%",
     marginVertical: 20,
     backgroundColor: "#E8F9FD",
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "#B0E0E6",
-    minHeight: 40,
-  },
+    minHeight: 40,  // Ensures that the container has a minimum height but it will no longer expand based on content
+    height: 50,      // Fixed height to maintain consistency
+  },  
   toggleButton: {
     flex: 1,
     paddingVertical: 10,

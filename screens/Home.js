@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, BackHandler } from "react-native";
+import { View, StyleSheet, Text, ImageBackground, Button, Image, Platform, StatusBar, Animated, FlatList, Dimensions, BackHandler, Alert } from "react-native";
 import Background from "./background";
 import * as Notifications from 'expo-notifications';
 import tw from 'twrnc';

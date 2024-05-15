@@ -56,6 +56,20 @@ const Chat = ({ route }) => {
     await axios.post(Constants.expoConfig.extra.IP_ADDRESS + "/createNotification", notificationData);
   }
 
+  const fetchRecepientData = async () => {
+    try {
+      const response = await fetch(
+        Constants.expoConfig.extra.IP_ADDRESS + `/user/${item._id}`
+      );
+
+      const data = await response.json();
+      setRecepientData(data);
+      console.log(data);
+    } catch (error) {
+      console.log("error retrieving details", error);
+    }
+  };
+
   useEffect(() => {
     const connectSocket = async () => {
       const token = await AsyncStorage.getItem("token");
@@ -79,19 +93,7 @@ const Chat = ({ route }) => {
     });
     };
 
-    const fetchRecepientData = async () => {
-      try {
-        const response = await fetch(
-          Constants.expoConfig.extra.IP_ADDRESS + `/user/${item._id}`
-        );
-
-        const data = await response.json();
-        setRecepientData(data);
-        console.log(data);
-      } catch (error) {
-        console.log("error retrieving details", error);
-      }
-    };
+    
     
 
     fetchRecepientData();
