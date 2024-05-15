@@ -10,6 +10,7 @@ import {
   StatusBar,
   ImageBackground,
   TouchableOpacity,
+  BackHandler,
   TextInput,
   RefreshControl,
   ScrollView,
@@ -17,7 +18,7 @@ import {
 import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
 import tw from "twrnc";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
@@ -81,9 +82,6 @@ const Content1 = ({ userData, tripData, navigation }) => {
                   <View style={styles.userInfo}>
                     <Text style={tw.style("font-bold text-white mt-4 ml-1")}>
                       {userData.name}
-                    </Text>
-                    <Text style={tw.style("font-bold text-white mt-1 ml-1")}>
-                      {userData.rating} ⭐
                     </Text>
                   </View>
                 </View>
@@ -200,7 +198,6 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
   const [departureCity, setDepartureCity] = useState("");
   const [arrivalCity, setArrivalCity] = useState("");
   const [weight, setWeight] = useState("");
-  const [cost, setCost] = useState(100);
   const [transportMode, setTransportMode] = useState("By Road");
 
   const applyFilters = () => {
@@ -208,10 +205,13 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
       departureCity,
       arrivalCity,
       weight,
-      cost,
       transportMode,
+      
     });
+    
+
     onApplyFilters();
+    
   };
 
   return (
@@ -260,7 +260,7 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
       </View>
 
       {/* Weight Input Field */}
-      <View style={styles.filter1Container}>
+      {/* <View style={styles.filter1Container}>
         <Text style={styles.filterLabel}>Weight:</Text>
         <TextInput
           style={styles.inputField}
@@ -269,9 +269,9 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
           value={weight}
           onChangeText={(text) => setWeight(text)}
         />
-      </View>
+      </View> */}
 
-      {/* Cost Slider */}
+      {/* Cost Slider
       <View style={styles.filter1Container}>
         <Text style={styles.filterLabel}>Cost:</Text>
         <Slider
@@ -283,7 +283,7 @@ const Filters = ({ fetchTripsWithFilters, onApplyFilters }) => {
           onValueChange={(value) => setCost(value)}
         />
         <Text style={tw.style("text-white text-sm font-bold")}>{cost}</Text>
-      </View>
+      </View> */}
 
       {/* Transport Mode Dropdown */}
       <Text style={styles.filterLabel}>Transport Mode:</Text>
@@ -513,6 +513,21 @@ const CurrentTrips = () => {
     await getData(); // Fetch data from backend
     setRefreshing(false); // Set refreshing to false after data is fetched
   };
+
+  const handleBackPress = () => {
+    navigation.navigate('Dashboard'); // Navigate directly to the Dashboard screen
+    return true; // Prevent default back action
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+
+      return () => {
+        BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+      };
+    }, [])
+  );
 
   useEffect(() => {
     getData();

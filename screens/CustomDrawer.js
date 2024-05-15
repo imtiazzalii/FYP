@@ -79,11 +79,11 @@ const CustomDrawer = () => {
 
             {/* Bottom Menu Section */}
             <View style={styles.menuSection}>
-                <TouchableOpacity style={styles.menuItem}>
-                    <Image onPress={() => navigation.navigate("HelpDesk")} source={require("../assets/Sidebar/help.png")} style={styles.icons} />
+                <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate("HelpDesk")}>
+                    <Image source={require("../assets/Sidebar/help.png")} style={styles.icons} />
                     <Text style={styles.text}>Help Centre</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.menuItem}>
+                <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate("TermsCondition")}>
                     <Image source={require("../assets/Sidebar/terms.png")} style={styles.icons} />
                     <Text style={styles.text}>Terms and conditions</Text>
                 </TouchableOpacity>

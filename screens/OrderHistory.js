@@ -157,13 +157,7 @@ const Content1 = ({ myOrders }) => {
                   />
                   <View>
                     <Text style={styles.infoText}>{data.user.username}</Text>
-                    <View style={styles.ratingContainer}>
-                      <Text style={styles.infoText}>{data.user.rating}</Text>
-                      <Image
-                        source={require("../assets/OrderHistory/star.png")}
-                        style={styles.iconstar}
-                      />
-                    </View>
+                   
                   </View>
                 </View>
                 <TouchableOpacity onPress={() => handleCancelTrip(data.trip._id, data.user.email, data.trip.email)}>
@@ -184,85 +178,87 @@ const Content2 = ({ trips }) => {
   const navigation = useNavigation();
   console.log(trips);
   return (
-    <ScrollView style={styles.card}>
-      {/* Departure and Arrival Section */}
+    <>
       {trips
-        .filter((data) => data.status != "pending")
+        .filter((data) => data.status !== "pending")
         .map((data, index) => (
-          <TouchableOpacity
+          <ScrollView
             key={index}
-            onPress={() =>
-              navigation.navigate("Status", { selectedTripData: data })
-            }
+            style={styles.card}
+            contentContainerStyle={{ paddingBottom: 20 }}
           >
-            <View style={styles.section}>
-              <Text style={styles.label}>Departure</Text>
-              <Text style={styles.label}>Arrival</Text>
-            </View>
-            <View style={styles.section}>
-              <View style={styles.infoContainer1}>
-                <Text style={styles.infoText}>{data.trip.start}</Text>
-                <Text style={styles.dateText}>{data.trip.startdate}</Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Status", { selectedTripData: data })
+              }
+            >
+              <View style={styles.section}>
+                <Text style={styles.label}>Departure</Text>
+                <Text style={styles.label}>Arrival</Text>
               </View>
+              <View style={styles.section}>
+                <View style={styles.infoContainer1}>
+                  <Text style={styles.infoText}>{data.trip.start}</Text>
+                  <Text style={styles.dateText}>{data.trip.startdate}</Text>
+                </View>
 
-              <View style={styles.arrowContainer}>
-                <Image
-                  source={require("../assets/OrderHistory/arrow.png")}
-                  style={styles.arrowIcon}
-                />
-              </View>
+                <View style={styles.arrowContainer}>
+                  <Image
+                    source={require("../assets/OrderHistory/arrow.png")}
+                    style={styles.arrowIcon}
+                  />
+                </View>
 
-              <View style={styles.infoContainer1}>
-                <Text style={styles.infoText}>{data.trip.destination}</Text>
-                <Text style={styles.dateText}>{data.trip.enddate}</Text>
-              </View>
-            </View>
-
-            <View style={styles.divider} />
-
-            {/* Capacity and Cost Section */}
-            <View style={styles.section}>
-              <Text style={styles.label}>Capacity</Text>
-              <Text style={styles.label}>Transport Mode</Text>
-            </View>
-            <View style={styles.section}>
-              <View style={styles.infoContainer}>
-                <Image
-                  source={require("../assets/OrderHistory/suitcase.png")}
-                  style={styles.iconW}
-                />
-                <Text style={styles.infoText}>{data.trip.capacity} KG</Text>
-              </View>
-              <Text style={styles.statusText}>{data.trip.tmode}</Text>
-            </View>
-
-            <View style={styles.divider} />
-
-            {/* Traveller Section */}
-            <View style={styles.section}>
-              <Text style={styles.label}>Traveller</Text>
-            </View>
-            <View style={styles.section}>
-              <View style={styles.infoContainer}>
-                <Image
-                  source={{ uri: data.user.profilePic }}
-                  style={styles.icon}
-                />
-                <View>
-                  <Text style={styles.infoText}> {data.user.username}</Text>
-                  <View style={styles.ratingContainer}>
-                    <Text style={styles.infoText}> {data.user.rating}</Text>
-                    <Image
-                      source={require("../assets/OrderHistory/star.png")}
-                      style={styles.iconstar}
-                    />
-                  </View>
+                <View style={styles.infoContainer1}>
+                  <Text style={styles.infoText}>{data.trip.destination}</Text>
+                  <Text style={styles.dateText}>{data.trip.enddate}</Text>
                 </View>
               </View>
-            </View>
-          </TouchableOpacity>
+
+              <View style={styles.divider} />
+
+              <View style={styles.section}>
+                <Text style={styles.label}>Item Weight</Text>
+                <Text style={styles.label}>Transport Mode</Text>
+              </View>
+              <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                  <Image
+                    source={require("../assets/OrderHistory/suitcase.png")}
+                    style={styles.iconW}
+                  />
+                  <Text style={styles.infoText}>{data.trip.capacity} KG</Text>
+                </View>
+                <Text style={styles.statusText}>{data.trip.tmode}</Text>
+              </View>
+
+              <View style={styles.divider} />
+
+              <View style={styles.section}>
+                <Text style={styles.label}>Traveller</Text>
+              </View>
+              <View style={styles.section}>
+                <View style={styles.infoContainer}>
+                  <Image
+                    source={{ uri: data.user.profilePic }}
+                    style={styles.icon}
+                  />
+                  <View>
+                    <Text style={styles.infoText}>{data.user.username}</Text>
+                  </View>
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate("AllChats")}>
+                  <Image
+                    source={require("../assets/OrderHistory/chat.png")}
+                    style={styles.icon}
+                  />
+                  <Text style={styles.chatText}>Open Chat</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          </ScrollView>
         ))}
-    </ScrollView>
+    </>
   );
 };
 
